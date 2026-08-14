@@ -1,0 +1,6 @@
+node_modules
+dist
+shots
+verify_site.py
+.DS_Store
+*.local
