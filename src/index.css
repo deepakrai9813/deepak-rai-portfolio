@@ -2554,6 +2554,60 @@ body::before {
   inset: -12% 0;
 }
 
+/* ---- Real site screenshot preview ---- */
+.project__shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.7s var(--ease-out), filter 0.5s;
+}
+
+.project:hover .project__shot {
+  transform: scale(1.05);
+}
+
+/* ---- Featured LIVE badge ---- */
+.project__badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-radius: 999px;
+  padding: 0.42rem 0.9rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.project__badge i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-ink);
+  animation: badge-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(10, 10, 10, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
 @media (max-width: 960px) {
   .testimonials__grid {
     grid-template-columns: 1fr;

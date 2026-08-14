@@ -7,11 +7,21 @@ import { ArrowUpRight, ExternalLink, Github } from "./icons";
 
 const PROJECTS = [
   {
+    title: "SAN BROTHERS Corporate Solutions",
+    repo: null,
+    live: "https://sanbrotherscorporatesolutions.in",
+    image: "projects/san-brothers.jpg",
+    featured: true,
+    wide: true,
+    desc: "Production website for a Company Secretary practice serving companies across India — incorporation, statutory compliance, governance, and regulatory filings. Full-stack build with dedicated service pages, SEO-optimized, and live on its own domain — ranking #1 on Google for its brand.",
+    tags: ["Full-Stack", "SEO Optimized", "Production", "Custom Domain", "Live on Google"],
+  },
+  {
     title: "BIAN AI — AI Study Assistant",
     repo: "https://github.com/deepakrai9813/AI_PROJECT",
     live: null,
     variant: "bian",
-    wide: true,
+    wide: false,
     desc: "AI-powered learning platform that reads your PDFs and helps you study — chat with an AI tutor, get structured summaries, generate quizzes, and flip through flashcards, with token-by-token streaming replies.",
     tags: ["React 19", "Vite", "Express", "Groq LLM", "Streaming API", "pdf.js"],
   },
@@ -91,6 +101,7 @@ function ProjectCard({ project: p, index: i }) {
     offset: ["start end", "end start"],
   });
   const parallaxY = useTransform(scrollYProgress, [0, 1], ["7%", "-7%"]);
+  const href = p.live || p.repo;
 
   return (
     <motion.article
@@ -99,49 +110,60 @@ function ProjectCard({ project: p, index: i }) {
       transition={{ ...reveal.transition, delay: (i % 3) * 0.08 }}
     >
       <a
-        href={p.repo}
+        href={href}
         target="_blank"
         rel="noreferrer"
-        aria-label={`${p.title} — open repository`}
+        aria-label={`${p.title} — open ${p.live ? "live site" : "repository"}`}
         tabIndex={-1}
       >
         <div className="project__preview" ref={previewRef}>
+          {p.featured && (
+            <span className="project__badge">
+              <i aria-hidden="true" /> Live on Google
+            </span>
+          )}
           <motion.div className="project__parallax" style={{ y: parallaxY }}>
-            <ProjectPreview variant={p.variant} />
+            {p.image ? (
+              <img
+                className="project__shot"
+                src={p.image}
+                alt={`${p.title} website screenshot`}
+                loading="lazy"
+              />
+            ) : (
+              <ProjectPreview variant={p.variant} />
+            )}
           </motion.div>
         </div>
       </a>
-              <div className="project__meta">
-                <h3>
-                  {p.title} <span style={{ color: "var(--accent)" }}>/</span>
-                </h3>
-                <a
-                  className="project__arrow"
-                  href={p.repo}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`Open ${p.title} repository`}
-                  title="View on GitHub"
-                >
-                  <ArrowUpRight width={18} height={18} />
-                </a>
-              </div>
-              <p className="project__desc">{p.desc}</p>
-              <div className="project__links">
-                <a href={p.repo} target="_blank" rel="noreferrer">
-                  <Github /> GitHub
-                </a>
-                {p.live && (
-                  <a
-                    href={p.live}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="live"
-                  >
-                    <ExternalLink /> Live demo
-                  </a>
-                )}
-              </div>
+      <div className="project__meta">
+        <h3>
+          {p.title} <span style={{ color: "var(--accent)" }}>/</span>
+        </h3>
+        <a
+          className="project__arrow"
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Open ${p.title} ${p.live ? "live site" : "repository"}`}
+          title={p.live ? "Visit live site" : "View on GitHub"}
+        >
+          <ArrowUpRight width={18} height={18} />
+        </a>
+      </div>
+      <p className="project__desc">{p.desc}</p>
+      <div className="project__links">
+        {p.repo && (
+          <a href={p.repo} target="_blank" rel="noreferrer">
+            <Github /> GitHub
+          </a>
+        )}
+        {p.live && (
+          <a href={p.live} target="_blank" rel="noreferrer" className="live">
+            <ExternalLink /> Visit live site
+          </a>
+        )}
+      </div>
       <div className="project__tags">
         {p.tags.map((t) => (
           <span className="tag" key={t}>
