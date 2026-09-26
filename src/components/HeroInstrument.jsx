@@ -67,25 +67,12 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
   const [isOverclocked, setIsOverclocked] = useState(false);
   const [azimuthAngle, setAzimuthAngle] = useState(142.4);
 
-  // 16 Frequency Spectrum Analyzer Bars
-  const [spectrumBars, setSpectrumBars] = useState([8, 14, 22, 10, 18, 28, 16, 24, 12, 30, 20, 14, 26, 18, 10, 16]);
-
   const cardRef = useRef(null);
 
   const scrollTo = (id) => {
     playClick?.();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
-
-  // Spectrum bars dancing loop
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setSpectrumBars((prev) =>
-        prev.map(() => Math.floor(Math.random() * (isOverclocked ? 28 : 20)) + 6)
-      );
-    }, 180);
-    return () => clearInterval(timer);
-  }, [isOverclocked]);
 
   // 3D Parallax Tilt & Reticle Tracking on Card Hover
   const handleMouseMove = (e) => {
@@ -308,31 +295,6 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                     <span>SYSTEM ARCHITECT DOSSIER</span>
                   </div>
                   <div className="dossier-id-tag">ID: DR-9813 // CLEARANCE: L4_ROOT</div>
-                </div>
-
-                {/* 16-Bar Spectrum Analyzer Waveform Strip */}
-                <div className="dossier-spectrum-strip">
-                  <div className="spectrum-label-row">
-                    <span>AUDIO-VISUAL SPECTRUM // 1000HZ</span>
-                    <span style={{ color: "var(--signal-green)", fontWeight: 700 }}>LIVE OSCILLATOR</span>
-                  </div>
-                  <div className="spectrum-bars-row">
-                    {spectrumBars.map((height, bIdx) => (
-                      <div
-                        key={bIdx}
-                        className="spectrum-bar-col"
-                        style={{
-                          height: `${height}px`,
-                          backgroundColor:
-                            bIdx % 3 === 0
-                              ? "var(--signal-green)"
-                              : bIdx % 3 === 1
-                              ? "var(--signal-cyan)"
-                              : "var(--signal-amber)",
-                        }}
-                      />
-                    ))}
-                  </div>
                 </div>
 
                 {/* Top Millimeter Measurement Caliper Axis */}

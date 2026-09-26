@@ -1072,37 +1072,6 @@ button {
   font-size: 10px;
 }
 
-/* 16-Bar Spectrum Analyzer Waveform Strip */
-.dossier-spectrum-strip {
-  background-color: var(--bg-canvas);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 6px 12px 8px;
-  font-family: var(--font-mono);
-}
-
-.spectrum-label-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 9px;
-  color: var(--text-dim);
-  margin-bottom: 6px;
-  letter-spacing: 0.05em;
-}
-
-.spectrum-bars-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 28px;
-}
-
-.spectrum-bar-col {
-  flex: 1;
-  min-width: 4px;
-  transition: height 0.15s ease-out;
-}
-
 .dossier-caliper-axis {
   font-family: var(--font-mono);
   font-size: 9px;
