@@ -22,9 +22,10 @@ export default function InstrumentFooter({ playClick }) {
 
           <div style={{ display: "flex", gap: "14px", alignItems: "center" }}>
             <a
-              href="/Deepak-Resume.pdf"
+              href="/Deepak-Kumar-Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
+              download="Deepak-Kumar-Resume.pdf"
               style={{ color: "var(--text-high)", textDecoration: "underline" }}
               onClick={() => playClick?.()}
             >

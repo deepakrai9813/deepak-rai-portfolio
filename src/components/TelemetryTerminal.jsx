@@ -93,8 +93,8 @@ export default function TelemetryTerminal({ setLens, playClick, playPing, playSw
         { type: "system",  text: "  LinkedIn : https://linkedin.com/in/deepak-rai-dev" }
       );
     } else if (cmd === "resume") {
-      window.open("/Deepak-Resume.pdf", "_blank");
-      newEntries.push({ type: "success", text: "Opening /Deepak-Resume.pdf in new tab..." });
+      window.open("/Deepak-Kumar-Resume.pdf", "_blank");
+      newEntries.push({ type: "success", text: "Opening /Deepak-Kumar-Resume.pdf in new tab..." });
     } else if (cmd === "ping") {
       playPing?.();
       newEntries.push({

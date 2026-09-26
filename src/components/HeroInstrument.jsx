@@ -102,10 +102,11 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                 </button>
 
                 <a
-                  href="/Deepak-Resume.pdf"
+                  href="/Deepak-Kumar-Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-mech"
+                  download="Deepak-Kumar-Resume.pdf"
                   onClick={() => playClick?.()}
                 >
                   <span>DOWNLOAD SPEC (PDF)</span>
