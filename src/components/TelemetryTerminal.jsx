@@ -217,30 +217,20 @@ export default function TelemetryTerminal({ setLens, playClick, playPing, playSw
           </div>
 
           {/* Quick Command Action Strip */}
-          <div
-            style={{
-              padding: "10px 16px",
-              borderTop: "1px solid var(--border-base)",
-              backgroundColor: "#101217",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "8px",
-              fontSize: "11px",
-            }}
-          >
-            <span style={{ color: "#777", alignSelf: "center" }}>QUICK MACROS:</span>
+          <div className="terminal-macros-strip">
+            <span className="terminal-macros-label">QUICK MACROS:</span>
             {["help", "sentinel", "projects", "stack", "contact", "ping"].map((m) => (
               <button
                 key={m}
                 type="button"
-                className="btn-mech-outline"
-                style={{ padding: "3px 8px", fontSize: "10px", backgroundColor: "#181a20", borderColor: "#333" }}
+                className="terminal-macro-btn"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleCommand(m);
                 }}
               >
-                {`$ ${m}`}
+                <span style={{ opacity: 0.7 }}>$</span>
+                <span>{m}</span>
               </button>
             ))}
           </div>

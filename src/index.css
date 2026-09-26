@@ -1046,6 +1046,56 @@ button {
   font-size: 12px;
   color: #ffffff;
 }
+.terminal-input-field::placeholder {
+  color: #555e6d;
+}
+
+.terminal-macros-strip {
+  padding: 10px 16px;
+  border-top: 1px solid #1f242d;
+  background-color: #0c0e12;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.terminal-macros-label {
+  color: #8c93a0;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.terminal-macro-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border: 1px solid #2d3442;
+  background-color: #151822;
+  color: #00d665 !important;
+  box-shadow: 1px 1px 0px #000000;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.05s ease, background-color 0.1s ease, color 0.1s ease, border-color 0.1s ease;
+  user-select: none;
+}
+
+.terminal-macro-btn:hover {
+  background-color: #00d665;
+  color: #000000 !important;
+  border-color: #00d665;
+}
+
+.terminal-macro-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 0px 0px 0px #000000;
+}
 
 /* ==========================================================================
    COMPONENT: UPLINK CONTACT STATION
