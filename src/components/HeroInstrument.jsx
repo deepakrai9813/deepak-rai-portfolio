@@ -13,6 +13,7 @@ import {
   CheckCircle,
   Radio,
   Sliders,
+  Volume2,
 } from "./icons";
 
 const BLUEPRINT_HOTSPOTS = [
@@ -50,15 +51,24 @@ const BLUEPRINT_HOTSPOTS = [
   },
 ];
 
+const SYSTEM_PROFILES = [
+  { id: "nominal", name: "PROFILE 01: NOMINAL (99.98% SLA)", latency: "12ms", goroutines: "12,400", qps: "10,200", p99: "28ms" },
+  { id: "burst", name: "PROFILE 02: HIGH-CONCURRENCY (50K/S)", latency: "16ms", goroutines: "50,000", qps: "48,500", p99: "34ms" },
+  { id: "chaos", name: "PROFILE 03: CASCAVAL CHAOS DRILL", latency: "2.4ms [REWOUND]", goroutines: "24,000", qps: "18,400", p99: "18ms" },
+];
+
 export default function HeroInstrument({ lens, setLens, playClick, playSwitch }) {
-  // Photo Inspection Mode: "optical" | "xray" | "telemetry"
   const [photoMode, setPhotoMode] = useState("optical");
   const [activeHotspot, setActiveHotspot] = useState(BLUEPRINT_HOTSPOTS[0]);
+  const [activeProfile, setActiveProfile] = useState(SYSTEM_PROFILES[0]);
   const [mousePos, setMousePos] = useState({ x: 180, y: 140 });
   const [isHovered, setIsHovered] = useState(false);
   const [cardTilt, setCardTilt] = useState({ rx: 0, ry: 0 });
   const [isOverclocked, setIsOverclocked] = useState(false);
   const [azimuthAngle, setAzimuthAngle] = useState(142.4);
+
+  // 16 Frequency Spectrum Analyzer Bars
+  const [spectrumBars, setSpectrumBars] = useState([8, 14, 22, 10, 18, 28, 16, 24, 12, 30, 20, 14, 26, 18, 10, 16]);
 
   const cardRef = useRef(null);
 
@@ -66,6 +76,16 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
     playClick?.();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // Spectrum bars dancing loop
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSpectrumBars((prev) =>
+        prev.map(() => Math.floor(Math.random() * (isOverclocked ? 28 : 20)) + 6)
+      );
+    }, 180);
+    return () => clearInterval(timer);
+  }, [isOverclocked]);
 
   // 3D Parallax Tilt & Reticle Tracking on Card Hover
   const handleMouseMove = (e) => {
@@ -81,7 +101,6 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
     const ry = ((x - centerX) / centerX) * 6;
     setCardTilt({ rx: parseFloat(rx.toFixed(2)), ry: parseFloat(ry.toFixed(2)) });
 
-    // Calculate angle for futuristic targeting reticle
     const angle = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
     setAzimuthAngle(parseFloat((angle < 0 ? angle + 360 : angle).toFixed(1)));
   };
@@ -99,6 +118,11 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
   const handleToggleOverclock = () => {
     playClick?.();
     setIsOverclocked((v) => !v);
+  };
+
+  const handleSelectProfile = (prof) => {
+    playClick?.();
+    setActiveProfile(prof);
   };
 
   return (
@@ -188,6 +212,23 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                   eliminating race conditions, and designing deterministic recovery loops before traffic spikes hit production.
                 </p>
 
+                {/* Interactive Operating Profile Selector Bar */}
+                <div className="hero-profile-selector-strip">
+                  <span className="profile-selector-label">// OPERATING PROFILE:</span>
+                  <div className="profile-btn-group">
+                    {SYSTEM_PROFILES.map((prof) => (
+                      <button
+                        key={prof.id}
+                        type="button"
+                        className={`profile-option-btn futuristic-chamfer-btn ${activeProfile.id === prof.id ? "active" : ""}`}
+                        onClick={() => handleSelectProfile(prof)}
+                      >
+                        <span>{prof.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Primary Action Buttons with Solid Mechanical Physics */}
                 <div className="hero-cta-row">
                   <button
@@ -269,6 +310,31 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                   <div className="dossier-id-tag">ID: DR-9813 // CLEARANCE: L4_ROOT</div>
                 </div>
 
+                {/* 16-Bar Spectrum Analyzer Waveform Strip */}
+                <div className="dossier-spectrum-strip">
+                  <div className="spectrum-label-row">
+                    <span>AUDIO-VISUAL SPECTRUM // 1000HZ</span>
+                    <span style={{ color: "var(--signal-green)", fontWeight: 700 }}>LIVE OSCILLATOR</span>
+                  </div>
+                  <div className="spectrum-bars-row">
+                    {spectrumBars.map((height, bIdx) => (
+                      <div
+                        key={bIdx}
+                        className="spectrum-bar-col"
+                        style={{
+                          height: `${height}px`,
+                          backgroundColor:
+                            bIdx % 3 === 0
+                              ? "var(--signal-green)"
+                              : bIdx % 3 === 1
+                              ? "var(--signal-cyan)"
+                              : "var(--signal-amber)",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
                 {/* Top Millimeter Measurement Caliper Axis */}
                 <div className="dossier-caliper-axis top-axis">
                   <span>| 00mm</span>
@@ -309,7 +375,7 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                       <Crosshair style={{ width: "26px", height: "26px" }} />
                       <div className="caliper-coord-chip futuristic-chip">
                         <span>X: {mousePos.x}mm // Y: {mousePos.y}mm</span>
-                        <span style={{ color: "var(--signal-cyan)" }}>AZ: {azimuthAngle}°</span>
+                        <span style={{ color: "var(--signal-cyan)" }}>AZ: {azimuthAngle}° // FOCUS: 100%</span>
                       </div>
                     </div>
                   )}
@@ -361,7 +427,7 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                         <span className={`tag-solid ${isOverclocked ? "amber" : "active"}`}>
                           HEARTBEAT: {isOverclocked ? "144 BPM [TURBO]" : "72 BPM [NOMINAL]"}
                         </span>
-                        <span className="tag-solid">LATENCY: {isOverclocked ? "2.4MS" : "12MS"}</span>
+                        <span className="tag-solid">LATENCY: {isOverclocked ? "2.4MS" : activeProfile.latency}</span>
                       </div>
 
                       {/* Real-time Oscilloscope Waveform SVG */}
@@ -392,7 +458,7 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                         <div className="hud-metric-row">
                           <span>CONCURRENCY:</span>
                           <span style={{ color: "var(--signal-green)", fontWeight: 700 }}>
-                            {isOverclocked ? "50,000 GOROUTINES" : "12,400 GOROUTINES"}
+                            {isOverclocked ? "50,000 GOROUTINES" : activeProfile.goroutines}
                           </span>
                         </div>
                       </div>
@@ -469,19 +535,19 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                   </div>
                 )}
 
-                {/* Bottom Architectural Specs Strip */}
+                {/* Bottom Architectural Specs Strip (Reacts to active profile) */}
                 <div className="dossier-specs-footer">
                   <div className="dossier-spec-item">
-                    <span className="spec-label">UPTIME</span>
+                    <span className="spec-label">UPTIME SLA</span>
                     <span className="spec-val" style={{ color: "var(--signal-green)" }}>99.98%</span>
                   </div>
                   <div className="dossier-spec-item">
                     <span className="spec-label">PROXY LATENCY</span>
-                    <span className="spec-val">{isOverclocked ? "2.4ms" : "12ms"}</span>
+                    <span className="spec-val">{isOverclocked ? "2.4ms" : activeProfile.latency}</span>
                   </div>
                   <div className="dossier-spec-item">
-                    <span className="spec-label">CODEBASE</span>
-                    <span className="spec-val">GO // NEXT.JS</span>
+                    <span className="spec-label">QPS THROUGHPUT</span>
+                    <span className="spec-val">{isOverclocked ? "48,500/s" : activeProfile.qps}</span>
                   </div>
                   <div className="dossier-spec-item">
                     <span className="spec-label">RACE CONDITIONS</span>

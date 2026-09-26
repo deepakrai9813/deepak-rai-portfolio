@@ -12,6 +12,8 @@ import {
   AlertTriangle,
   Crosshair,
   Radio,
+  Layers,
+  ArrowUpRight,
 } from "./icons";
 
 const CLUSTER_NODES = [
@@ -28,6 +30,7 @@ const CLUSTER_NODES = [
     throughput: "4,200 req/s",
     status: "HEALTHY",
     type: "REVERSE_PROXY",
+    subServices: ["Ingress Filter", "sync.Pool Buffer", "Egress Relay"],
   },
   {
     id: "san-brothers",
@@ -42,6 +45,7 @@ const CLUSTER_NODES = [
     throughput: "1,850 req/s",
     status: "HEALTHY",
     type: "ENTERPRISE_GATEWAY",
+    subServices: ["Legal Compliance DB", "Session Pool", "TLS 1.3 Term"],
   },
   {
     id: "bian-ai",
@@ -56,6 +60,7 @@ const CLUSTER_NODES = [
     throughput: "920 req/s",
     status: "HEALTHY",
     type: "LLM_STREAMER",
+    subServices: ["Groq Token Stream", "Web Worker PDF", "Vector Cache"],
   },
   {
     id: "postgres",
@@ -70,6 +75,7 @@ const CLUSTER_NODES = [
     throughput: "6,100 qps",
     status: "HEALTHY",
     type: "ACID_REPLICATION",
+    subServices: ["Primary WAL Engine", "Read Replica 01", "Read Replica 02"],
   },
   {
     id: "redis",
@@ -84,6 +90,7 @@ const CLUSTER_NODES = [
     throughput: "12,400 ops",
     status: "HEALTHY",
     type: "MEMORY_CACHE",
+    subServices: ["Sliding Ring Buffer", "TTL Purge Daemon", "Replication Hub"],
   },
 ];
 
@@ -93,6 +100,8 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
   // UI state
   const [viewPreset, setViewPreset] = useState("perspective");
   const [activeNode, setActiveNode] = useState(CLUSTER_NODES[0]);
+  const [focusedNodeId, setFocusedNodeId] = useState(null); // When zoomed into a specific node
+  const [renderMode, setRenderMode] = useState("wireframe"); // "wireframe" | "pointcloud" | "conduit"
   const [chaosTripped, setChaosTripped] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
   const [packetSpeed, setPacketSpeed] = useState(1);
@@ -115,6 +124,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
   const radarSweepRef = useRef(null);
   const laserTargetRef = useRef(null);
   const targetBoxRef = useRef(null);
+  const subNodesGroupRef = useRef(null);
   const nodeObjectsRef = useRef([]);
   const packetObjectsRef = useRef([]);
   const conduitLinesRef = useRef([]);
@@ -126,6 +136,8 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
   const targetRotationRef = useRef({ x: 0.25, y: -0.35 });
   const currentRotationRef = useRef({ x: 0.25, y: -0.35 });
   const targetCameraDistanceRef = useRef(8.5);
+  const cameraLookTargetRef = useRef(new THREE.Vector3(0, 0, 0));
+  const currentCameraLookRef = useRef(new THREE.Vector3(0, 0, 0));
 
   const addLog = useCallback((msg) => {
     const time = new Date().toISOString().substring(11, 19);
@@ -163,11 +175,33 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     }
   };
 
+  // Focus directly into a specific node's local 3D sub-cluster
+  const handleFocusNode = (node) => {
+    playClick?.();
+    setActiveNode(node);
+    setFocusedNodeId(node.id);
+    setAutoRotate(false);
+    targetCameraDistanceRef.current = 3.2;
+    addLog(`NODE_FOCUS: Zoomed into ${node.name} architecture sub-cluster.`);
+  };
+
+  // Reset focus back to global 3D overview
+  const handleResetFocus = () => {
+    playClick?.();
+    setFocusedNodeId(null);
+    setAutoRotate(true);
+    cameraLookTargetRef.current.set(0, 0, 0);
+    targetCameraDistanceRef.current = 8.5;
+    targetRotationRef.current = { x: 0.25, y: -0.35 };
+    addLog("GLOBAL_VIEW: Reset camera to full 3D distributed systems cluster.");
+  };
+
   // View Preset Handler
   const handleViewPreset = (preset) => {
     playSwitch?.();
     setViewPreset(preset);
-    if (!cameraRef.current) return;
+    setFocusedNodeId(null);
+    cameraLookTargetRef.current.set(0, 0, 0);
 
     if (preset === "perspective") {
       targetCameraDistanceRef.current = 8.5;
@@ -186,7 +220,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     if (!container) return;
 
     const width = container.clientWidth || 800;
-    const height = container.clientHeight || 540;
+    const height = container.clientHeight || 560;
 
     // 1. Scene & Perspective Camera
     const scene = new THREE.Scene();
@@ -257,7 +291,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     // 3e. Concentric Holographic Radar Scanner Beam (Sweeping Line)
     const radarLineGeom = new THREE.BufferGeometry().setFromPoints([
       new THREE.Vector3(0, 0, 0),
-      new THREE.Vector3(6.2, 0, 0),
+      new THREE.Vector3(6.4, 0, 0),
     ]);
     const radarLineMat = new THREE.LineBasicMaterial({
       color: 0x00d665,
@@ -282,7 +316,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     laserTargetRef.current = targetLaser;
 
     // 3g. Active Node Wireframe Target Bracket Box
-    const targetBoxGeom = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+    const targetBoxGeom = new THREE.BoxGeometry(0.85, 0.85, 0.85);
     const targetBoxMat = new THREE.MeshBasicMaterial({
       color: 0x00d665,
       wireframe: true,
@@ -290,6 +324,19 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     const targetBox = new THREE.Mesh(targetBoxGeom, targetBoxMat);
     scene.add(targetBox);
     targetBoxRef.current = targetBox;
+
+    // 3h. Sub-Services Satellite Group (Orbiting the focused node)
+    const subNodesGroup = new THREE.Group();
+    const subNodeGeom = new THREE.OctahedronGeometry(0.12);
+    const subNodeMeshes = [];
+    for (let s = 0; s < 3; s++) {
+      const subMat = new THREE.MeshBasicMaterial({ color: 0x00d665, wireframe: true });
+      const subMesh = new THREE.Mesh(subNodeGeom, subMat);
+      subNodesGroup.add(subMesh);
+      subNodeMeshes.push(subMesh);
+    }
+    scene.add(subNodesGroup);
+    subNodesGroupRef.current = { group: subNodesGroup, meshes: subNodeMeshes };
 
     // 4. Ground Coordinate Grid (Planar Horizon)
     const gridHelper = new THREE.GridHelper(16, 20, 0x282d38, 0x1e222a);
@@ -312,7 +359,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
 
       const mat = new THREE.MeshBasicMaterial({
         color: nodeSpec.color,
-        wireframe: true,
+        wireframe: renderMode !== "pointcloud",
         wireframeLinewidth: 1.5,
       });
 
@@ -346,7 +393,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
       const lineMat = new THREE.LineBasicMaterial({
         color: nodeSpec.color,
         transparent: true,
-        opacity: 0.35,
+        opacity: renderMode === "conduit" ? 0.7 : 0.35,
       });
       const conduit = new THREE.Line(lineGeom, lineMat);
       scene.add(conduit);
@@ -384,7 +431,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     packetObjectsRef.current = packets;
 
     // 7. Ambient Particle Horizon
-    const particleCount = 220;
+    const particleCount = 240;
     const particleGeom = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount * 3; i += 3) {
@@ -425,7 +472,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     const handleWheel = (e) => {
       e.preventDefault();
       targetCameraDistanceRef.current += e.deltaY * 0.005;
-      targetCameraDistanceRef.current = Math.max(3.6, Math.min(14, targetCameraDistanceRef.current));
+      targetCameraDistanceRef.current = Math.max(2.8, Math.min(14, targetCameraDistanceRef.current));
     };
 
     const domElement = renderer.domElement;
@@ -454,7 +501,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
       const time = clock.getElapsedTime();
 
       // Smooth camera interpolation
-      if (autoRotate && !isDraggingRef.current) {
+      if (autoRotate && !isDraggingRef.current && !focusedNodeId) {
         targetRotationRef.current.y += 0.22 * delta;
       }
 
@@ -465,10 +512,13 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
       const phi = currentRotationRef.current.x;
       const theta = currentRotationRef.current.y;
 
-      camera.position.x = dist * Math.cos(phi) * Math.sin(theta);
-      camera.position.y = dist * Math.sin(phi);
-      camera.position.z = dist * Math.cos(phi) * Math.cos(theta);
-      camera.lookAt(0, 0, 0);
+      // Handle Camera Look Target (smooth interpolation between Core 0,0,0 and focused Node)
+      currentCameraLookRef.current.lerp(cameraLookTargetRef.current, 0.08);
+
+      camera.position.x = currentCameraLookRef.current.x + dist * Math.cos(phi) * Math.sin(theta);
+      camera.position.y = currentCameraLookRef.current.y + dist * Math.sin(phi);
+      camera.position.z = currentCameraLookRef.current.z + dist * Math.cos(phi) * Math.cos(theta);
+      camera.lookAt(currentCameraLookRef.current);
 
       // Core rotation & pulsing
       const coreSpeed = warpMode ? 2.5 : 1.0;
@@ -514,6 +564,23 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
         nodeItem.mesh.rotation.y += 0.8 * delta;
         nodeItem.mesh.rotation.x += 0.5 * delta;
 
+        // If this node is focused, update camera look target to follow it
+        if (focusedNodeId === spec.id) {
+          cameraLookTargetRef.current.set(nx, ny, nz);
+
+          // Update Sub-Services Satellites around focused node
+          if (subNodesGroupRef.current) {
+            subNodesGroupRef.current.group.position.set(nx, ny, nz);
+            subNodesGroupRef.current.group.visible = true;
+            subNodesGroupRef.current.meshes.forEach((subM, sIdx) => {
+              const sAngle = time * 2 + (sIdx * (Math.PI * 2)) / 3;
+              subM.position.set(Math.cos(sAngle) * 0.8, Math.sin(time * 3 + sIdx) * 0.2, Math.sin(sAngle) * 0.8);
+              subM.rotation.y += delta * 2;
+              subM.material.color.setHex(spec.color);
+            });
+          }
+        }
+
         // Chaos jitter if tripped on node 1 (San Brothers)
         if (chaosTripped && idx === 1) {
           nodeItem.group.position.x += (Math.random() - 0.5) * 0.12;
@@ -536,7 +603,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
             conduit.material.opacity = 0.8;
           } else {
             conduit.material.color.setHex(spec.color);
-            conduit.material.opacity = 0.35;
+            conduit.material.opacity = renderMode === "conduit" ? 0.7 : 0.35;
           }
         }
 
@@ -554,6 +621,10 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
           targetBoxRef.current.material.color.setHex(spec.color);
         }
       });
+
+      if (!focusedNodeId && subNodesGroupRef.current) {
+        subNodesGroupRef.current.group.visible = false;
+      }
 
       // Animated 3D Data Packet Voxels
       packetObjectsRef.current.forEach((pkt) => {
@@ -594,7 +665,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
       window.removeEventListener("resize", handleResize);
       renderer.dispose();
     };
-  }, [chaosTripped, autoRotate, packetSpeed, warpMode, activeNode]);
+  }, [chaosTripped, autoRotate, packetSpeed, warpMode, activeNode, focusedNodeId, renderMode]);
 
   return (
     <section id="cluster-3d" className="cluster-3d-section">
@@ -629,11 +700,11 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
 
             {/* Top Tactical Controls Bar */}
             <div className="cluster-overlay-controls">
-              {/* Camera Presets */}
+              {/* Camera Presets & Rendering Style */}
               <div className="cluster-preset-group">
                 <button
                   type="button"
-                  className={`cluster-preset-btn futuristic-chamfer-btn ${viewPreset === "perspective" ? "active" : ""}`}
+                  className={`cluster-preset-btn futuristic-chamfer-btn ${viewPreset === "perspective" && !focusedNodeId ? "active" : ""}`}
                   onClick={() => handleViewPreset("perspective")}
                   title="360° Free Orbital Perspective View"
                 >
@@ -660,6 +731,20 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
                   <Zap style={{ width: "12px", height: "12px" }} />
                   <span>GATEWAY CORE</span>
                 </button>
+
+                {/* Return button when zoomed into a node */}
+                {focusedNodeId && (
+                  <button
+                    type="button"
+                    className="cluster-preset-btn futuristic-chamfer-btn"
+                    style={{ borderColor: "var(--signal-green)", color: "var(--signal-green)" }}
+                    onClick={handleResetFocus}
+                    title="Return to full cluster overview"
+                  >
+                    <RotateCcw style={{ width: "12px", height: "12px" }} />
+                    <span>OVERVIEW</span>
+                  </button>
+                )}
               </div>
 
               {/* Chaos Engineering & Warp Actions */}
@@ -714,7 +799,9 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
               <div className="telemetry-hud-header">
                 <span className="led-indicator" />
                 <span>INSPECTED NODE TELEMETRY</span>
-                <span style={{ color: "var(--signal-green)", marginLeft: "auto" }}>TARGET LOCKED</span>
+                <span style={{ color: "var(--signal-green)", marginLeft: "auto" }}>
+                  {focusedNodeId ? "FOCUS LOCKED" : "TARGET LOCKED"}
+                </span>
               </div>
 
               <div className="cluster-node-selector-strip">
@@ -723,10 +810,8 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
                     key={node.id}
                     type="button"
                     className={`node-pill-btn ${activeNode.id === node.id ? "active" : ""}`}
-                    onClick={() => {
-                      playClick?.();
-                      setActiveNode(node);
-                    }}
+                    onClick={() => handleFocusNode(node)}
+                    title={`Click to fly camera into ${node.name}`}
                     style={{
                       borderLeftColor:
                         chaosTripped && node.id === "san-brothers" ? "#ff3344" : node.colorHex,
@@ -771,6 +856,18 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
                     <span className="detail-val">NODE-01 (:8081)</span>
                   </div>
                 </div>
+
+                {/* Sub-Services Architecture list when node is active */}
+                <div className="node-subservices-block">
+                  <span className="subservice-title">SUB-CLUSTER COMPONENTS:</span>
+                  <div className="subservice-pills">
+                    {activeNode.subServices.map((sub, sIdx) => (
+                      <span key={sIdx} className="subservice-tag">
+                        + {sub}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
 
               {/* Real-Time Telemetry Event Log */}
@@ -791,9 +888,9 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
             {/* Bottom 3D Instruction Strip */}
             <div className="cluster-bottom-bar">
               <div className="cluster-instruction">
-                <span>[MOUSE DRAG]: 360° ORBIT</span>
+                <span>[CLICK NODE PILL]: FLY-TO ZOOM</span>
                 <span>//</span>
-                <span>[SCROLL]: ZOOM CAMERA</span>
+                <span>[MOUSE DRAG]: 360° ORBIT</span>
                 <span>//</span>
                 <span>28 REAL-TIME 3D VOXEL PACKETS STREAMING</span>
               </div>
@@ -811,7 +908,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
                 </button>
                 <button
                   type="button"
-                  className={packetSpeed === 1 ? "speed-btn active" : "speed-btn"}
+                  className={packetSpeed === 1 && !warpMode ? "speed-btn active" : "speed-btn"}
                   onClick={() => {
                     setWarpMode(false);
                     setPacketSpeed(1);

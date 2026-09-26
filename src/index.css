@@ -956,6 +956,52 @@ button {
   line-height: 1.5;
 }
 
+/* Operating Profile Selector Strip */
+.hero-profile-selector-strip {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--font-mono);
+}
+
+.profile-selector-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+.profile-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-option-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border: 1px solid var(--border-base);
+  background-color: var(--bg-surface-raised);
+  color: var(--text-med);
+  cursor: pointer;
+  box-shadow: var(--btn-shadow);
+  transition: border-color 0.12s ease, background-color 0.12s ease, color 0.12s ease;
+}
+
+.profile-option-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-high);
+}
+
+.profile-option-btn.active {
+  border-color: var(--signal-green);
+  background-color: var(--signal-green-bg);
+  color: var(--signal-green);
+}
+
 .hero-cta-row {
   display: flex;
   flex-wrap: wrap;
@@ -1024,6 +1070,37 @@ button {
 .dossier-id-tag {
   color: var(--text-dim);
   font-size: 10px;
+}
+
+/* 16-Bar Spectrum Analyzer Waveform Strip */
+.dossier-spectrum-strip {
+  background-color: var(--bg-canvas);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 6px 12px 8px;
+  font-family: var(--font-mono);
+}
+
+.spectrum-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+
+.spectrum-bars-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 28px;
+}
+
+.spectrum-bar-col {
+  flex: 1;
+  min-width: 4px;
+  transition: height 0.15s ease-out;
 }
 
 .dossier-caliper-axis {
@@ -1732,6 +1809,39 @@ button {
   font-weight: 700;
 }
 
+/* Sub-Services Architecture Pill Tags */
+.node-subservices-block {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-base);
+  font-family: var(--font-mono);
+}
+
+.subservice-title {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  letter-spacing: 0.06em;
+}
+
+.subservice-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.subservice-tag {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-high);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-base);
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
 /* Cluster Log Terminal */
 .cluster-log-terminal {
   background-color: var(--bg-subtle);
@@ -1900,6 +2010,41 @@ button {
   gap: 10px;
 }
 
+/* Sandbox Mode Switcher Tabs */
+.sandbox-tab-group {
+  display: flex;
+  border-bottom: 1px solid var(--border-base);
+  background-color: var(--bg-subtle);
+}
+
+.sandbox-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  border: none;
+  border-right: 1px solid var(--border-base);
+  border-bottom: 2px solid transparent;
+  background-color: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.sandbox-tab-btn:hover {
+  background-color: var(--bg-surface-raised);
+  color: var(--text-high);
+}
+
+.sandbox-tab-btn.active {
+  background-color: var(--bg-surface);
+  color: var(--text-high);
+  border-bottom-color: var(--signal-green);
+}
+
 .sandbox-controls-row {
   padding: 14px 20px;
   border-bottom: 1px solid var(--border-base);
@@ -2000,6 +2145,127 @@ button {
   border-left-color: var(--signal-red);
   background-color: var(--signal-red-bg);
   color: var(--signal-red);
+}
+
+/* Global Multi-Region Topology Radar Map */
+.global-radar-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.radar-controls-toolbar {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border-base);
+  background-color: var(--bg-surface-raised);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.global-map-canvas-frame {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  background-color: #06080d;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-base);
+}
+
+[data-theme="light"] .global-map-canvas-frame {
+  background-color: #0a0e17;
+}
+
+.global-map-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.global-region-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.region-beacon-core {
+  width: 10px;
+  height: 10px;
+  border-radius: 0px;
+  display: block;
+}
+
+.region-beacon-ring {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  border: 1px solid transparent;
+  animation: radarRingPulse 2s infinite ease-out;
+  pointer-events: none;
+}
+
+@keyframes radarRingPulse {
+  0% { transform: translateX(-50%) scale(0.6); opacity: 1; }
+  100% { transform: translateX(-50%) scale(2.2); opacity: 0; }
+}
+
+.region-info-tag {
+  margin-top: 6px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  gap: 6px;
+  box-shadow: 2px 2px 0px #000;
+  white-space: nowrap;
+}
+
+.global-region-hotspot.active .region-info-tag {
+  border-color: var(--signal-green);
+  background-color: var(--signal-green-bg);
+}
+
+.region-code-name {
+  color: var(--text-high);
+}
+
+.region-ping-val {
+  font-weight: 700;
+}
+
+.global-region-inspector-bar {
+  padding: 12px 18px;
+  background-color: var(--bg-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.region-spec-values {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-dim);
 }
 
 /* ==========================================================================
@@ -2218,6 +2484,111 @@ button {
 .capability-item-detail {
   font-size: 11px;
   color: var(--text-dim);
+}
+
+/* Interactive Post-Mortem Flight Recorder Timeline */
+.incident-timeline-strip {
+  border-bottom: 1px solid var(--border-base);
+  background-color: var(--bg-surface-raised);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: var(--font-mono);
+}
+
+.timeline-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.timeline-milestones-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.timeline-milestone-btn {
+  flex: 1;
+  min-width: 110px;
+  padding: 8px 10px;
+  border: 1px solid var(--border-base);
+  background-color: var(--bg-surface);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  box-shadow: var(--btn-shadow);
+  transition: all 0.12s ease;
+}
+
+.timeline-milestone-btn:hover {
+  background-color: var(--bg-surface-hover);
+}
+
+.timeline-milestone-btn.active {
+  background-color: var(--bg-subtle);
+}
+
+.milestone-time {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--text-high);
+}
+
+.milestone-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timeline-telemetry-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 14px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-base);
+}
+
+.timeline-metric-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  padding-right: 12px;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.timeline-metric-chip:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.timeline-metric-chip span {
+  color: var(--text-dim);
+}
+
+.timeline-metric-chip strong {
+  color: var(--text-high);
+}
+
+.timeline-desc-box {
+  background-color: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--text-med);
+  line-height: 1.4;
 }
 
 /* ==========================================================================
@@ -2581,4 +2952,25 @@ textarea.input-control {
     width: 100%;
     justify-content: space-between;
   }
+
+  .timeline-milestone-btn {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 100px;
+  }
+
+  .global-map-canvas-frame {
+    height: 300px;
+  }
+
+  .global-region-inspector-bar,
+  .radar-controls-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-profile-selector-strip .profile-option-btn {
+    flex: 1 1 auto;
+    text-align: center;
+  }
 }
+
