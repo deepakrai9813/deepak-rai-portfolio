@@ -1,170 +1,105 @@
-import { useEffect, useState, useCallback } from "react";
-import { MotionConfig } from "framer-motion";
-import ScrollProgress from "./components/ScrollProgress";
-import Preloader from "./components/Preloader";
-import Nav from "./components/Nav";
-import Hero from "./components/Hero";
-import Marquee from "./components/Marquee";
-import About from "./components/About";
-import Services from "./components/Services";
-import Skills from "./components/Skills";
-import Works from "./components/Works";
-import Testimonials from "./components/Testimonials";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
-import BackToTop from "./components/BackToTop";
-import CommandPalette from "./components/CommandPalette";
-import Toast from "./components/Toast";
-import CustomCursor from "./components/CustomCursor";
-import AmbientCanvas from "./components/AmbientCanvas";
-import FloatingDock from "./components/FloatingDock";
+import { useState, useEffect } from "react";
+import InstrumentHeader from "./components/InstrumentHeader";
+import HeroInstrument from "./components/HeroInstrument";
+import SentinelSandbox from "./components/SentinelSandbox";
+import ProjectsMatrix from "./components/ProjectsMatrix";
+import CapabilityGrid from "./components/CapabilityGrid";
+import TelemetryTerminal from "./components/TelemetryTerminal";
+import UplinkContact from "./components/UplinkContact";
+import InstrumentFooter from "./components/InstrumentFooter";
 import { useTheme } from "./hooks/useTheme";
-import { useSound } from "./hooks/useSound";
-import { useSmoothScroll } from "./hooks/useSmoothScroll";
+import { useMechanicalSound } from "./hooks/useMechanicalSound";
 
 export default function App() {
-  useSmoothScroll(true);
-
-  const { theme, toggle: toggleTheme, accent, changeAccent, accents } = useTheme();
+  const { theme, toggle: toggleTheme } = useTheme();
   const {
     soundEnabled,
     toggleSound,
     playClick,
-    playPop,
-    playTone,
-    playSuccess,
-  } = useSound();
+    playSwitch,
+    playRelayTrip,
+    playRelayReset,
+    playPing,
+  } = useMechanicalSound();
 
-  const [cmdOpen, setCmdOpen] = useState(false);
-  const [toast, setToast] = useState(null);
-  const [highlightedSkill, setHighlightedSkill] = useState(null);
-  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [lens, setLens] = useState(() => {
+    try {
+      return localStorage.getItem("dr-lens") || "executive";
+    } catch {
+      return "executive";
+    }
+  });
 
-  const showToast = useCallback((toastData) => {
-    setToast(toastData);
-  }, []);
-
-  const closeToast = useCallback(() => {
-    setToast(null);
-  }, []);
-
-  // When a skill tag is clicked in Skills section, set filter and smoothly scroll to Works
-  const handleSkillClick = useCallback(
-    (skillName) => {
-      setHighlightedSkill(skillName);
-      if (skillName) {
-        showToast({
-          type: "info",
-          title: "Skill Filter Active",
-          message: `Showing projects using "${skillName}"`,
-        });
-        document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
-      }
-    },
-    [showToast]
-  );
-
-  const handleSelectProjectFromCmd = useCallback((projId) => {
-    setSelectedProjectId(projId);
-    document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  // Always open at the very top on reload
   useEffect(() => {
-    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-    window.scrollTo(0, 0);
-  }, []);
+    try {
+      localStorage.setItem("dr-lens", lens);
+    } catch {
+      /* ignore */
+    }
+  }, [lens]);
 
   return (
-    <MotionConfig reducedMotion="user">
-      <div id="top">
-        {/* Awwwards Custom Fluid Cursor */}
-        <CustomCursor />
+    <div className="workstation-root" style={{ minHeight: "100vh" }}>
+      {/* Precision Instrument Header & Perspective Lens Selector */}
+      <InstrumentHeader
+        lens={lens}
+        setLens={setLens}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        soundEnabled={soundEnabled}
+        toggleSound={toggleSound}
+        playClick={playClick}
+        playSwitch={playSwitch}
+      />
 
-        {/* Guillaume Zhu style Interactive Ambient Constellation Canvas */}
-        <AmbientCanvas />
-
-        <Preloader />
-        <ScrollProgress />
-
-        <Nav
-          theme={theme}
-          toggleTheme={toggleTheme}
-          accent={accent}
-          changeAccent={changeAccent}
-          accents={accents}
-          soundEnabled={soundEnabled}
-          toggleSound={toggleSound}
-          onOpenCommandPalette={setCmdOpen}
+      <main>
+        {/* Technical Dossier & Real-Time Telemetry Readout */}
+        <HeroInstrument
+          lens={lens}
+          setLens={setLens}
           playClick={playClick}
-          showToast={showToast}
+          playSwitch={playSwitch}
         />
 
-        <main>
-          <Hero
-            onOpenCommandPalette={setCmdOpen}
-            playClick={playClick}
-          />
-          <Marquee />
-          <About playPop={playPop} />
-          <Services playPop={playPop} playClick={playClick} />
-          <Skills
-            onSkillClick={handleSkillClick}
-            highlightedSkill={highlightedSkill}
-            playPop={playPop}
-          />
-          <Works
-            selectedProjectId={selectedProjectId}
-            onOpenProjectModal={setSelectedProjectId}
-            highlightedSkill={highlightedSkill}
-            playPop={playPop}
-            playClick={playClick}
-          />
-          <Testimonials />
-          <Contact
-            showToast={showToast}
-            playSuccess={playSuccess}
-            playClick={playClick}
-          />
-        </main>
-
-        <Footer />
-        <BackToTop />
-
-        {/* Creative Developer Floating Action Dock */}
-        <FloatingDock
-          theme={theme}
-          toggleTheme={toggleTheme}
-          accent={accent}
-          changeAccent={changeAccent}
-          accents={accents}
-          soundEnabled={soundEnabled}
-          toggleSound={toggleSound}
-          onOpenCommandPalette={setCmdOpen}
+        {/* Live Interactive Circuit Breaker Chaos Simulator */}
+        <SentinelSandbox
           playClick={playClick}
-          showToast={showToast}
+          playSwitch={playSwitch}
+          playRelayTrip={playRelayTrip}
+          playRelayReset={playRelayReset}
+          playPing={playPing}
         />
 
-        {/* Global Command Palette (Cmd+K / Ctrl+K) */}
-        <CommandPalette
-          isOpen={cmdOpen}
-          onClose={setCmdOpen}
-          theme={theme}
-          toggleTheme={toggleTheme}
-          accent={accent}
-          changeAccent={changeAccent}
-          accents={accents}
-          soundEnabled={soundEnabled}
-          toggleSound={toggleSound}
+        {/* Verified Systems & Architectural Specs Matrix */}
+        <ProjectsMatrix
+          lens={lens}
           playClick={playClick}
-          playSuccess={playSuccess}
-          showToast={showToast}
-          onSelectProject={handleSelectProjectFromCmd}
+          playPop={playClick}
         />
 
-        {/* Global Toast Notifications */}
-        <Toast toast={toast} onClose={closeToast} />
-      </div>
-    </MotionConfig>
+        {/* Verified Technical Competencies & Engineering Disciplines */}
+        <CapabilityGrid
+          playClick={playClick}
+          playPop={playClick}
+        />
+
+        {/* Direct Diagnostic Telemetry Terminal (CLI) */}
+        <TelemetryTerminal
+          setLens={setLens}
+          playClick={playClick}
+          playPing={playPing}
+          playSwitch={playSwitch}
+        />
+
+        {/* Tactical Direct Dispatch Station */}
+        <UplinkContact
+          playClick={playClick}
+          playSuccess={playPing}
+        />
+      </main>
+
+      {/* Hardware System Specification Footer */}
+      <InstrumentFooter playClick={playClick} />
+    </div>
   );
 }

@@ -370,4 +370,29 @@ export function ListIcon(props) {
   );
 }
 
+export function RotateCcw(props) {
+  return (
+    <svg viewBox="0 0 24 24" {...base} {...props}>
+      <polyline points="1 4 1 10 7 10" />
+      <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+    </svg>
+  );
+}
+
+export function Play(props) {
+  return (
+    <svg viewBox="0 0 24 24" {...base} {...props}>
+      <polygon points="5 3 19 12 5 21 5 3" />
+    </svg>
+  );
+}
+
+export function Activity(props) {
+  return (
+    <svg viewBox="0 0 24 24" {...base} {...props}>
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+    </svg>
+  );
+}
+
 
