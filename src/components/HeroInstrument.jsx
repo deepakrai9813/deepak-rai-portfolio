@@ -116,6 +116,15 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                 <button
                   type="button"
                   className="btn-mech-outline"
+                  onClick={() => scrollTo("biometric-3d")}
+                >
+                  <Activity style={{ width: "14px", height: "14px", color: "var(--signal-green)" }} />
+                  <span>3D LIDAR BIO-SCAN</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="btn-mech-outline"
                   onClick={() => scrollTo("dispatch")}
                 >
                   <span>INITIATE DISPATCH</span>

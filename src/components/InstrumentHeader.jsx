@@ -159,6 +159,13 @@ export default function InstrumentHeader({
           </button>
           <button
             type="button"
+            onClick={() => handleNavClick("biometric-3d")}
+            style={{ color: "var(--signal-green)", fontWeight: 600 }}
+          >
+            [3D LIDAR]
+          </button>
+          <button
+            type="button"
             onClick={() => handleNavClick("memory-lab")}
             style={{ color: "var(--signal-cyan)", fontWeight: 600 }}
           >
