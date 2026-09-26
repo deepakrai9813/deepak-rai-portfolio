@@ -148,13 +148,20 @@ export default function InstrumentHeader({
         </div>
 
         {/* Quick Nav Anchor Strip */}
-        <nav style={{ display: "flex", gap: "14px", fontFamily: "var(--font-mono)", fontSize: "11px" }}>
+        <nav style={{ display: "flex", gap: "12px", fontFamily: "var(--font-mono)", fontSize: "11px", flexWrap: "wrap" }}>
           <button
             type="button"
             onClick={() => handleNavClick("sentinel-lab")}
             style={{ color: "var(--signal-green)", fontWeight: 700 }}
           >
             [CHAOS LAB ⚡]
+          </button>
+          <button
+            type="button"
+            onClick={() => handleNavClick("memory-lab")}
+            style={{ color: "var(--signal-cyan)", fontWeight: 600 }}
+          >
+            [MEMORY POOL]
           </button>
           <button
             type="button"
@@ -165,15 +172,22 @@ export default function InstrumentHeader({
           </button>
           <button
             type="button"
-            onClick={() => handleNavClick("capabilities")}
+            onClick={() => handleNavClick("audit")}
             style={{ color: "var(--text-med)" }}
           >
-            [SPECS]
+            [AUDIT]
+          </button>
+          <button
+            type="button"
+            onClick={() => handleNavClick("incident-drill")}
+            style={{ color: "var(--signal-orange)", fontWeight: 700 }}
+          >
+            [INCIDENT DRILL 🚨]
           </button>
           <button
             type="button"
             onClick={() => handleNavClick("dispatch")}
-            style={{ color: "var(--text-high)", fontWeight: 600 }}
+            style={{ color: "var(--text-high)", fontWeight: 700 }}
           >
             [DISPATCH]
           </button>

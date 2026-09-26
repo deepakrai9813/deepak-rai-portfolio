@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ExternalLink, Github, ArrowUpRight, Zap, Check, Server, ShieldCheck, Database } from "./icons";
+import SystemBlueprintModal from "./SystemBlueprintModal";
 
 const PROJECTS = [
   {
@@ -108,6 +109,7 @@ const PROJECTS = [
 export default function ProjectsMatrix({ lens, playClick, playPop }) {
   const [activeTab, setActiveTab] = useState("all");
   const [expandedId, setExpandedId] = useState("sentinel");
+  const [blueprintProjectId, setBlueprintProjectId] = useState(null);
 
   const filtered = PROJECTS.filter((p) => {
     if (activeTab === "all") return true;
@@ -317,6 +319,17 @@ export default function ProjectsMatrix({ lens, playClick, playPop }) {
                           </a>
                         )}
 
+                        <button
+                          type="button"
+                          className="btn-mech-outline"
+                          onClick={() => {
+                            playPop?.();
+                            setBlueprintProjectId(proj.id);
+                          }}
+                        >
+                          <span>INSPECT BLUEPRINT 📐</span>
+                        </button>
+
                         <a
                           href={proj.githubUrl}
                           target="_blank"
@@ -381,6 +394,15 @@ export default function ProjectsMatrix({ lens, playClick, playPop }) {
           })}
         </div>
       </div>
+
+      {blueprintProjectId && (
+        <SystemBlueprintModal
+          projectId={blueprintProjectId}
+          onClose={() => setBlueprintProjectId(null)}
+          playClick={playClick}
+          playPop={playPop}
+        />
+      )}
     </section>
   );
 }

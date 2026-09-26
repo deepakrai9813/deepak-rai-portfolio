@@ -1,0 +1,269 @@
+import { useState } from "react";
+import { Zap, ShieldCheck, RotateCcw, Check, ArrowUpRight } from "./icons";
+
+export default function IncidentSimulator({ playClick, playAlarm, playSuccessFanfare }) {
+  const [selectedAction, setSelectedAction] = useState(null);
+  const [resolved, setResolved] = useState(false);
+
+  const handleAction = (actionId) => {
+    setSelectedAction(actionId);
+    if (actionId === "trip-rewind") {
+      setResolved(true);
+      playSuccessFanfare?.();
+    } else {
+      setResolved(false);
+      playAlarm?.();
+    }
+  };
+
+  const handleReset = () => {
+    playClick?.();
+    setSelectedAction(null);
+    setResolved(false);
+  };
+
+  return (
+    <section id="incident-drill" style={{ marginBottom: "64px" }}>
+      <div className="container">
+        {/* Section Header */}
+        <div className="section-header-block">
+          <div className="section-label">
+            // 05-B. SYSTEMS INCIDENT DRILL // INTERACTIVE INCIDENT SIMULATOR
+          </div>
+          <h2 className="section-headline">
+            INCIDENT DRILL: CASCAVAL UPSTREAM COLLAPSE
+          </h2>
+          <p className="section-subtext">
+            Test your systems engineering instincts in a live simulated production incident. 
+            48 concurrent in-flight transactions are hanging on a stalled upstream API. How do you resolve it?
+          </p>
+        </div>
+
+        {/* Chassis */}
+        <div
+          className="sandbox-chassis"
+          style={{
+            borderColor: resolved
+              ? "var(--signal-green)"
+              : selectedAction
+              ? "var(--signal-red)"
+              : "var(--border-base)",
+          }}
+        >
+          {/* Header */}
+          <div
+            className="sandbox-meta-header"
+            style={{
+              backgroundColor: resolved
+                ? "var(--signal-green-bg)"
+                : selectedAction
+                ? "var(--signal-red-bg)"
+                : "var(--bg-subtle)",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span
+                className="led-indicator"
+                style={{
+                  backgroundColor: resolved
+                    ? "var(--signal-green)"
+                    : selectedAction
+                    ? "var(--signal-red)"
+                    : "var(--signal-amber)",
+                }}
+              />
+              <span style={{ fontWeight: 700, color: "var(--text-high)" }}>
+                {resolved
+                  ? "INCIDENT MITIGATED: 100% TRANSACTIONS SAVED"
+                  : selectedAction
+                  ? "OUTAGE COMPOUNDED: REVENUE IMPACT DETECTED"
+                  : "SIMULATED ALERT // SEVERITY: CRITICAL (940MS UPSTREAM LAG)"}
+              </span>
+            </div>
+
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "11px" }}>
+              IN-FLIGHT TRANSACTIONS: <strong>48 PAYLOADS</strong>
+            </div>
+          </div>
+
+          {/* Workbench Grid */}
+          <div className="sandbox-workbench-grid">
+            {/* Left: Action Levers */}
+            <div style={{ padding: "28px", borderRight: "1px solid var(--border-base)" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "11px", fontWeight: 700, color: "var(--text-dim)", marginBottom: "14px" }}>
+                CHOOSE INCIDENT REMEDIATION LEVER:
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {/* Lever A */}
+                <button
+                  type="button"
+                  className={`capability-item-card ${selectedAction === "extend-timeout" ? "danger" : ""}`}
+                  style={{
+                    textAlign: "left",
+                    borderColor: selectedAction === "extend-timeout" ? "var(--signal-red)" : "var(--border-subtle)",
+                  }}
+                  onClick={() => handleAction("extend-timeout")}
+                >
+                  <div style={{ fontWeight: 700, color: "var(--text-high)", marginBottom: "4px" }}>
+                    LEVER A: INCREASE HTTP CLIENT TIMEOUT TO 10,000MS
+                  </div>
+                  <div style={{ color: "var(--text-dim)", fontSize: "11px" }}>
+                    &ldquo;Give the primary upstream more time to finish processing slow requests.&rdquo;
+                  </div>
+                </button>
+
+                {/* Lever B */}
+                <button
+                  type="button"
+                  className={`capability-item-card ${selectedAction === "restart-pod" ? "danger" : ""}`}
+                  style={{
+                    textAlign: "left",
+                    borderColor: selectedAction === "restart-pod" ? "var(--signal-red)" : "var(--border-subtle)",
+                  }}
+                  onClick={() => handleAction("restart-pod")}
+                >
+                  <div style={{ fontWeight: 700, color: "var(--text-high)", marginBottom: "4px" }}>
+                    LEVER B: HARD RESTART PROXY INSTANCES
+                  </div>
+                  <div style={{ color: "var(--text-dim)", fontSize: "11px" }}>
+                    &ldquo;Flush system state and restart processes immediately to clear memory.&rdquo;
+                  </div>
+                </button>
+
+                {/* Lever C */}
+                <button
+                  type="button"
+                  className={`capability-item-card ${selectedAction === "trip-rewind" ? "highlighted" : ""}`}
+                  style={{
+                    textAlign: "left",
+                    borderColor: selectedAction === "trip-rewind" ? "var(--signal-green)" : "var(--border-subtle)",
+                    backgroundColor: selectedAction === "trip-rewind" ? "var(--signal-green-bg)" : "var(--bg-subtle)",
+                  }}
+                  onClick={() => handleAction("trip-rewind")}
+                >
+                  <div style={{ fontWeight: 700, color: "var(--text-high)", marginBottom: "4px" }}>
+                    LEVER C: TRIP SENTINEL CIRCUIT BREAKER + REPLAY SYNC.POOL BUFFERS
+                  </div>
+                  <div style={{ color: "var(--text-dim)", fontSize: "11px" }}>
+                    &ldquo;Isolate stalled upstream instantly. Rewind in-flight byte buffers to warm secondary replica.&rdquo;
+                  </div>
+                </button>
+              </div>
+
+              {selectedAction && (
+                <div style={{ marginTop: "16px" }}>
+                  <button
+                    type="button"
+                    className="btn-mech-outline"
+                    style={{ fontSize: "11px", padding: "6px 12px" }}
+                    onClick={handleReset}
+                  >
+                    <RotateCcw style={{ width: "12px", height: "12px" }} />
+                    <span>RESET INCIDENT DRILL</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Right: Telemetry Diagnostic Outcome */}
+            <div style={{ padding: "28px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+              <div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "11px", fontWeight: 700, color: "var(--text-dim)", marginBottom: "14px" }}>
+                  INCIDENT DIAGNOSTIC OUTCOME:
+                </div>
+
+                {!selectedAction && (
+                  <div
+                    style={{
+                      border: "1px dashed var(--border-strong)",
+                      padding: "24px",
+                      textAlign: "center",
+                      color: "var(--text-dim)",
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "12px",
+                    }}
+                  >
+                    SELECT AN ACTION LEVER ON THE LEFT TO EXECUTE YOUR STRATEGY.
+                  </div>
+                )}
+
+                {selectedAction === "extend-timeout" && (
+                  <div style={{ border: "1px solid var(--signal-red)", backgroundColor: "var(--signal-red-bg)", padding: "16px" }}>
+                    <div style={{ color: "var(--signal-red)", fontWeight: 700, fontSize: "13px", marginBottom: "6px" }}>
+                      OUTAGE COMPOUNDED: CONNECTION POOL EXHAUSTION
+                    </div>
+                    <p style={{ fontSize: "12px", color: "var(--text-high)", lineHeight: 1.5 }}>
+                      Extending timeouts caused all worker goroutines to block waiting on dead sockets. 
+                      Connection pools exhausted across the cluster. Incoming requests suffered 504 Gateway Timeouts.
+                    </p>
+                    <div style={{ marginTop: "10px", fontWeight: 700, color: "var(--signal-red)", fontSize: "11px" }}>
+                      TRANSACTIONS LOST: 48/48 (100% DROPPED)
+                    </div>
+                  </div>
+                )}
+
+                {selectedAction === "restart-pod" && (
+                  <div style={{ border: "1px solid var(--signal-red)", backgroundColor: "var(--signal-red-bg)", padding: "16px" }}>
+                    <div style={{ color: "var(--signal-red)", fontWeight: 700, fontSize: "13px", marginBottom: "6px" }}>
+                      DATA LOSS: IN-FLIGHT PAYLOADS PURGED
+                    </div>
+                    <p style={{ fontSize: "12px", color: "var(--text-high)", lineHeight: 1.5 }}>
+                      Hard restart killed process memory without flushing buffers. All 48 in-flight payment payloads were permanently dropped. 
+                      Customers were charged with missing orders.
+                    </p>
+                    <div style={{ marginTop: "10px", fontWeight: 700, color: "var(--signal-red)", fontSize: "11px" }}>
+                      TRANSACTIONS LOST: 48/48 (REVENUE DAMAGED)
+                    </div>
+                  </div>
+                )}
+
+                {selectedAction === "trip-rewind" && (
+                  <div style={{ border: "1px solid var(--signal-green)", backgroundColor: "var(--signal-green-bg)", padding: "16px" }}>
+                    <div style={{ color: "var(--signal-green)", fontWeight: 700, fontSize: "13px", marginBottom: "6px" }}>
+                      ★ MISSION SUCCESS: PERFECT RESILIENCE FAILOVER
+                    </div>
+                    <p style={{ fontSize: "12px", color: "var(--text-high)", lineHeight: 1.5 }}>
+                      Sentinel tripped within 12ms. The <code>sync.Pool</code> request bodies were rewound using <code>io.Seeker</code> 
+                      and dispatched to the secondary backup replica (:8082). All 48 transactions completed successfully with 200 OK!
+                    </p>
+                    <div style={{ marginTop: "12px", display: "flex", gap: "10px", alignItems: "center" }}>
+                      <span className="tag-solid active">
+                        <Check style={{ width: "12px", height: "12px" }} />
+                        <span>TRANSACTIONS SAVED: 48/48 (0 DROPPED)</span>
+                      </span>
+                      <span className="tag-solid active">
+                        <span>LATENCY: 18MS</span>
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {resolved && (
+                <div
+                  style={{
+                    marginTop: "20px",
+                    padding: "12px",
+                    border: "1px solid var(--signal-green)",
+                    backgroundColor: "var(--bg-canvas)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div style={{ fontFamily: "var(--font-mono)", fontSize: "11px" }}>
+                    <span style={{ color: "var(--signal-green)", fontWeight: 700 }}>ACCREDITATION UNLOCKED:</span>
+                    <br />
+                    <span>VERIFIED DISTRIBUTED SYSTEMS ARCHITECT</span>
+                  </div>
+                  <span style={{ fontSize: "20px" }}>🏆</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

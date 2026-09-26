@@ -11,6 +11,8 @@ export function useMechanicalSound() {
     }
   });
 
+  const [audioTriggerCount, setAudioTriggerCount] = useState(0);
+
   const audioCtxRef = useRef(null);
 
   const getAudioContext = useCallback(() => {
@@ -25,6 +27,10 @@ export function useMechanicalSound() {
       audioCtxRef.current.resume();
     }
     return audioCtxRef.current;
+  }, []);
+
+  const triggerImpulse = useCallback(() => {
+    setAudioTriggerCount((c) => c + 1);
   }, []);
 
   useEffect(() => {
@@ -45,6 +51,7 @@ export function useMechanicalSound() {
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
+      triggerImpulse();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
@@ -63,7 +70,7 @@ export function useMechanicalSound() {
     } catch {
       /* ignore */
     }
-  }, [soundEnabled, getAudioContext]);
+  }, [soundEnabled, getAudioContext, triggerImpulse]);
 
   // Heavy mechanical switch clack (mode change / toggle)
   const playSwitch = useCallback(() => {
@@ -71,6 +78,7 @@ export function useMechanicalSound() {
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
+      triggerImpulse();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
@@ -89,7 +97,7 @@ export function useMechanicalSound() {
     } catch {
       /* ignore */
     }
-  }, [soundEnabled, getAudioContext]);
+  }, [soundEnabled, getAudioContext, triggerImpulse]);
 
   // Electrical Relay trip sound (Circuit Breaker OPEN / ALARM)
   const playRelayTrip = useCallback(() => {
@@ -97,7 +105,7 @@ export function useMechanicalSound() {
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
-      // Double click impulse of physical relay
+      triggerImpulse();
       [0, 0.015].forEach((offset, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -113,7 +121,7 @@ export function useMechanicalSound() {
     } catch {
       /* ignore */
     }
-  }, [soundEnabled, getAudioContext]);
+  }, [soundEnabled, getAudioContext, triggerImpulse]);
 
   // Relay Reset / Healthy chime
   const playRelayReset = useCallback(() => {
@@ -121,6 +129,7 @@ export function useMechanicalSound() {
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
+      triggerImpulse();
       [440, 880].forEach((freq, idx) => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
@@ -136,7 +145,7 @@ export function useMechanicalSound() {
     } catch {
       /* ignore */
     }
-  }, [soundEnabled, getAudioContext]);
+  }, [soundEnabled, getAudioContext, triggerImpulse]);
 
   // Telemetry ping / keystroke blip
   const playPing = useCallback(() => {
@@ -144,6 +153,7 @@ export function useMechanicalSound() {
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
+      triggerImpulse();
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
@@ -160,7 +170,55 @@ export function useMechanicalSound() {
     } catch {
       /* ignore */
     }
-  }, [soundEnabled, getAudioContext]);
+  }, [soundEnabled, getAudioContext, triggerImpulse]);
+
+  // Outage alarm buzzer (incident challenge failure)
+  const playAlarm = useCallback(() => {
+    if (!soundEnabled) return;
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      triggerImpulse();
+      [0, 0.08, 0.16].forEach((offset) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(260, ctx.currentTime + offset);
+        gain.gain.setValueAtTime(0.05, ctx.currentTime + offset);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + offset + 0.06);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + offset);
+        osc.stop(ctx.currentTime + offset + 0.06);
+      });
+    } catch {
+      /* ignore */
+    }
+  }, [soundEnabled, getAudioContext, triggerImpulse]);
+
+  // Success fanfare (incident challenge solved)
+  const playSuccessFanfare = useCallback(() => {
+    if (!soundEnabled) return;
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      triggerImpulse();
+      [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.07);
+        gain.gain.setValueAtTime(0.05, ctx.currentTime + idx * 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.07 + 0.18);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + idx * 0.07);
+        osc.stop(ctx.currentTime + idx * 0.07 + 0.18);
+      });
+    } catch {
+      /* ignore */
+    }
+  }, [soundEnabled, getAudioContext, triggerImpulse]);
 
   return {
     soundEnabled,
@@ -170,5 +228,8 @@ export function useMechanicalSound() {
     playRelayTrip,
     playRelayReset,
     playPing,
+    playAlarm,
+    playSuccessFanfare,
+    audioTriggerCount,
   };
 }

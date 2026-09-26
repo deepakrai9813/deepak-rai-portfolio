@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import InstrumentHeader from "./components/InstrumentHeader";
 import HeroInstrument from "./components/HeroInstrument";
 import SentinelSandbox from "./components/SentinelSandbox";
+import MemoryPoolPlayground from "./components/MemoryPoolPlayground";
 import ProjectsMatrix from "./components/ProjectsMatrix";
 import CapabilityGrid from "./components/CapabilityGrid";
+import EngineeringAudit from "./components/EngineeringAudit";
+import IncidentSimulator from "./components/IncidentSimulator";
 import TelemetryTerminal from "./components/TelemetryTerminal";
 import UplinkContact from "./components/UplinkContact";
 import InstrumentFooter from "./components/InstrumentFooter";
+import WorkstationHUD from "./components/WorkstationHUD";
 import { useTheme } from "./hooks/useTheme";
 import { useMechanicalSound } from "./hooks/useMechanicalSound";
 
@@ -20,6 +24,9 @@ export default function App() {
     playRelayTrip,
     playRelayReset,
     playPing,
+    playAlarm,
+    playSuccessFanfare,
+    audioTriggerCount,
   } = useMechanicalSound();
 
   const [lens, setLens] = useState(() => {
@@ -39,7 +46,7 @@ export default function App() {
   }, [lens]);
 
   return (
-    <div className="workstation-root" style={{ minHeight: "100vh" }}>
+    <div className="workstation-root" style={{ minHeight: "100vh", position: "relative" }}>
       {/* Precision Instrument Header & Perspective Lens Selector */}
       <InstrumentHeader
         lens={lens}
@@ -70,7 +77,14 @@ export default function App() {
           playPing={playPing}
         />
 
-        {/* Verified Systems & Architectural Specs Matrix */}
+        {/* Interactive Go Memory Pool & Goroutine Concurrency Bench */}
+        <MemoryPoolPlayground
+          playClick={playClick}
+          playSwitch={playSwitch}
+          playPing={playPing}
+        />
+
+        {/* Verified Systems & Architectural Specs Matrix (with Blueprint Inspector) */}
         <ProjectsMatrix
           lens={lens}
           playClick={playClick}
@@ -81,6 +95,19 @@ export default function App() {
         <CapabilityGrid
           playClick={playClick}
           playPop={playClick}
+        />
+
+        {/* The Systems Audit: Conventional Dev vs. Deepak Rai Systems Architecture */}
+        <EngineeringAudit
+          playClick={playClick}
+          playPop={playClick}
+        />
+
+        {/* Live Systems Incident Drill: Interactive Production Failover Challenge */}
+        <IncidentSimulator
+          playClick={playClick}
+          playAlarm={playAlarm}
+          playSuccessFanfare={playSuccessFanfare}
         />
 
         {/* Direct Diagnostic Telemetry Terminal (CLI) */}
@@ -100,6 +127,19 @@ export default function App() {
 
       {/* Hardware System Specification Footer */}
       <InstrumentFooter playClick={playClick} />
+
+      {/* Live Flight Recorder HUD (FPS Counter, Oscilloscope & Hotkey Assistant) */}
+      <WorkstationHUD
+        lens={lens}
+        setLens={setLens}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        soundEnabled={soundEnabled}
+        toggleSound={toggleSound}
+        audioTriggerCount={audioTriggerCount}
+        playClick={playClick}
+        playSwitch={playSwitch}
+      />
     </div>
   );
 }
