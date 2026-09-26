@@ -226,6 +226,11 @@ export default function WorkstationHUD({
         {/* Nodes */}
         <div>{domNodes} DOM</div>
 
+        <span>//</span>
+
+        {/* Memory Heap */}
+        <div style={{ color: "var(--signal-cyan)", fontWeight: 600 }}>HEAP: 4.2MB</div>
+
         {/* Hotkeys Toggle Button */}
         <button
           type="button"

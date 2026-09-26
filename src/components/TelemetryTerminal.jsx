@@ -45,7 +45,10 @@ export default function TelemetryTerminal({ setLens, playClick, playPing, playSw
         { type: "system", text: "  whoami       - Display engineer background and thesis" },
         { type: "system", text: "  contact      - Print uplink channels & direct dispatch" },
         { type: "system", text: "  resume       - Open / download verified PDF specification" },
-        { type: "system", text: "  lens [1|2|3] - Switch perspective (1: Executive, 2: Architect, 3: CLI)" },
+        {type: "system", text: "  lens [1|2|3] - Switch perspective (1: Executive, 2: Architect, 3: CLI)" },
+        { type: "system", text: "  matrix       - Stream live cybernetic binary neural buffer" },
+        { type: "system", text: "  overclock    - Engage 2.4X system turbo benchmark" },
+        { type: "system", text: "  quantum      - Inspect distributed quantum ECC consensus key" },
         { type: "system", text: "  ping         - Test synthetic round-trip latency to station" },
         { type: "system", text: "  clear        - Clear console output buffer" }
       );
@@ -119,6 +122,30 @@ export default function TelemetryTerminal({ setLens, playClick, playPing, playSw
       } else {
         newEntries.push({ type: "warn", text: "Usage: lens 1 (Executive) | lens 2 (Architect) | lens 3 (Terminal)" });
       }
+    } else if (cmd === "matrix") {
+      playPing?.();
+      newEntries.push(
+        { type: "info", text: "INITIALIZING CYBERNETIC NEURAL STREAM..." },
+        { type: "system", text: "01000100 01000101 01000101 01010000 01000001 01001011 [DEEPAK]" },
+        { type: "system", text: "01010011 01000101 01001110 01010100 01001001 01001110 [SENTINEL]" },
+        { type: "success", text: "STREAM_OK: 50,000 goroutines active in zero-alloc ring buffer." }
+      );
+    } else if (cmd === "overclock") {
+      playPing?.();
+      newEntries.push(
+        { type: "info", text: "[TURBO OVERCLOCK: 2.4X ENGAGED]" },
+        { type: "system", text: "  Throughput : 18,200 req/sec (+140%)" },
+        { type: "system", text: "  Latency    : 2.4ms p50 (Cryogenic liquid cooling active)" },
+        { type: "success", text: "  Status     : All 5 nodes nominal with 0 dropped packets." }
+      );
+    } else if (cmd === "quantum") {
+      playPing?.();
+      newEntries.push(
+        { type: "info", text: "[QUANTUM ECC // REVERSE PROXY QUORUM]" },
+        { type: "system", text: "  Key Hash   : SHA256:0x9813_RAI_QUANTUM_CONSENSUS" },
+        { type: "system", text: "  Shards     : 5/5 synchronized with sub-millisecond clock sync" },
+        { type: "success", text: "  Integrity  : 100% verified against cascading split-brain faults." }
+      );
     } else {
       newEntries.push({
         type: "warn",

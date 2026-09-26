@@ -449,6 +449,36 @@ button {
   position: relative;
   border: 1px solid var(--text-high);
   box-shadow: 2px 2px 0px var(--border-strong);
+  gap: 2px;
+}
+
+.brand-monogram-box.futuristic-bevel {
+  clip-path: polygon(
+    0 4px,
+    4px 0,
+    calc(100% - 4px) 0,
+    100% 4px,
+    100% calc(100% - 4px),
+    calc(100% - 4px) 100%,
+    4px 100%,
+    0 calc(100% - 4px)
+  );
+}
+
+.monogram-bracket-left,
+.monogram-bracket-right {
+  font-size: 8px;
+  color: var(--signal-green);
+  opacity: 0.85;
+}
+
+.monogram-pulse-core {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: var(--signal-green);
+  top: 1px;
+  right: 1px;
 }
 
 .monogram-corner {
@@ -530,6 +560,18 @@ button {
   white-space: nowrap;
 }
 
+.lens-led-dot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--border-strong);
+  display: inline-block;
+  transition: background-color 0.15s ease;
+}
+
+.lens-dock-btn.active .lens-led-dot {
+  background-color: var(--signal-green);
+}
+
 .lens-dock-btn:last-child {
   border-right: none;
 }
@@ -548,6 +590,49 @@ button {
 .lens-index {
   opacity: 0.5;
   font-size: 10px;
+}
+
+/* Futuristic Chamfer & Audio Visualizer */
+.futuristic-chamfer,
+.futuristic-chamfer-btn {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+}
+
+.audio-eq-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 13px;
+}
+
+.eq-bar {
+  width: 2.5px;
+  background-color: var(--signal-green);
+  display: inline-block;
+}
+
+.eq-bar.bar1 { animation: eqBounce1 0.6s infinite ease-in-out; }
+.eq-bar.bar2 { animation: eqBounce2 0.8s infinite ease-in-out; }
+.eq-bar.bar3 { animation: eqBounce3 0.5s infinite ease-in-out; }
+
+@keyframes eqBounce1 {
+  0%, 100% { height: 3px; }
+  50% { height: 11px; }
+}
+@keyframes eqBounce2 {
+  0%, 100% { height: 11px; }
+  50% { height: 4px; }
+}
+@keyframes eqBounce3 {
+  0%, 100% { height: 5px; }
+  50% { height: 13px; }
 }
 
 /* Navigation Actions & Links Array */
@@ -1015,13 +1100,48 @@ button {
   right: 6px;
 }
 
-/* Caliper Reticle Tracker */
+/* Caliper Reticle Tracker with Futuristic Counter-Rotating Hologram Rings */
 .caliper-reticle-tracker {
   position: absolute;
   pointer-events: none;
   transform: translate(-50%, -50%);
   z-index: 15;
   color: var(--signal-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.caliper-reticle-tracker .reticle-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.caliper-reticle-tracker .outer-ring {
+  width: 44px;
+  height: 44px;
+  border: 1px dashed var(--signal-green);
+  animation: reticleSpinClockwise 10s linear infinite;
+}
+
+.caliper-reticle-tracker .inner-ring {
+  width: 30px;
+  height: 30px;
+  border: 1px dotted var(--signal-cyan);
+  animation: reticleSpinCounter 6s linear infinite;
+}
+
+@keyframes reticleSpinClockwise {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes reticleSpinCounter {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
 }
 
 .caliper-coord-chip {
@@ -1035,6 +1155,12 @@ button {
   font-size: 9px;
   padding: 2px 6px;
   white-space: nowrap;
+}
+
+.caliper-coord-chip.futuristic-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
 /* Blueprint Architecture X-Ray Overlay */
@@ -1199,6 +1325,66 @@ button {
 .dossier-mode-btn.active {
   background-color: var(--text-high);
   color: var(--bg-canvas);
+}
+
+/* Overclock Turbo Mode Rocker Switch */
+.dossier-overclock-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-base);
+  background-color: var(--bg-surface);
+  font-family: var(--font-mono);
+}
+
+.overclock-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.overclock-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.overclock-status {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-high);
+}
+
+.overclock-toggle-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border: 1px solid var(--border-strong);
+  background-color: var(--bg-subtle);
+  color: var(--text-med);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.overclock-toggle-btn:hover {
+  color: var(--text-high);
+  border-color: var(--text-high);
+}
+
+.overclock-toggle-btn.overclocked {
+  border-color: var(--signal-amber);
+  background-color: var(--signal-amber-bg);
+  color: var(--signal-amber);
+  animation: overclockPulse 1.2s infinite steps(2, start);
+}
+
+@keyframes overclockPulse {
+  0%, 100% { border-color: var(--signal-amber); }
+  50% { border-color: var(--signal-red); }
 }
 
 .dossier-hotspot-inspector {
@@ -1389,6 +1575,32 @@ button {
   border-color: var(--signal-green);
   background-color: var(--signal-green-bg);
   color: var(--signal-green);
+}
+
+.cluster-warp-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border: 1px solid var(--signal-cyan);
+  background-color: var(--signal-cyan-bg);
+  color: var(--signal-cyan);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: var(--btn-shadow);
+  transition: all 0.12s ease;
+}
+
+.cluster-warp-btn:hover {
+  background-color: var(--signal-cyan);
+  color: #000000;
+}
+
+.cluster-warp-btn.active {
+  background-color: var(--signal-cyan);
+  color: #000000;
 }
 
 .cluster-util-btn {
@@ -1589,6 +1801,59 @@ button {
   background-color: var(--text-high);
   color: var(--bg-canvas);
   border-color: var(--text-high);
+}
+
+.speed-btn.highlight-warp {
+  color: var(--signal-cyan);
+  border-color: var(--signal-cyan);
+}
+
+.speed-btn.highlight-warp.active {
+  background-color: var(--signal-cyan);
+  color: #000000;
+  border-color: var(--signal-cyan);
+}
+
+.ribbon-throughput {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-high);
+}
+
+/* Futuristic Screen Frame Corner Registration Marks */
+.futuristic-screen-frame {
+  position: relative;
+}
+
+.futuristic-screen-frame::before {
+  content: "+ [0,0] // DECK";
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-dim);
+  background: var(--bg-canvas);
+  padding: 0 4px;
+  letter-spacing: 0.08em;
+  z-index: 2;
+}
+
+.futuristic-screen-frame::after {
+  content: "SEC_ECC_L4 // [1,0] +";
+  position: absolute;
+  top: -9px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-dim);
+  background: var(--bg-canvas);
+  padding: 0 4px;
+  letter-spacing: 0.08em;
+  z-index: 2;
 }
 
 @media (max-width: 768px) {

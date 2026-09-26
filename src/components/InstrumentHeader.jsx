@@ -13,6 +13,7 @@ import {
   FileText,
   Activity,
   ArrowUpRight,
+  Radio,
 } from "./icons";
 
 export default function InstrumentHeader({
@@ -26,6 +27,7 @@ export default function InstrumentHeader({
   playSwitch,
 }) {
   const [timeStr, setTimeStr] = useState("");
+  const [throughput, setThroughput] = useState({ rx: 112.4, tx: 48.2 });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Live IST Clock
@@ -51,6 +53,17 @@ export default function InstrumentHeader({
     return () => clearInterval(interval);
   }, []);
 
+  // Simulated live cybernetic packet throughput fluctuations
+  useEffect(() => {
+    const stream = setInterval(() => {
+      setThroughput({
+        rx: parseFloat((110 + Math.random() * 12).toFixed(1)),
+        tx: parseFloat((46 + Math.random() * 6).toFixed(1)),
+      });
+    }, 2000);
+    return () => clearInterval(stream);
+  }, []);
+
   const handleLensChange = (mode) => {
     playSwitch?.();
     setLens(mode);
@@ -67,34 +80,38 @@ export default function InstrumentHeader({
 
   return (
     <header className="instrument-navbar-dock">
-      {/* Top Precision Telemetry Ribbon */}
+      {/* Top Precision Cybernetic Telemetry Ribbon */}
       <div className="nav-telemetry-ribbon">
         <div className="container nav-ribbon-content">
           <div className="nav-ribbon-left">
             <span className="led-beacon pulse" />
-            <span className="ribbon-highlight">STATION: DEEPAK-RAI-WS</span>
+            <span className="ribbon-highlight">STATION: DEEPAK-RAI-WS // ORBITAL DECK</span>
             <span className="ribbon-divider">//</span>
-            <span className="ribbon-dim">GEO: 28.6139°N, 77.2090°E (NEW DELHI)</span>
+            <span className="ribbon-dim">GEO: 28.6139°N, 77.2090°E</span>
             <span className="ribbon-divider">//</span>
-            <span className="ribbon-dim">CORE: SENTINEL-GO-PROXY</span>
+            <span className="ribbon-dim">QUANTUM_CLK: 12.4GHZ</span>
           </div>
 
           <div className="nav-ribbon-right">
-            <span className="ribbon-dim">PROXY SLA: 12ms</span>
+            <span className="ribbon-throughput">
+              <span style={{ color: "var(--signal-green)" }}>RX:</span> {throughput.rx} MB/s
+              <span style={{ opacity: 0.4, margin: "0 4px" }}>|</span>
+              <span style={{ color: "var(--signal-cyan)" }}>TX:</span> {throughput.tx} MB/s
+            </span>
             <span className="ribbon-divider">//</span>
-            <span className="ribbon-dim">PACKET LOSS: 0.00%</span>
+            <span className="ribbon-dim">LOSS: 0.00%</span>
             <span className="ribbon-divider">//</span>
             <span className="ribbon-clock">{timeStr || "12:00:00 IST"}</span>
             <span className="ribbon-divider">//</span>
-            <span className="ribbon-status-badge">AVAIL FOR HIRE</span>
+            <span className="ribbon-status-badge">CLEARANCE: L4_ROOT</span>
           </div>
         </div>
       </div>
 
-      {/* Main Floating Console Bar */}
+      {/* Main Futuristic Command Console Bar */}
       <div className="nav-chassis">
         <div className="container nav-chassis-container">
-          {/* Module 1: Hardware Brand Identity */}
+          {/* Module 1: Cybernetic Brand Identity */}
           <div className="nav-brand-module">
             <a
               href="#hero"
@@ -104,30 +121,32 @@ export default function InstrumentHeader({
                 handleNavClick("hero");
               }}
             >
-              <div className="brand-monogram-box">
+              <div className="brand-monogram-box futuristic-bevel">
+                <span className="monogram-bracket-left">◤</span>
                 <span className="monogram-text">DR</span>
-                <span className="monogram-corner top-left" />
-                <span className="monogram-corner bottom-right" />
+                <span className="monogram-bracket-right">◢</span>
+                <span className="monogram-pulse-core" />
               </div>
               <div className="brand-meta">
                 <div className="brand-title-row">
                   <span className="brand-name">DEEPAK RAI</span>
-                  <span className="brand-badge-root">L4_ROOT</span>
+                  <span className="brand-badge-root">QUANTUM_ECC</span>
                 </div>
-                <div className="brand-subtitle">SYSTEMS &amp; WEB ARCHITECT</div>
+                <div className="brand-subtitle">DISTRIBUTED SYSTEMS ARCHITECT</div>
               </div>
             </a>
           </div>
 
           {/* Module 2: Tri-Perspective Lens Rocker (Tactile Center) */}
           <div className="nav-lens-dock">
-            <div className="lens-rocker-wrapper">
+            <div className="lens-rocker-wrapper futuristic-chamfer">
               <button
                 type="button"
                 className={`lens-dock-btn ${lens === "executive" ? "active" : ""}`}
                 onClick={() => handleLensChange("executive")}
                 title="Perspective 01: Executive Brief (SLA, Business ROI & Product Velocity)"
               >
+                <span className="lens-led-dot" />
                 <span className="lens-index">01</span>
                 <span className="lens-label">EXEC BRIEF</span>
               </button>
@@ -138,6 +157,7 @@ export default function InstrumentHeader({
                 onClick={() => handleLensChange("architect")}
                 title="Perspective 02: Architectural Spec (Go Concurrency, Zero-alloc Memory & Ring Buffers)"
               >
+                <span className="lens-led-dot" />
                 <span className="lens-index">02</span>
                 <span className="lens-label">ARCH SPEC</span>
               </button>
@@ -148,6 +168,7 @@ export default function InstrumentHeader({
                 onClick={() => handleLensChange("terminal")}
                 title="Perspective 03: Diagnostic Terminal (Interactive CLI & Benchmark Profiles)"
               >
+                <span className="lens-led-dot" />
                 <span className="lens-index">03</span>
                 <span className="lens-label">CLI CONSOLE</span>
               </button>
@@ -160,7 +181,7 @@ export default function InstrumentHeader({
             <nav className="nav-links-array">
               <button
                 type="button"
-                className="nav-item-btn highlight-green"
+                className="nav-item-btn highlight-green futuristic-pill"
                 onClick={() => handleNavClick("cluster-3d")}
                 title="Jump to 3D Volumetric Distributed Systems Cluster"
               >
@@ -220,7 +241,7 @@ export default function InstrumentHeader({
             </nav>
 
             <div className="nav-controls-group">
-              {/* Mechanical Audio Synthesizer Toggle */}
+              {/* Mechanical Audio Synthesizer Toggle with Animated EQ Bars */}
               <button
                 type="button"
                 className={`hardware-toggle-btn ${soundEnabled ? "sound-active" : ""}`}
@@ -228,11 +249,15 @@ export default function InstrumentHeader({
                   toggleSound();
                   playSwitch?.();
                 }}
-                title={soundEnabled ? "Mechanical Sound: ACTIVE (Click to Mute)" : "Mechanical Sound: MUTED (Click to Enable)"}
-                aria-label="Toggle mechanical sound"
+                title={soundEnabled ? "Mechanical Audio: ACTIVE (Click to Mute)" : "Mechanical Audio: MUTED (Click to Enable)"}
+                aria-label="Toggle mechanical audio synthesis"
               >
                 {soundEnabled ? (
-                  <Volume2 style={{ width: "14px", height: "14px" }} />
+                  <div className="audio-eq-bars">
+                    <span className="eq-bar bar1" />
+                    <span className="eq-bar bar2" />
+                    <span className="eq-bar bar3" />
+                  </div>
                 ) : (
                   <VolumeX style={{ width: "14px", height: "14px" }} />
                 )}
@@ -262,7 +287,7 @@ export default function InstrumentHeader({
                 href="/Deepak-Kumar-Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="nav-cta-resume"
+                className="nav-cta-resume futuristic-chamfer-btn"
                 download="Deepak-Kumar-Resume.pdf"
                 onClick={() => playClick?.()}
                 title="Download Deepak Kumar Rai Technical Resume (PDF)"

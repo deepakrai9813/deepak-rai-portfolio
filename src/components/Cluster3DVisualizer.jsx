@@ -10,6 +10,8 @@ import {
   Play,
   CheckCircle,
   AlertTriangle,
+  Crosshair,
+  Radio,
 } from "./icons";
 
 const CLUSTER_NODES = [
@@ -25,6 +27,7 @@ const CLUSTER_NODES = [
     p99: "12ms",
     throughput: "4,200 req/s",
     status: "HEALTHY",
+    type: "REVERSE_PROXY",
   },
   {
     id: "san-brothers",
@@ -38,6 +41,7 @@ const CLUSTER_NODES = [
     p99: "18ms",
     throughput: "1,850 req/s",
     status: "HEALTHY",
+    type: "ENTERPRISE_GATEWAY",
   },
   {
     id: "bian-ai",
@@ -51,6 +55,7 @@ const CLUSTER_NODES = [
     p99: "42ms",
     throughput: "920 req/s",
     status: "HEALTHY",
+    type: "LLM_STREAMER",
   },
   {
     id: "postgres",
@@ -64,6 +69,7 @@ const CLUSTER_NODES = [
     p99: "6ms",
     throughput: "6,100 qps",
     status: "HEALTHY",
+    type: "ACID_REPLICATION",
   },
   {
     id: "redis",
@@ -77,6 +83,7 @@ const CLUSTER_NODES = [
     p99: "2ms",
     throughput: "12,400 ops",
     status: "HEALTHY",
+    type: "MEMORY_CACHE",
   },
 ];
 
@@ -84,15 +91,16 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
   const mountRef = useRef(null);
 
   // UI state
-  const [viewPreset, setViewPreset] = useState("perspective"); // "perspective" | "topdown" | "core"
+  const [viewPreset, setViewPreset] = useState("perspective");
   const [activeNode, setActiveNode] = useState(CLUSTER_NODES[0]);
   const [chaosTripped, setChaosTripped] = useState(false);
   const [autoRotate, setAutoRotate] = useState(true);
   const [packetSpeed, setPacketSpeed] = useState(1);
+  const [warpMode, setWarpMode] = useState(false);
   const [telemetryLog, setTelemetryLog] = useState([
-    "CLUSTER_INIT: Sentinel Gateway 3D topology online.",
-    "PACKET_PIPELINE: 24 real-time voxel streams routed.",
-    "QUORUM_HEALTH: 5/5 nodes synchronized.",
+    "QUANTUM_CORE: Sentinel 3D Distributed Mesh initialized.",
+    "RADAR_RADIAL: 5 orbital planes synchronized with zero jitter.",
+    "VOXEL_PIPELINE: 28 real-time packet conduits streaming at 12.4 GHz.",
   ]);
 
   // Three.js instance refs
@@ -104,6 +112,9 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
   const coreGimbalYRef = useRef(null);
   const coreInnerRef = useRef(null);
   const shockwaveRef = useRef(null);
+  const radarSweepRef = useRef(null);
+  const laserTargetRef = useRef(null);
+  const targetBoxRef = useRef(null);
   const nodeObjectsRef = useRef([]);
   const packetObjectsRef = useRef([]);
   const conduitLinesRef = useRef([]);
@@ -131,12 +142,24 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     } else {
       playPing?.();
       setChaosTripped(false);
-      // Trigger shockwave ring
       if (shockwaveRef.current) {
         shockwaveRef.current.scale.set(0.1, 0.1, 0.1);
         shockwaveRef.current.visible = true;
       }
       addLog("QUORUM_RESTORED: Sentinel consensus healed all nodes to healthy status.");
+    }
+  };
+
+  // Warp Mode Toggle
+  const handleToggleWarp = () => {
+    playClick?.();
+    const newWarp = !warpMode;
+    setWarpMode(newWarp);
+    setPacketSpeed(newWarp ? 3.2 : 1);
+    if (newWarp) {
+      addLog("QUANTUM_WARP: Packet transmission accelerated to 3.2X hyperdrive.");
+    } else {
+      addLog("WARP_DISENGAGED: Packet stream returned to nominal 1.0X velocity.");
     }
   };
 
@@ -163,9 +186,9 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     if (!container) return;
 
     const width = container.clientWidth || 800;
-    const height = container.clientHeight || 520;
+    const height = container.clientHeight || 540;
 
-    // 1. Three.js Scene & Perspective Camera
+    // 1. Scene & Perspective Camera
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
@@ -182,7 +205,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // 3. Central Sentinel Gateway Core (Geodesic Wireframe)
+    // 3. Central Sentinel Gateway Core Group
     const coreGroup = new THREE.Group();
     scene.add(coreGroup);
 
@@ -231,6 +254,43 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     scene.add(shockMesh);
     shockwaveRef.current = shockMesh;
 
+    // 3e. Concentric Holographic Radar Scanner Beam (Sweeping Line)
+    const radarLineGeom = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(6.2, 0, 0),
+    ]);
+    const radarLineMat = new THREE.LineBasicMaterial({
+      color: 0x00d665,
+      transparent: true,
+      opacity: 0.35,
+    });
+    const radarSweep = new THREE.Line(radarLineGeom, radarLineMat);
+    scene.add(radarSweep);
+    radarSweepRef.current = radarSweep;
+
+    // 3f. Active Node Target Lock Laser Line
+    const targetLaserGeom = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 0, 0),
+    ]);
+    const targetLaserMat = new THREE.LineBasicMaterial({
+      color: 0x00d665,
+      linewidth: 2,
+    });
+    const targetLaser = new THREE.Line(targetLaserGeom, targetLaserMat);
+    scene.add(targetLaser);
+    laserTargetRef.current = targetLaser;
+
+    // 3g. Active Node Wireframe Target Bracket Box
+    const targetBoxGeom = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+    const targetBoxMat = new THREE.MeshBasicMaterial({
+      color: 0x00d665,
+      wireframe: true,
+    });
+    const targetBox = new THREE.Mesh(targetBoxGeom, targetBoxMat);
+    scene.add(targetBox);
+    targetBoxRef.current = targetBox;
+
     // 4. Ground Coordinate Grid (Planar Horizon)
     const gridHelper = new THREE.GridHelper(16, 20, 0x282d38, 0x1e222a);
     gridHelper.position.y = -2.4;
@@ -243,13 +303,12 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     CLUSTER_NODES.forEach((nodeSpec, idx) => {
       const nodeGroup = new THREE.Group();
 
-      // Geometry based on node role
       let geom;
-      if (idx === 0) geom = new THREE.IcosahedronGeometry(0.35, 0); // Sentinel
-      else if (idx === 1) geom = new THREE.DodecahedronGeometry(0.32, 0); // San Brothers
-      else if (idx === 2) geom = new THREE.OctahedronGeometry(0.35, 0); // Bian AI
-      else if (idx === 3) geom = new THREE.CylinderGeometry(0.28, 0.28, 0.5, 6); // Postgres
-      else geom = new THREE.TorusGeometry(0.25, 0.1, 6, 16); // Redis
+      if (idx === 0) geom = new THREE.IcosahedronGeometry(0.38, 0);
+      else if (idx === 1) geom = new THREE.DodecahedronGeometry(0.35, 0);
+      else if (idx === 2) geom = new THREE.OctahedronGeometry(0.38, 0);
+      else if (idx === 3) geom = new THREE.CylinderGeometry(0.3, 0.3, 0.55, 6);
+      else geom = new THREE.TorusGeometry(0.28, 0.1, 6, 16);
 
       const mat = new THREE.MeshBasicMaterial({
         color: nodeSpec.color,
@@ -261,7 +320,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
       nodeGroup.add(mesh);
 
       // Solid micro center core
-      const centerDotGeom = new THREE.BoxGeometry(0.08, 0.08, 0.08);
+      const centerDotGeom = new THREE.BoxGeometry(0.1, 0.1, 0.1);
       const centerDotMat = new THREE.MeshBasicMaterial({ color: nodeSpec.color });
       const centerDot = new THREE.Mesh(centerDotGeom, centerDotMat);
       nodeGroup.add(centerDot);
@@ -303,11 +362,11 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     nodeObjectsRef.current = nodeObjects;
     conduitLinesRef.current = conduitLines;
 
-    // 6. Live 3D Data Packet Voxel Streams (24 Animated Voxels)
+    // 6. Live 3D Data Packet Voxel Streams (28 Animated Voxels)
     const packets = [];
-    const packetGeom = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+    const packetGeom = new THREE.BoxGeometry(0.12, 0.12, 0.12);
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 28; i++) {
       const nodeIndex = i % CLUSTER_NODES.length;
       const nodeSpec = CLUSTER_NODES[nodeIndex];
       const packetMat = new THREE.MeshBasicMaterial({ color: nodeSpec.color });
@@ -317,31 +376,31 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
       packets.push({
         mesh: packetMesh,
         nodeIndex,
-        progress: (i / 25), // 0.0 (at node) to 1.0 (at core)
-        direction: i % 2 === 0 ? 1 : -1, // in or out
-        speed: 0.3 + (i % 5) * 0.08,
+        progress: (i / 28),
+        direction: i % 2 === 0 ? 1 : -1,
+        speed: 0.35 + (i % 5) * 0.08,
       });
     }
     packetObjectsRef.current = packets;
 
-    // 7. Ambient Particle Horizon (Background Constellation)
-    const particleCount = 200;
+    // 7. Ambient Particle Horizon
+    const particleCount = 220;
     const particleGeom = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount * 3; i += 3) {
-      particlePositions[i] = (Math.random() - 0.5) * 20;
-      particlePositions[i + 1] = (Math.random() - 0.5) * 12;
-      particlePositions[i + 2] = (Math.random() - 0.5) * 20;
+      particlePositions[i] = (Math.random() - 0.5) * 22;
+      particlePositions[i + 1] = (Math.random() - 0.5) * 14;
+      particlePositions[i + 2] = (Math.random() - 0.5) * 22;
     }
     particleGeom.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
     const particleMat = new THREE.PointsMaterial({
       color: 0x3d4454,
-      size: 0.05,
+      size: 0.06,
     });
     const particlePoints = new THREE.Points(particleGeom, particleMat);
     scene.add(particlePoints);
 
-    // 8. Interactive Mouse Orbit Controls
+    // 8. Mouse Orbit Controls
     const handleMouseDown = (e) => {
       isDraggingRef.current = true;
       previousMousePosRef.current = { x: e.clientX, y: e.clientY };
@@ -354,8 +413,6 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
 
       targetRotationRef.current.y += deltaX * 0.007;
       targetRotationRef.current.x += deltaY * 0.007;
-
-      // Clamp vertical pitch to avoid inversion
       targetRotationRef.current.x = Math.max(-Math.PI / 2.2, Math.min(Math.PI / 2.2, targetRotationRef.current.x));
 
       previousMousePosRef.current = { x: e.clientX, y: e.clientY };
@@ -368,7 +425,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
     const handleWheel = (e) => {
       e.preventDefault();
       targetCameraDistanceRef.current += e.deltaY * 0.005;
-      targetCameraDistanceRef.current = Math.max(3.8, Math.min(14, targetCameraDistanceRef.current));
+      targetCameraDistanceRef.current = Math.max(3.6, Math.min(14, targetCameraDistanceRef.current));
     };
 
     const domElement = renderer.domElement;
@@ -398,7 +455,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
 
       // Smooth camera interpolation
       if (autoRotate && !isDraggingRef.current) {
-        targetRotationRef.current.y += 0.2 * delta;
+        targetRotationRef.current.y += 0.22 * delta;
       }
 
       currentRotationRef.current.x += (targetRotationRef.current.x - currentRotationRef.current.x) * 0.08;
@@ -414,26 +471,32 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
       camera.lookAt(0, 0, 0);
 
       // Core rotation & pulsing
+      const coreSpeed = warpMode ? 2.5 : 1.0;
       if (coreMeshRef.current) {
-        coreMeshRef.current.rotation.y = time * 0.6;
-        coreMeshRef.current.rotation.x = time * 0.3;
+        coreMeshRef.current.rotation.y = time * 0.6 * coreSpeed;
+        coreMeshRef.current.rotation.x = time * 0.3 * coreSpeed;
       }
       if (coreGimbalXRef.current) {
-        coreGimbalXRef.current.rotation.z = time * 0.4;
+        coreGimbalXRef.current.rotation.z = time * 0.4 * coreSpeed;
       }
       if (coreGimbalYRef.current) {
-        coreGimbalYRef.current.rotation.x = time * -0.5;
+        coreGimbalYRef.current.rotation.x = time * -0.5 * coreSpeed;
       }
       if (coreInnerRef.current) {
-        const pulse = 1.0 + Math.sin(time * 6) * 0.15;
+        const pulse = 1.0 + Math.sin(time * (warpMode ? 14 : 6)) * 0.18;
         coreInnerRef.current.scale.set(pulse, pulse, pulse);
-        coreInnerRef.current.rotation.y = -time * 0.8;
+        coreInnerRef.current.rotation.y = -time * 0.8 * coreSpeed;
+      }
+
+      // Radar beam sweep
+      if (radarSweepRef.current) {
+        radarSweepRef.current.rotation.y = time * 1.2;
       }
 
       // Shockwave animation
       if (shockwaveRef.current && shockwaveRef.current.visible) {
-        shockwaveRef.current.scale.addScalar(delta * 4);
-        if (shockwaveRef.current.scale.x > 7) {
+        shockwaveRef.current.scale.addScalar(delta * 4.5);
+        if (shockwaveRef.current.scale.x > 7.5) {
           shockwaveRef.current.visible = false;
         }
       }
@@ -441,7 +504,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
       // Orbiting Nodes position calculation
       nodeObjectsRef.current.forEach((nodeItem, idx) => {
         const spec = nodeItem.spec;
-        nodeItem.angle += spec.speed * delta * 0.6;
+        nodeItem.angle += spec.speed * delta * 0.6 * (warpMode ? 1.8 : 1.0);
 
         const nx = Math.cos(nodeItem.angle) * spec.radius;
         const nz = Math.sin(nodeItem.angle) * spec.radius;
@@ -453,9 +516,9 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
 
         // Chaos jitter if tripped on node 1 (San Brothers)
         if (chaosTripped && idx === 1) {
-          nodeItem.group.position.x += (Math.random() - 0.5) * 0.1;
-          nodeItem.group.position.y += (Math.random() - 0.5) * 0.1;
-          nodeItem.mesh.material.color.setHex(0xff3344); // Alarm red
+          nodeItem.group.position.x += (Math.random() - 0.5) * 0.12;
+          nodeItem.group.position.y += (Math.random() - 0.5) * 0.12;
+          nodeItem.mesh.material.color.setHex(0xff3344);
         } else {
           nodeItem.mesh.material.color.setHex(spec.color);
         }
@@ -464,27 +527,39 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
         if (conduitLinesRef.current[idx]) {
           const conduit = conduitLinesRef.current[idx].conduit;
           const posAttr = conduit.geometry.attributes.position;
-          posAttr.setXYZ(0, 0, 0, 0); // Core
-          posAttr.setXYZ(1, nx, ny, nz); // Node
+          posAttr.setXYZ(0, 0, 0, 0);
+          posAttr.setXYZ(1, nx, ny, nz);
           posAttr.needsUpdate = true;
 
-          // If chaos tripped, dim broken conduit
           if (chaosTripped && idx === 1) {
             conduit.material.color.setHex(0xff3344);
-            conduit.material.opacity = 0.7;
+            conduit.material.opacity = 0.8;
           } else {
             conduit.material.color.setHex(spec.color);
             conduit.material.opacity = 0.35;
           }
         }
+
+        // Target Lock Laser to Active Node
+        if (activeNode.id === spec.id && laserTargetRef.current && targetBoxRef.current) {
+          const laserPos = laserTargetRef.current.geometry.attributes.position;
+          laserPos.setXYZ(0, 0, 0, 0);
+          laserPos.setXYZ(1, nx, ny, nz);
+          laserPos.needsUpdate = true;
+          laserTargetRef.current.material.color.setHex(spec.color);
+
+          targetBoxRef.current.position.set(nx, ny, nz);
+          targetBoxRef.current.rotation.x += delta;
+          targetBoxRef.current.rotation.y += delta;
+          targetBoxRef.current.material.color.setHex(spec.color);
+        }
       });
 
       // Animated 3D Data Packet Voxels
       packetObjectsRef.current.forEach((pkt) => {
-        // If node 1 is broken in chaos, reroute packets to node 0
         let targetNodeIndex = pkt.nodeIndex;
         if (chaosTripped && targetNodeIndex === 1) {
-          targetNodeIndex = 0; // Failover to Sentinel proxy node
+          targetNodeIndex = 0;
         }
 
         const nodeItem = nodeObjectsRef.current[targetNodeIndex];
@@ -496,14 +571,13 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
         }
 
         const nodePos = nodeItem.group.position;
-        // Interpolate between Core (0,0,0) and Node Position
         const t = pkt.direction === 1 ? pkt.progress : 1 - pkt.progress;
         pkt.mesh.position.x = nodePos.x * t;
         pkt.mesh.position.y = nodePos.y * t;
         pkt.mesh.position.z = nodePos.z * t;
 
-        pkt.mesh.rotation.x += delta * 2;
-        pkt.mesh.rotation.y += delta * 2;
+        pkt.mesh.rotation.x += delta * (warpMode ? 6 : 2);
+        pkt.mesh.rotation.y += delta * (warpMode ? 6 : 2);
       });
 
       renderer.render(scene, camera);
@@ -520,12 +594,12 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
       window.removeEventListener("resize", handleResize);
       renderer.dispose();
     };
-  }, [chaosTripped, autoRotate, packetSpeed]);
+  }, [chaosTripped, autoRotate, packetSpeed, warpMode, activeNode]);
 
   return (
     <section id="cluster-3d" className="cluster-3d-section">
       <div className="container">
-        <div className="cluster-chassis">
+        <div className="cluster-chassis futuristic-screen-frame">
           {/* Header Bar */}
           <div className="cluster-header-bar">
             <div className="cluster-header-left">
@@ -540,10 +614,10 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
             <div className="cluster-header-right">
               <span>THREE.JS v0.186</span>
               <span>//</span>
-              <span>RENDER: WEBGL HARDWARE</span>
+              <span>WEBGL ACCELERATED</span>
               <span>//</span>
               <span style={{ color: "var(--signal-green)", fontWeight: 700 }}>
-                FPS: 60 [STABLE]
+                {warpMode ? "FPS: 60 [WARP MODE]" : "FPS: 60 [NOMINAL]"}
               </span>
             </div>
           </div>
@@ -559,7 +633,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
               <div className="cluster-preset-group">
                 <button
                   type="button"
-                  className={`cluster-preset-btn ${viewPreset === "perspective" ? "active" : ""}`}
+                  className={`cluster-preset-btn futuristic-chamfer-btn ${viewPreset === "perspective" ? "active" : ""}`}
                   onClick={() => handleViewPreset("perspective")}
                   title="360° Free Orbital Perspective View"
                 >
@@ -569,7 +643,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
 
                 <button
                   type="button"
-                  className={`cluster-preset-btn ${viewPreset === "topdown" ? "active" : ""}`}
+                  className={`cluster-preset-btn futuristic-chamfer-btn ${viewPreset === "topdown" ? "active" : ""}`}
                   onClick={() => handleViewPreset("topdown")}
                   title="Orthogonal Architectural Plan (Top-Down)"
                 >
@@ -579,7 +653,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
 
                 <button
                   type="button"
-                  className={`cluster-preset-btn ${viewPreset === "core" ? "active" : ""}`}
+                  className={`cluster-preset-btn futuristic-chamfer-btn ${viewPreset === "core" ? "active" : ""}`}
                   onClick={() => handleViewPreset("core")}
                   title="Zoom into Sentinel Gateway Reverse Proxy Core"
                 >
@@ -588,11 +662,21 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
                 </button>
               </div>
 
-              {/* Chaos Engineering Injector Button */}
+              {/* Chaos Engineering & Warp Actions */}
               <div className="cluster-chaos-actions">
                 <button
                   type="button"
-                  className={`cluster-chaos-btn ${chaosTripped ? "tripped" : ""}`}
+                  className={`cluster-warp-btn futuristic-chamfer-btn ${warpMode ? "active" : ""}`}
+                  onClick={handleToggleWarp}
+                  title="Toggle Quantum Warp high-velocity packet transmission"
+                >
+                  <Radio style={{ width: "13px", height: "13px" }} />
+                  <span>{warpMode ? "WARP: 3.2X [ACTIVE]" : "WARP SPEED [OFF]"}</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`cluster-chaos-btn futuristic-chamfer-btn ${chaosTripped ? "tripped" : ""}`}
                   onClick={handleToggleChaos}
                   title="Simulate upstream failure and watch real-time 3D failover rerouting"
                 >
@@ -612,7 +696,7 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
                 {/* Auto Rotate Toggle */}
                 <button
                   type="button"
-                  className={`cluster-util-btn ${autoRotate ? "active" : ""}`}
+                  className={`cluster-util-btn futuristic-chamfer-btn ${autoRotate ? "active" : ""}`}
                   onClick={() => {
                     playClick?.();
                     setAutoRotate(!autoRotate);
@@ -626,10 +710,11 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
             </div>
 
             {/* Left Floating Live Node Telemetry Billboard */}
-            <div className="cluster-telemetry-hud">
+            <div className="cluster-telemetry-hud futuristic-hud-box">
               <div className="telemetry-hud-header">
                 <span className="led-indicator" />
-                <span>INSPECTED NODE METRICS</span>
+                <span>INSPECTED NODE TELEMETRY</span>
+                <span style={{ color: "var(--signal-green)", marginLeft: "auto" }}>TARGET LOCKED</span>
               </div>
 
               <div className="cluster-node-selector-strip">
@@ -673,11 +758,13 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
                   </div>
                   <div className="node-detail-item">
                     <span className="detail-label">THROUGHPUT</span>
-                    <span className="detail-val">{activeNode.throughput}</span>
+                    <span className="detail-val">
+                      {warpMode ? `${parseInt(activeNode.throughput) * 3} req/s [WARP]` : activeNode.throughput}
+                    </span>
                   </div>
                   <div className="node-detail-item">
-                    <span className="detail-label">CIRCUIT POLICY</span>
-                    <span className="detail-val">SLIDING RING (30s)</span>
+                    <span className="detail-label">NODE ROLE</span>
+                    <span className="detail-val">{activeNode.type}</span>
                   </div>
                   <div className="node-detail-item">
                     <span className="detail-label">FAILOVER TARGET</span>
@@ -708,30 +795,46 @@ export default function Cluster3DVisualizer({ playClick, playSwitch, playPing, p
                 <span>//</span>
                 <span>[SCROLL]: ZOOM CAMERA</span>
                 <span>//</span>
-                <span>24 REAL-TIME 3D VOXEL PACKETS STREAMING</span>
+                <span>28 REAL-TIME 3D VOXEL PACKETS STREAMING</span>
               </div>
               <div className="cluster-speed-control">
                 <span>PACKET VELOCITY:</span>
                 <button
                   type="button"
                   className={packetSpeed === 0.5 ? "speed-btn active" : "speed-btn"}
-                  onClick={() => setPacketSpeed(0.5)}
+                  onClick={() => {
+                    setWarpMode(false);
+                    setPacketSpeed(0.5);
+                  }}
                 >
                   0.5x
                 </button>
                 <button
                   type="button"
                   className={packetSpeed === 1 ? "speed-btn active" : "speed-btn"}
-                  onClick={() => setPacketSpeed(1)}
+                  onClick={() => {
+                    setWarpMode(false);
+                    setPacketSpeed(1);
+                  }}
                 >
                   1.0x
                 </button>
                 <button
                   type="button"
                   className={packetSpeed === 2 ? "speed-btn active" : "speed-btn"}
-                  onClick={() => setPacketSpeed(2)}
+                  onClick={() => {
+                    setWarpMode(false);
+                    setPacketSpeed(2);
+                  }}
                 >
                   2.0x
+                </button>
+                <button
+                  type="button"
+                  className={warpMode ? "speed-btn active highlight-warp" : "speed-btn highlight-warp"}
+                  onClick={handleToggleWarp}
+                >
+                  WARP 3.2x
                 </button>
               </div>
             </div>
