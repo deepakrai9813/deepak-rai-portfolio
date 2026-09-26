@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Sun, Moon } from "./icons";
+import { Sun, Moon, Zap, AlertTriangle } from "./icons";
 
 export default function InstrumentHeader({
   lens,
@@ -148,13 +148,14 @@ export default function InstrumentHeader({
         </div>
 
         {/* Quick Nav Anchor Strip */}
-        <nav style={{ display: "flex", gap: "12px", fontFamily: "var(--font-mono)", fontSize: "11px", flexWrap: "wrap" }}>
+        <nav style={{ display: "flex", gap: "12px", fontFamily: "var(--font-mono)", fontSize: "11px", flexWrap: "wrap", alignItems: "center" }}>
           <button
             type="button"
             onClick={() => handleNavClick("sentinel-lab")}
-            style={{ color: "var(--signal-green)", fontWeight: 700 }}
+            style={{ color: "var(--signal-green)", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "4px" }}
           >
-            [CHAOS LAB ⚡]
+            <Zap style={{ width: "12px", height: "12px" }} />
+            <span>[CHAOS LAB]</span>
           </button>
           <button
             type="button"
@@ -180,9 +181,10 @@ export default function InstrumentHeader({
           <button
             type="button"
             onClick={() => handleNavClick("incident-drill")}
-            style={{ color: "var(--signal-orange)", fontWeight: 700 }}
+            style={{ color: "var(--signal-orange)", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "4px" }}
           >
-            [INCIDENT DRILL 🚨]
+            <AlertTriangle style={{ width: "12px", height: "12px" }} />
+            <span>[INCIDENT DRILL]</span>
           </button>
           <button
             type="button"

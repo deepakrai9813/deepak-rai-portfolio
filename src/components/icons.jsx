@@ -395,4 +395,44 @@ export function Activity(props) {
   );
 }
 
+export function AlertTriangle(props) {
+  return (
+    <svg viewBox="0 0 24 24" {...base} {...props}>
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+  );
+}
+
+export function Trophy(props) {
+  return (
+    <svg viewBox="0 0 24 24" {...base} {...props}>
+      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+      <path d="M4 22h16" />
+      <path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1h-2c-.55 0-1-.45-1-1v-2.34" />
+      <path d="M18 4H6v7a6 6 0 0 0 12 0V4z" />
+    </svg>
+  );
+}
+
+export function XIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" {...base} {...props}>
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
+
+export function Star(props) {
+  return (
+    <svg viewBox="0 0 24 24" {...base} {...props}>
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
+
 

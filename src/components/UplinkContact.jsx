@@ -145,8 +145,9 @@ export default function UplinkContact({ playClick, playSuccess }) {
                 </button>
 
                 {isSent && (
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--signal-green)" }}>
-                    ✓ DISPATCH LAUNCHED
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--signal-green)", display: "inline-flex", alignItems: "center", gap: "4px" }}>
+                    <Check style={{ width: "12px", height: "12px" }} />
+                    <span>DISPATCH LAUNCHED</span>
                   </span>
                 )}
               </div>

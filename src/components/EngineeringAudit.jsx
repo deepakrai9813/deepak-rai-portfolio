@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ShieldCheck, Zap, Server, Check } from "./icons";
+import { ShieldCheck, Zap, Server, Check, XIcon } from "./icons";
 
 const COMPARISON_ROWS = [
   {
@@ -153,12 +153,16 @@ export default function EngineeringAudit({ playClick, playPop }) {
                       </span>
                     </td>
                     <td style={{ padding: "16px 18px", color: "var(--text-med)", lineHeight: 1.5 }}>
-                      <span style={{ color: "var(--signal-red)", fontWeight: 700 }}>✗ </span>
-                      {row.standard}
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                        <XIcon style={{ width: "12px", height: "12px", color: "var(--signal-red)", flexShrink: 0 }} />
+                        <span>{row.standard}</span>
+                      </span>
                     </td>
                     <td style={{ padding: "16px 18px", color: "var(--text-high)", lineHeight: 1.5 }}>
-                      <span style={{ color: "var(--signal-green)", fontWeight: 700 }}>✓ </span>
-                      {row.deepak}
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                        <Check style={{ width: "12px", height: "12px", color: "var(--signal-green)", flexShrink: 0 }} />
+                        <span>{row.deepak}</span>
+                      </span>
                     </td>
                   </tr>
                 ))}

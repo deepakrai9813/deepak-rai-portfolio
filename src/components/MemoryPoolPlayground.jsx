@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Zap, Play, RotateCcw, Server } from "./icons";
+import { Zap, Play, RotateCcw, Server, Check, XIcon } from "./icons";
 
 export default function MemoryPoolPlayground({ playClick, playSwitch, playPing }) {
   const [usePool, setUsePool] = useState(true);
@@ -103,25 +103,27 @@ export default function MemoryPoolPlayground({ playClick, playSwitch, playPing }
               <button
                 type="button"
                 className={`tag-solid ${usePool ? "active" : ""}`}
-                style={{ padding: "8px 14px", cursor: "pointer", fontSize: "11px", fontWeight: 700 }}
+                style={{ padding: "8px 14px", cursor: "pointer", fontSize: "11px", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "6px" }}
                 onClick={() => {
                   playSwitch?.();
                   setUsePool(true);
                 }}
               >
-                [✓ SYNC.POOL ACTIVE (ZERO-ALLOC)]
+                <Check style={{ width: "12px", height: "12px" }} />
+                <span>SYNC.POOL ACTIVE (ZERO-ALLOC)</span>
               </button>
 
               <button
                 type="button"
                 className={`tag-solid ${!usePool ? "danger" : ""}`}
-                style={{ padding: "8px 14px", cursor: "pointer", fontSize: "11px", fontWeight: 700 }}
+                style={{ padding: "8px 14px", cursor: "pointer", fontSize: "11px", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: "6px" }}
                 onClick={() => {
                   playSwitch?.();
                   setUsePool(false);
                 }}
               >
-                [✗ NAIVE HEAP ALLOCATION (GC SPIKES)]
+                <XIcon style={{ width: "12px", height: "12px" }} />
+                <span>NAIVE HEAP ALLOCATION (GC SPIKES)</span>
               </button>
             </div>
 

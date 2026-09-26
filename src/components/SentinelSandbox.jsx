@@ -177,7 +177,7 @@ export default function SentinelSandbox({
                 onClick={handleInjectChaos}
               >
                 <Zap style={{ width: "14px", height: "14px" }} />
-                <span>[⚡ INJECT 500MS CHAOS LAG]</span>
+                <span>INJECT 500MS CHAOS LAG</span>
               </button>
 
               <button
@@ -186,7 +186,7 @@ export default function SentinelSandbox({
                 onClick={handleResetHealth}
               >
                 <RotateCcw style={{ width: "14px", height: "14px" }} />
-                <span>[↺ RESTORE PRIMARY HEALTH]</span>
+                <span>RESTORE PRIMARY HEALTH</span>
               </button>
 
               <button
@@ -195,7 +195,7 @@ export default function SentinelSandbox({
                 onClick={toggleRunning}
               >
                 <Play style={{ width: "12px", height: "12px" }} />
-                <span>{isRunning ? "[PAUSE TRAFFIC]" : "[RESUME TRAFFIC]"}</span>
+                <span>{isRunning ? "PAUSE TRAFFIC" : "RESUME TRAFFIC"}</span>
               </button>
             </div>
           </div>

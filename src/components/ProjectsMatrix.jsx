@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Github, ArrowUpRight, Zap, Check, Server, ShieldCheck, Database } from "./icons";
+import { ExternalLink, Github, ArrowUpRight, Zap, Check, Server, ShieldCheck, Database, Layers } from "./icons";
 import SystemBlueprintModal from "./SystemBlueprintModal";
 
 const PROJECTS = [
@@ -327,7 +327,8 @@ export default function ProjectsMatrix({ lens, playClick, playPop }) {
                             setBlueprintProjectId(proj.id);
                           }}
                         >
-                          <span>INSPECT BLUEPRINT 📐</span>
+                          <Layers style={{ width: "13px", height: "13px" }} />
+                          <span>INSPECT BLUEPRINT</span>
                         </button>
 
                         <a

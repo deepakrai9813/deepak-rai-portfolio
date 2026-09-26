@@ -98,7 +98,7 @@ export default function HeroInstrument({ lens, setLens, playClick, playSwitch })
                   onClick={() => scrollTo("sentinel-lab")}
                 >
                   <Zap style={{ width: "16px", height: "16px" }} />
-                  <span>TEST CIRCUIT BREAKER ⚡</span>
+                  <span>TEST CIRCUIT BREAKER</span>
                 </button>
 
                 <a

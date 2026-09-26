@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Zap, ShieldCheck, RotateCcw, Check, ArrowUpRight } from "./icons";
+import { Zap, ShieldCheck, RotateCcw, Check, ArrowUpRight, Star, Trophy } from "./icons";
 
 export default function IncidentSimulator({ playClick, playAlarm, playSuccessFanfare }) {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -220,8 +220,9 @@ export default function IncidentSimulator({ playClick, playAlarm, playSuccessFan
 
                 {selectedAction === "trip-rewind" && (
                   <div style={{ border: "1px solid var(--signal-green)", backgroundColor: "var(--signal-green-bg)", padding: "16px" }}>
-                    <div style={{ color: "var(--signal-green)", fontWeight: 700, fontSize: "13px", marginBottom: "6px" }}>
-                      ★ MISSION SUCCESS: PERFECT RESILIENCE FAILOVER
+                    <div style={{ color: "var(--signal-green)", fontWeight: 700, fontSize: "13px", marginBottom: "6px", display: "flex", alignItems: "center", gap: "6px" }}>
+                      <Star style={{ width: "14px", height: "14px", fill: "currentColor" }} />
+                      <span>MISSION SUCCESS: PERFECT RESILIENCE FAILOVER</span>
                     </div>
                     <p style={{ fontSize: "12px", color: "var(--text-high)", lineHeight: 1.5 }}>
                       Sentinel tripped within 12ms. The <code>sync.Pool</code> request bodies were rewound using <code>io.Seeker</code> 
@@ -257,7 +258,7 @@ export default function IncidentSimulator({ playClick, playAlarm, playSuccessFan
                     <br />
                     <span>VERIFIED DISTRIBUTED SYSTEMS ARCHITECT</span>
                   </div>
-                  <span style={{ fontSize: "20px" }}>🏆</span>
+                  <Trophy style={{ width: "22px", height: "22px", color: "var(--signal-green)" }} />
                 </div>
               )}
             </div>
