@@ -79,6 +79,16 @@ export default function CommandPalette({
         },
       },
       {
+        id: "nav-services",
+        category: "Navigation",
+        title: "Capabilities & Services",
+        subtitle: "High-resilience systems, AI engineering, full-stack apps",
+        icon: ShieldCheck,
+        action: () => {
+          document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
+        },
+      },
+      {
         id: "nav-skills",
         category: "Navigation",
         title: "Technical Skills & Architecture",

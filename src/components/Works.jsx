@@ -4,11 +4,22 @@ import ProjectPreview from "./ProjectPreview";
 import GitHubStrip from "./GitHubStrip";
 import RevealText from "./RevealText";
 import ProjectModal from "./ProjectModal";
-import { ArrowUpRight, ExternalLink, Github, Filter, Sparkles, Layers, ShieldCheck } from "./icons";
+import {
+  ArrowUpRight,
+  ExternalLink,
+  Github,
+  Filter,
+  Sparkles,
+  Layers,
+  ShieldCheck,
+  LayoutGrid,
+  ListIcon,
+} from "./icons";
 
 export const PROJECTS = [
   {
     id: "sentinel",
+    num: "01",
     title: "Project Sentinel — Resilient API Gateway & Circuit Breaker",
     repo: "https://github.com/deepakrai9813/project-sentinel",
     live: null,
@@ -38,6 +49,7 @@ export const PROJECTS = [
   },
   {
     id: "san-brothers",
+    num: "02",
     title: "SAN BROTHERS Corporate Solutions",
     repo: null,
     live: "https://sanbrotherscorporatesolutions.in",
@@ -66,6 +78,7 @@ export const PROJECTS = [
   },
   {
     id: "bian",
+    num: "03",
     title: "BIAN AI — Intelligent Study Assistant",
     repo: "https://github.com/deepakrai9813/AI_PROJECT",
     live: null,
@@ -92,6 +105,7 @@ export const PROJECTS = [
   },
   {
     id: "leadfinder",
+    num: "04",
     title: "LeadFinder AI — Automated Business Prospecting",
     repo: "https://github.com/deepakrai9813/leadfinder-ai",
     live: null,
@@ -118,6 +132,7 @@ export const PROJECTS = [
   },
   {
     id: "debe",
+    num: "05",
     title: "Debe Learning — Session Reschedule Engine",
     repo: "https://github.com/deepakrai9813/debe-learning-tech-intern-assessment",
     live: "https://debe-learning-tech-intern-assessmen.vercel.app",
@@ -151,9 +166,13 @@ export default function Works({
   onOpenProjectModal,
   highlightedSkill,
   playPop,
+  playClick,
 }) {
   const [activeCategory, setActiveCategory] = useState("All");
   const [modalProject, setModalProject] = useState(null);
+  const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'list'
+  const [hoveredProject, setHoveredProject] = useState(null);
+  const listRef = useRef(null);
 
   // Sync with external trigger (e.g. from CommandPalette)
   const activeModalProject = useMemo(() => {
@@ -181,6 +200,7 @@ export default function Works({
   const handleOpenModal = (project) => {
     setModalProject(project);
     onOpenProjectModal?.(project.id);
+    playClick?.();
   };
 
   const handleCloseModal = () => {
@@ -209,12 +229,40 @@ export default function Works({
               delay={0.05}
             />
           </div>
+
           <div className="works__head-actions">
+            {/* View Mode Switcher (Awwwards Dennis Snellenberg Signature) */}
+            <div className="works__view-toggle" role="group" aria-label="View mode">
+              <button
+                className={`view-btn${viewMode === "grid" ? " is-active" : ""}`}
+                onClick={() => {
+                  setViewMode("grid");
+                  playPop?.();
+                }}
+                title="Grid Card View"
+                aria-pressed={viewMode === "grid"}
+              >
+                <LayoutGrid width={15} height={15} /> Grid
+              </button>
+              <button
+                className={`view-btn${viewMode === "list" ? " is-active" : ""}`}
+                onClick={() => {
+                  setViewMode("list");
+                  playPop?.();
+                }}
+                title="Editorial Table View"
+                aria-pressed={viewMode === "list"}
+              >
+                <ListIcon width={15} height={15} /> List
+              </button>
+            </div>
+
             <a
               href="https://github.com/deepakrai9813?tab=repositories"
               target="_blank"
               rel="noreferrer"
               className="btn btn-ghost"
+              onClick={playClick}
             >
               <Github width={16} height={16} /> All Repositories
             </a>
@@ -262,18 +310,88 @@ export default function Works({
           </div>
         )}
 
-        <motion.div layout className="works__grid">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((p, i) => (
-              <ProjectCard
-                key={p.id}
-                project={p}
-                index={i}
-                onDeepDive={() => handleOpenModal(p)}
-              />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {/* View Mode Rendering: Grid vs List */}
+        {viewMode === "grid" ? (
+          <motion.div layout className="works__grid">
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((p, i) => (
+                <ProjectCard
+                  key={p.id}
+                  project={p}
+                  index={i}
+                  onDeepDive={() => handleOpenModal(p)}
+                />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        ) : (
+          <div className="works__list-view" ref={listRef}>
+            <div className="works__list-head">
+              <span className="col-idx">#</span>
+              <span className="col-name">Project &amp; Overview</span>
+              <span className="col-cat">Category</span>
+              <span className="col-tags">Key Stack</span>
+              <span className="col-action">Case Study</span>
+            </div>
+
+            <div className="works__list-rows">
+              {filteredProjects.map((p) => (
+                <div
+                  key={p.id}
+                  className="project-row"
+                  onClick={() => handleOpenModal(p)}
+                  onMouseEnter={() => setHoveredProject(p)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                >
+                  <span className="col-idx">{p.num}</span>
+                  <div className="col-name">
+                    <h4>
+                      {p.title}{" "}
+                      {p.status && <span className="row-badge">{p.status}</span>}
+                    </h4>
+                    <p>{p.desc.slice(0, 110)}…</p>
+                  </div>
+                  <span className="col-cat">{p.category}</span>
+                  <div className="col-tags">
+                    {p.tags.slice(0, 3).map((t) => (
+                      <span className="tag tag--sm" key={t}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="col-action">
+                    <button className="row-arrow-btn" aria-label="Open case study">
+                      <ArrowUpRight width={17} height={17} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Floating hover thumbnail preview */}
+            <AnimatePresence>
+              {hoveredProject && (
+                <motion.div
+                  className="works__floating-preview"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {hoveredProject.image ? (
+                    <img src={hoveredProject.image} alt={hoveredProject.title} />
+                  ) : (
+                    <ProjectPreview variant={hoveredProject.variant} />
+                  )}
+                  <div className="floating-preview__overlay">
+                    <strong>{hoveredProject.title}</strong>
+                    <span>Click to open case study</span>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
 
         <GitHubStrip />
       </div>

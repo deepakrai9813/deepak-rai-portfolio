@@ -6,6 +6,7 @@ import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
 import About from "./components/About";
+import Services from "./components/Services";
 import Skills from "./components/Skills";
 import Works from "./components/Works";
 import Testimonials from "./components/Testimonials";
@@ -14,6 +15,9 @@ import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
 import CommandPalette from "./components/CommandPalette";
 import Toast from "./components/Toast";
+import CustomCursor from "./components/CustomCursor";
+import AmbientCanvas from "./components/AmbientCanvas";
+import FloatingDock from "./components/FloatingDock";
 import { useTheme } from "./hooks/useTheme";
 import { useSound } from "./hooks/useSound";
 import { useSmoothScroll } from "./hooks/useSmoothScroll";
@@ -74,9 +78,15 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <div id="top">
+        {/* Awwwards Custom Fluid Cursor */}
+        <CustomCursor />
+
+        {/* Guillaume Zhu style Interactive Ambient Constellation Canvas */}
+        <AmbientCanvas />
+
         <Preloader />
         <ScrollProgress />
-        
+
         <Nav
           theme={theme}
           toggleTheme={toggleTheme}
@@ -97,6 +107,7 @@ export default function App() {
           />
           <Marquee />
           <About playPop={playPop} />
+          <Services playPop={playPop} playClick={playClick} />
           <Skills
             onSkillClick={handleSkillClick}
             highlightedSkill={highlightedSkill}
@@ -107,6 +118,7 @@ export default function App() {
             onOpenProjectModal={setSelectedProjectId}
             highlightedSkill={highlightedSkill}
             playPop={playPop}
+            playClick={playClick}
           />
           <Testimonials />
           <Contact
@@ -118,6 +130,20 @@ export default function App() {
 
         <Footer />
         <BackToTop />
+
+        {/* Creative Developer Floating Action Dock */}
+        <FloatingDock
+          theme={theme}
+          toggleTheme={toggleTheme}
+          accent={accent}
+          changeAccent={changeAccent}
+          accents={accents}
+          soundEnabled={soundEnabled}
+          toggleSound={toggleSound}
+          onOpenCommandPalette={setCmdOpen}
+          playClick={playClick}
+          showToast={showToast}
+        />
 
         {/* Global Command Palette (Cmd+K / Ctrl+K) */}
         <CommandPalette

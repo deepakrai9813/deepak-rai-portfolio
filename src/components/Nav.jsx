@@ -13,6 +13,7 @@ import {
 
 const LINKS = [
   { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
   { label: "Skills", href: "#skills" },
   { label: "Work", href: "#work" },
   { label: "Contact", href: "#contact" },
@@ -37,7 +38,7 @@ export default function Nav({
   const paletteRef = useRef(null);
 
   useEffect(() => {
-    const ids = ["about", "skills", "work", "contact"];
+    const ids = ["about", "services", "skills", "work", "contact"];
     const onScroll = () => {
       setScrolled(window.scrollY > 10);
       let current = "";
