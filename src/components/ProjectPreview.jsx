@@ -16,7 +16,7 @@ const PREVIEWS = {
           <span className="line short" />
         </div>
         <div className="preview__chatbox">
-          <div className="b">Summarize chapter 3 in 5 bullets ✍️</div>
+          <div className="b">Summarize chapter 3 in 5 bullets </div>
           <div className="b me">Sure — here are the key ideas…</div>
           <div className="b summary">1. Caching improves latency…</div>
         </div>

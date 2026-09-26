@@ -166,7 +166,7 @@ export default function Skills({ onSkillClick, highlightedSkill, playPop }) {
             />
           </div>
           <span className="skills__hint">
-            💡 Click any tag to see related projects in Selected Work
+            Click any tag to see related projects in Selected Work
           </span>
         </motion.div>
 

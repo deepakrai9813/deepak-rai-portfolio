@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import InstrumentHeader from "./components/InstrumentHeader";
 import HeroInstrument from "./components/HeroInstrument";
-import Biometric3DScanner from "./components/Biometric3DScanner";
+import Cluster3DVisualizer from "./components/Cluster3DVisualizer";
 import SentinelSandbox from "./components/SentinelSandbox";
 import MemoryPoolPlayground from "./components/MemoryPoolPlayground";
 import ProjectsMatrix from "./components/ProjectsMatrix";
@@ -69,11 +69,12 @@ export default function App() {
           playSwitch={playSwitch}
         />
 
-        {/* 3D Volumetric Topological LIDAR Scanner & Distributed Architecture */}
-        <Biometric3DScanner
+        {/* 3D Volumetric Distributed Systems Cluster & Quantum Packet Orchestrator */}
+        <Cluster3DVisualizer
           playClick={playClick}
           playSwitch={playSwitch}
           playPing={playPing}
+          playAlarm={playAlarm}
         />
 
         {/* Live Interactive Circuit Breaker Chaos Simulator */}

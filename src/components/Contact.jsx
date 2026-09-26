@@ -52,25 +52,25 @@ const CARDS = [
 
 const INTENTS = [
   {
-    label: "🚀 New Project / MVP",
+    label: "New Project / MVP",
     subject: "New Project Inquiry",
     starter:
       "Hi Deepak,\n\nI'm looking to build a high-performance web/AI application. Here are our main requirements, target timeline, and goals:\n\n",
   },
   {
-    label: "💼 Hiring for a Role",
+    label: "Hiring for a Role",
     subject: "Engineering Role Opportunity",
     starter:
       "Hi Deepak,\n\nI came across your portfolio and would love to speak with you about a software engineering role at our company:\n\nRole details & stack:\n\n",
   },
   {
-    label: "⚡ AI & Systems Advisory",
+    label: "AI & Systems Advisory",
     subject: "Technical Consultation",
     starter:
       "Hi Deepak,\n\nWe need technical advisory on optimizing our backend architecture / integrating LLMs. Here is what we're working on:\n\n",
   },
   {
-    label: "👋 General Connect",
+    label: "General Connect",
     subject: "Hello from your portfolio",
     starter: "Hi Deepak,\n\nLoved your projects and architecture writeups! Just wanted to connect and say hi.\n\n",
   },

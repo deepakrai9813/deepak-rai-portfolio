@@ -239,7 +239,7 @@ export default function Hero({ onOpenCommandPalette, playClick }) {
                 <Linkedin width={17} height={17} /> LinkedIn
               </a>
               <span className="hero__response-time">
-                ⚡ Typical response time: &lt; 4 hours
+                Typical response time: &lt; 4 hours
               </span>
             </motion.div>
           </motion.div>
