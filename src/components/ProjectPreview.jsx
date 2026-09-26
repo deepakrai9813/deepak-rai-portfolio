@@ -94,6 +94,49 @@ const PREVIEWS = {
       </div>
     </div>
   ),
+  sentinel: (
+    <div className="preview preview--sentinel">
+      <div className="preview__glow preview__glow--1" />
+      <div className="preview__glow preview__glow--2" />
+      <span className="preview__monogram">PS</span>
+      <div className="preview__sentinel">
+        <div className="preview__sentinel-top">
+          <div className="preview__sentinel-badge">
+            <span className="sentinel-dot pulse" /> CIRCUIT: CLOSED
+          </div>
+          <span className="preview__sentinel-rate">SLA: &lt;200ms · 60 FPS</span>
+        </div>
+        <div className="preview__sentinel-mesh">
+          <div className="preview__sentinel-node active">
+            <div className="node-head">
+              <span className="node-title">Primary Upstream (:8081)</span>
+              <span className="node-ping">12ms · 200 OK</span>
+            </div>
+            <div className="node-bar">
+              <span className="node-fill" style={{ width: "94%" }} />
+            </div>
+          </div>
+          <div className="preview__sentinel-arrow">
+            <span>⇄ Auto-Failover Circuit Breaker</span>
+          </div>
+          <div className="preview__sentinel-node standby">
+            <div className="node-head">
+              <span className="node-title">Secondary API (:8082)</span>
+              <span className="node-ping standby">Warm Standby</span>
+            </div>
+            <div className="node-bar">
+              <span className="node-fill standby" style={{ width: "100%" }} />
+            </div>
+          </div>
+        </div>
+        <div className="preview__sentinel-stats">
+          <span>sync.Pool Buffer &lt;10MB</span>
+          <span>Chaos: 500ms Delay Tested</span>
+          <span className="highlight">0 Dropped Requests</span>
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 export default function ProjectPreview({ variant }) {

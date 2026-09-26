@@ -1,7 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useTheme } from "../hooks/useTheme";
-import { Sun, Moon, ArrowUpRight, Github } from "./icons";
+import {
+  Sun,
+  Moon,
+  ArrowUpRight,
+  Github,
+  CommandIcon,
+  Volume2,
+  VolumeX,
+  Palette,
+} from "./icons";
 
 const LINKS = [
   { label: "About", href: "#about" },
@@ -10,11 +18,23 @@ const LINKS = [
   { label: "Contact", href: "#contact" },
 ];
 
-export default function Nav() {
-  const { theme, toggle } = useTheme();
+export default function Nav({
+  theme,
+  toggleTheme,
+  accent,
+  changeAccent,
+  accents,
+  soundEnabled,
+  toggleSound,
+  onOpenCommandPalette,
+  playClick,
+  showToast,
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const paletteRef = useRef(null);
 
   useEffect(() => {
     const ids = ["about", "skills", "work", "contact"];
@@ -39,25 +59,143 @@ export default function Nav() {
     };
   }, [open]);
 
+  // Click outside to close accent palette
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (paletteRef.current && !paletteRef.current.contains(e.target)) {
+        setPaletteOpen(false);
+      }
+    };
+    if (paletteOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [paletteOpen]);
+
   const isDark = theme === "dark";
+
+  const handleAccentChange = (accId, accName) => {
+    changeAccent(accId);
+    playClick?.();
+    setPaletteOpen(false);
+    showToast?.({
+      type: "success",
+      title: "Theme Accent Updated",
+      message: `Switched accent glow to ${accName}`,
+    });
+  };
 
   return (
     <>
       <header className={`nav${scrolled ? " is-scrolled" : ""}`}>
         <div className="container nav__inner">
-          <a href="#top" className="nav__logo" aria-label="Deepak Rai — home">
+          <a
+            href="#top"
+            className="nav__logo"
+            aria-label="Deepak Rai — home"
+            onClick={playClick}
+          >
             deepak<span className="dot">.dev</span>
           </a>
 
           <nav className="nav__links" aria-label="Primary">
             {LINKS.map((l) => (
-              <a key={l.href} href={l.href} className={active === l.href ? "active" : ""}>
+              <a
+                key={l.href}
+                href={l.href}
+                className={active === l.href ? "active" : ""}
+                onClick={playClick}
+              >
                 {l.label}
               </a>
             ))}
           </nav>
 
           <div className="nav__actions">
+            {/* Command Palette Trigger */}
+            <button
+              className="nav__cmd-btn"
+              onClick={() => {
+                playClick?.();
+                onOpenCommandPalette(true);
+              }}
+              title="Open Command Menu (⌘K / Ctrl+K)"
+              aria-label="Open Command Menu"
+            >
+              <CommandIcon width={14} height={14} />
+              <span>⌘K</span>
+            </button>
+
+            {/* Accent Color Picker Dropdown */}
+            <div className="nav__palette-wrapper" ref={paletteRef}>
+              <button
+                className="icon-link nav__palette-toggle"
+                onClick={() => {
+                  playClick?.();
+                  setPaletteOpen((prev) => !prev);
+                }}
+                title="Change theme accent color"
+                aria-label="Change accent color"
+                aria-expanded={paletteOpen}
+              >
+                <Palette width={16} height={16} />
+              </button>
+
+              <AnimatePresence>
+                {paletteOpen && (
+                  <motion.div
+                    className="palette-dropdown"
+                    initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <div className="palette-dropdown__head">
+                      <span>Accent Color</span>
+                    </div>
+                    <div className="palette-dropdown__list">
+                      {accents.map((acc) => (
+                        <button
+                          key={acc.id}
+                          className={`palette-item${accent === acc.id ? " is-active" : ""}`}
+                          onClick={() => handleAccentChange(acc.id, acc.name)}
+                        >
+                          <span
+                            className="palette-swatch"
+                            style={{ background: acc.color }}
+                          />
+                          <span>{acc.name}</span>
+                          {accent === acc.id && <span className="palette-check">✓</span>}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Sound FX Toggle */}
+            <button
+              className="icon-link nav__sound-toggle"
+              onClick={() => {
+                toggleSound();
+                showToast?.({
+                  type: "info",
+                  title: "Audio Feedback",
+                  message: soundEnabled ? "Sound muted" : "Tactile sounds enabled",
+                });
+              }}
+              title={soundEnabled ? "Mute interface audio" : "Enable interface audio"}
+              aria-label={soundEnabled ? "Mute audio" : "Enable audio"}
+            >
+              {soundEnabled ? (
+                <Volume2 width={16} height={16} />
+              ) : (
+                <VolumeX width={16} height={16} />
+              )}
+            </button>
+
+            {/* GitHub Profile */}
             <a
               href="https://github.com/deepakrai9813"
               target="_blank"
@@ -65,12 +203,18 @@ export default function Nav() {
               className="icon-link"
               aria-label="GitHub profile"
               title="GitHub"
+              onClick={playClick}
             >
-              <Github />
+              <Github width={16} height={16} />
             </a>
+
+            {/* Dark / Light Theme Toggle */}
             <button
               className="theme-toggle"
-              onClick={toggle}
+              onClick={() => {
+                playClick?.();
+                toggleTheme();
+              }}
               aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
               title={`Switch to ${isDark ? "light" : "dark"} theme`}
             >
@@ -83,12 +227,12 @@ export default function Nav() {
                   transition={{ duration: 0.25 }}
                   style={{ display: "inline-flex" }}
                 >
-                  {isDark ? <Sun /> : <Moon />}
+                  {isDark ? <Sun width={16} height={16} /> : <Moon width={16} height={16} />}
                 </motion.span>
               </AnimatePresence>
             </button>
 
-            <a href="#contact" className="btn btn-primary nav__cta">
+            <a href="#contact" className="btn btn-primary nav__cta" onClick={playClick}>
               Let&apos;s talk <ArrowUpRight width={15} height={15} />
             </a>
 
@@ -106,6 +250,7 @@ export default function Nav() {
         </div>
       </header>
 
+      {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {open && (
           <motion.nav
@@ -117,10 +262,28 @@ export default function Nav() {
             aria-label="Mobile"
           >
             {LINKS.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => {
+                  playClick?.();
+                  setOpen(false);
+                }}
+              >
                 {l.label}
               </a>
             ))}
+            <div className="mobile-menu__actions">
+              <button
+                className="btn btn-ghost"
+                onClick={() => {
+                  setOpen(false);
+                  onOpenCommandPalette(true);
+                }}
+              >
+                <CommandIcon width={15} height={15} /> Command Palette (⌘K)
+              </button>
+            </div>
           </motion.nav>
         )}
       </AnimatePresence>
