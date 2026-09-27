@@ -657,28 +657,28 @@ button {
 }
 
 /* ==========================================================================
-   COMPONENT: MODERN ARCHITECTURAL HERO SECTION
+   COMPONENT: FUTURISTIC MONOLITH HERO & OMNI-APERTURE
    ========================================================================== */
-.modern-hero-section {
-  padding: 80px 0 96px;
+.futuristic-hero-section {
+  padding: 88px 0 104px;
   position: relative;
   border-bottom: 1px solid var(--border-base);
 }
 
-.hero-editorial-grid {
+.futuristic-hero-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
-  gap: 56px;
+  gap: 60px;
   align-items: center;
 }
 
-.hero-left-column {
+.hero-monolith-column {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.hero-eyebrow {
+.monolith-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -689,7 +689,7 @@ button {
   letter-spacing: 0.08em;
 }
 
-.hero-monolith-headline {
+.monolith-headline {
   font-family: var(--font-display);
   font-size: clamp(34px, 4.4vw, 54px);
   font-weight: 800;
@@ -699,11 +699,11 @@ button {
   margin: 0;
 }
 
-.hero-headline-accent {
+.monolith-headline-accent {
   color: var(--signal-green);
 }
 
-.hero-core-statement {
+.monolith-thesis {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.65;
@@ -712,8 +712,12 @@ button {
   margin: 0;
 }
 
-/* Perspective Showcase Box */
-.hero-perspective-showcase {
+.monolith-thesis strong {
+  color: var(--text-high);
+}
+
+/* Perspective Lens Matrix Box */
+.futuristic-lens-box {
   border: 1px solid var(--border-base);
   background-color: var(--bg-surface);
   padding: 20px 24px;
@@ -723,7 +727,7 @@ button {
   box-shadow: var(--panel-shadow);
 }
 
-.perspective-header {
+.lens-box-header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -733,7 +737,7 @@ button {
   padding-bottom: 12px;
 }
 
-.perspective-label {
+.lens-box-caption {
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
@@ -741,12 +745,12 @@ button {
   letter-spacing: 0.08em;
 }
 
-.perspective-pill-group {
+.lens-pill-group {
   display: flex;
   gap: 6px;
 }
 
-.perspective-pill {
+.lens-pill {
   padding: 4px 10px;
   font-family: var(--font-mono);
   font-size: 10px;
@@ -758,17 +762,17 @@ button {
   transition: all 0.12s ease;
 }
 
-.perspective-pill.active {
+.lens-pill.active {
   border-color: var(--signal-green);
   background-color: var(--signal-green-bg);
   color: var(--signal-green);
 }
 
-.perspective-content-card {
+.lens-box-body {
   font-family: var(--font-body);
 }
 
-.perspective-title {
+.lens-body-title {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
@@ -777,14 +781,14 @@ button {
   letter-spacing: 0.04em;
 }
 
-.perspective-desc {
+.lens-body-text {
   font-size: 13px;
   line-height: 1.6;
   color: var(--text-med);
 }
 
-/* System Profile Telemetry Bar */
-.hero-profile-bar {
+/* Operating Profile Bar */
+.hero-operating-bar {
   border: 1px solid var(--border-subtle);
   background-color: var(--bg-subtle);
   padding: 14px 18px;
@@ -793,7 +797,7 @@ button {
   gap: 12px;
 }
 
-.profile-row-header {
+.operating-bar-header {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -801,20 +805,20 @@ button {
   gap: 8px;
 }
 
-.profile-caption {
+.operating-caption {
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
   color: var(--text-dim);
 }
 
-.profile-buttons {
+.operating-pill-group {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-.profile-switch-btn {
+.operating-pill {
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
@@ -826,13 +830,13 @@ button {
   transition: all 0.12s ease;
 }
 
-.profile-switch-btn.active {
+.operating-pill.active {
   border-color: var(--signal-cyan);
   background-color: var(--signal-cyan-bg);
   color: var(--signal-cyan);
 }
 
-.profile-telemetry-chips {
+.operating-chips-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -840,7 +844,7 @@ button {
   padding-top: 10px;
 }
 
-.telemetry-chip {
+.operating-chip {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -859,15 +863,15 @@ button {
   color: var(--text-high);
 }
 
-/* Hero Action Matrix */
-.hero-action-buttons {
+/* Action Buttons */
+.hero-cta-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 14px;
 }
 
-.btn-modern-solid {
+.btn-monolith-primary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -883,14 +887,14 @@ button {
   transition: all 0.12s ease;
 }
 
-.btn-modern-solid:hover {
+.btn-monolith-primary:hover {
   background-color: var(--signal-green);
   border-color: var(--signal-green);
   color: #000000;
   transform: translate(-1px, -1px);
 }
 
-.btn-modern-outline {
+.btn-monolith-secondary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -906,12 +910,12 @@ button {
   transition: all 0.12s ease;
 }
 
-.btn-modern-outline:hover {
+.btn-monolith-secondary:hover {
   border-color: var(--text-high);
   background-color: var(--bg-surface-raised);
 }
 
-.hero-resume-link {
+.btn-monolith-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -924,12 +928,12 @@ button {
   transition: color 0.12s ease;
 }
 
-.hero-resume-link:hover {
+.btn-monolith-link:hover {
   color: var(--signal-green);
 }
 
-/* Proof Points */
-.hero-proof-strip {
+/* Proof Ticker */
+.hero-guarantees-ticker {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -941,26 +945,26 @@ button {
   border-top: 1px solid var(--border-subtle);
 }
 
-.proof-item {
+.ticker-item {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.proof-dot {
+.ticker-sep {
   color: var(--border-strong);
 }
 
 /* ==========================================================================
-   COMPONENT: 2D PORTRAIT ARCHITECTURAL MONOLITH
+   COMPONENT: OMNI-APERTURE 2D MONOLITH (RIGHT COLUMN)
    ========================================================================== */
-.hero-right-column {
+.hero-aperture-column {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.monolith-portrait-card {
+.aperture-monolith-slab {
   position: relative;
   width: 100%;
   max-width: 440px;
@@ -971,7 +975,8 @@ button {
   transform-style: preserve-3d;
 }
 
-.card-registration-cross {
+/* Swiss Registration Crosses */
+.aperture-cross {
   position: absolute;
   font-family: var(--font-mono);
   font-size: 14px;
@@ -981,12 +986,12 @@ button {
   z-index: 20;
   pointer-events: none;
 }
-.card-registration-cross.tl { top: -8px; left: -8px; }
-.card-registration-cross.tr { top: -8px; right: -8px; }
-.card-registration-cross.bl { bottom: -8px; left: -8px; }
-.card-registration-cross.br { bottom: -8px; right: -8px; }
+.aperture-cross.tl { top: -8px; left: -8px; }
+.aperture-cross.tr { top: -8px; right: -8px; }
+.aperture-cross.bl { bottom: -8px; left: -8px; }
+.aperture-cross.br { bottom: -8px; right: -8px; }
 
-.monolith-card-topbar {
+.aperture-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -996,25 +1001,25 @@ button {
   font-family: var(--font-mono);
 }
 
-.monolith-title-group {
+.aperture-meta-left {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.monolith-label {
+.aperture-title {
   font-size: 10px;
   font-weight: 700;
   color: var(--text-high);
   letter-spacing: 0.05em;
 }
 
-.monolith-mode-switch {
+.aperture-mode-selector {
   display: flex;
   gap: 4px;
 }
 
-.mode-btn {
+.aperture-mode-btn {
   font-family: var(--font-mono);
   font-size: 9px;
   font-weight: 700;
@@ -1026,13 +1031,13 @@ button {
   transition: all 0.12s ease;
 }
 
-.mode-btn.active {
+.aperture-mode-btn.active {
   border-color: var(--signal-green);
   background-color: var(--signal-green-bg);
   color: var(--signal-green);
 }
 
-.monolith-viewport {
+.aperture-viewport {
   position: relative;
   width: 100%;
   height: 420px;
@@ -1041,7 +1046,7 @@ button {
   cursor: crosshair;
 }
 
-.monolith-photo-img {
+.aperture-portrait-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1051,22 +1056,23 @@ button {
   transition: filter 0.3s ease;
 }
 
-.monolith-photo-img.blueprint-mode {
+.aperture-portrait-img.cad-filter {
   filter: grayscale(100%) brightness(0.35) contrast(1.6);
 }
 
-.monolith-crosshair-reticle {
+/* Cursor Scanning Reticle */
+.aperture-reticle {
   position: absolute;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  z-index: 10;
+  z-index: 15;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: var(--signal-green);
 }
 
-.reticle-circle {
+.reticle-lens-ring {
   position: absolute;
   width: 32px;
   height: 32px;
@@ -1079,7 +1085,7 @@ button {
   100% { transform: rotate(360deg); }
 }
 
-.reticle-coords {
+.reticle-badge {
   margin-top: 4px;
   background-color: #000000;
   border: 1px solid var(--signal-green);
@@ -1092,18 +1098,82 @@ button {
   color: #ffffff;
 }
 
-.monolith-blueprint-layer {
+/* Interactive Hotspot Anchors on 2D Portrait */
+.aperture-anchors-overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.blueprint-schematic-svg {
+.anchor-beacon-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 12;
+}
+
+.beacon-core {
+  width: 8px;
+  height: 8px;
+  background-color: var(--signal-cyan);
+  display: block;
+  border: 1px solid #ffffff;
+}
+
+.beacon-pulse-ring {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--signal-cyan);
+  border-radius: 50%;
+  animation: radarRingPulse 2s infinite ease-out;
+  pointer-events: none;
+}
+
+.beacon-tag {
+  background-color: rgba(6, 8, 13, 0.9);
+  border: 1px solid var(--border-strong);
+  color: #ffffff;
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0px #000000;
+  transition: all 0.12s ease;
+}
+
+.anchor-beacon-pin:hover .beacon-tag,
+.anchor-beacon-pin.active .beacon-tag {
+  border-color: var(--signal-green);
+  color: var(--signal-green);
+  background-color: #041a0d;
+}
+
+.anchor-beacon-pin.active .beacon-core {
+  background-color: var(--signal-green);
+}
+
+/* CAD Schematic Overlay */
+.aperture-cad-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cad-schematic-svg {
   width: 100%;
   height: 100%;
 }
 
-.blueprint-node-tag {
+.cad-label-badge {
   position: absolute;
   background-color: #06080d;
   border: 1px solid var(--signal-cyan);
@@ -1115,23 +1185,23 @@ button {
   box-shadow: 2px 2px 0px #000000;
 }
 
-.blueprint-node-tag.tag-top {
+.cad-label-badge.badge-top {
   top: 14%;
   left: 50%;
   transform: translateX(-50%);
 }
 
-.blueprint-node-tag.tag-left {
+.cad-label-badge.badge-left {
   top: 45%;
-  left: 8%;
+  left: 6%;
 }
 
-.blueprint-node-tag.tag-right {
+.cad-label-badge.badge-right {
   top: 45%;
-  right: 8%;
+  right: 6%;
 }
 
-.blueprint-node-tag.tag-bottom {
+.cad-label-badge.badge-bottom {
   bottom: 14%;
   left: 50%;
   transform: translateX(-50%);
@@ -1139,36 +1209,59 @@ button {
   color: var(--signal-green);
 }
 
-.monolith-card-footer {
+/* Inspected Spec Drawer */
+.aperture-spec-drawer {
+  padding: 10px 14px;
+  background-color: var(--bg-surface-raised);
+  border-top: 1px solid var(--border-base);
+  font-family: var(--font-mono);
+}
+
+.spec-drawer-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+  letter-spacing: 0.05em;
+}
+
+.spec-drawer-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--signal-green);
+  margin-bottom: 3px;
+}
+
+.spec-drawer-desc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-med);
+}
+
+/* Monolith Footer Status */
+.aperture-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
-  background-color: var(--bg-surface-raised);
+  background-color: var(--bg-surface);
   border-top: 1px solid var(--border-base);
   font-family: var(--font-mono);
   font-size: 10px;
 }
 
-.footer-status-pill {
+.aperture-status-group {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.status-dot-green {
-  width: 6px;
-  height: 6px;
-  background-color: var(--signal-green);
-  display: block;
-}
-
-.status-text {
+.aperture-status-text {
   color: var(--text-high);
   font-weight: 700;
 }
 
-.footer-role-tag {
+.aperture-clearance-tag {
   color: var(--text-dim);
   font-size: 9px;
 }
@@ -2559,6 +2652,7 @@ textarea.input-control {
    RESPONSIVE DESIGN BREAKPOINTS
    ========================================================================== */
 @media (max-width: 960px) {
+  .futuristic-hero-grid,
   .hero-editorial-grid,
   .hero-grid,
   .sandbox-workbench-grid,
@@ -2602,26 +2696,32 @@ textarea.input-control {
 }
 
 @media (max-width: 640px) {
+  .monolith-headline,
   .hero-monolith-headline {
     font-size: 32px;
   }
 
+  .operating-chips-grid,
   .profile-telemetry-chips {
     grid-template-columns: 1fr;
     gap: 8px;
   }
 
+  .hero-cta-actions,
   .hero-action-buttons {
     flex-direction: column;
     width: 100%;
   }
 
+  .btn-monolith-primary,
+  .btn-monolith-secondary,
   .btn-modern-solid,
   .btn-modern-outline {
     width: 100%;
     justify-content: center;
   }
 
+  .aperture-viewport,
   .monolith-viewport {
     height: 340px;
   }
