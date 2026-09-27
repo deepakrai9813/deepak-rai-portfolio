@@ -146,7 +146,7 @@ export default function SentinelSandbox({
   const currentCfg = STATE_CONFIG[circuitState];
 
   return (
-    <section id="sentinel-lab" style={{ marginBottom: "64px" }}>
+    <section id="sentinel-lab" className="modern-portfolio-section">
       <div className="container">
         {/* Section Heading with Swiss Engineering Index */}
         <div className="section-header-block">

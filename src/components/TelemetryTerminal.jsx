@@ -183,7 +183,7 @@ export default function TelemetryTerminal({ setLens, playClick, playPing, playSw
   };
 
   return (
-    <section id="terminal" style={{ marginBottom: "64px" }}>
+    <section id="terminal" className="modern-portfolio-section">
       <div className="container">
         {/* Section Header */}
         <div className="section-header-block">

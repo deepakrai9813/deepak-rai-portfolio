@@ -66,7 +66,7 @@ export default function MemoryPoolPlayground({ playClick, playSwitch, playPing }
   }, [usePool, goroutines]);
 
   return (
-    <section id="memory-lab" style={{ marginBottom: "64px" }}>
+    <section id="memory-lab" className="modern-portfolio-section">
       <div className="container">
         {/* Section Header */}
         <div className="section-header-block">

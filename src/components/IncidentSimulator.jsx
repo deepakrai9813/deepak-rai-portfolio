@@ -92,7 +92,7 @@ export default function IncidentSimulator({ playClick, playAlarm, playSuccessFan
   const currentTimeline = FLIGHT_RECORDER_MILESTONES[timelineStep];
 
   return (
-    <section id="incident-drill" style={{ marginBottom: "64px" }}>
+    <section id="incident-drill" className="modern-portfolio-section">
       <div className="container">
         {/* Section Header */}
         <div className="section-header-block">

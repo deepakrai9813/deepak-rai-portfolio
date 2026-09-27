@@ -101,7 +101,7 @@ export default function EngineeringAudit({ playClick, playPop }) {
   const [activeCodeTab, setActiveCodeTab] = useState("resilience");
 
   return (
-    <section id="audit" style={{ marginBottom: "64px" }}>
+    <section id="audit" className="modern-portfolio-section">
       <div className="container">
         {/* Section Header */}
         <div className="section-header-block">

@@ -40,7 +40,7 @@ export default function UplinkContact({ playClick, playSuccess }) {
   };
 
   return (
-    <section id="dispatch" style={{ marginBottom: "64px" }}>
+    <section id="dispatch" className="modern-portfolio-section">
       <div className="container">
         {/* Section Header */}
         <div className="section-header-block">

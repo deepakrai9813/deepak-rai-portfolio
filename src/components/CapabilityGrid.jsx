@@ -132,7 +132,7 @@ export default function CapabilityGrid({ playPop, playClick }) {
   const [selectedItem, setSelectedItem] = useState(null);
 
   return (
-    <section id="capabilities" style={{ marginBottom: "64px" }}>
+    <section id="capabilities" className="modern-portfolio-section">
       <div className="container">
         {/* Section Header */}
         <div className="section-header-block">

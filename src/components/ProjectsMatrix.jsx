@@ -119,7 +119,7 @@ export default function ProjectsMatrix({ lens, playClick, playPop }) {
   });
 
   return (
-    <section id="projects" style={{ marginBottom: "64px" }}>
+    <section id="projects" className="modern-portfolio-section">
       <div className="container">
         {/* Section Header */}
         <div className="section-header-block">
