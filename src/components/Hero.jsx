@@ -10,7 +10,7 @@ export default function Hero({ onNavigate, onShowToast }) {
     navigator.clipboard.writeText(PERSONAL_INFO.email);
     setCopied(true);
     playSuccess();
-    onShowToast("Email copied to clipboard! 📋");
+    onShowToast("Email copied to clipboard");
     setTimeout(() => setCopied(false), 2500);
   };
 
@@ -33,7 +33,7 @@ export default function Hero({ onNavigate, onShowToast }) {
         {/* Big Expressive Greeting */}
         <div className="framer-hero-intro">
           <h2 className="framer-greeting">
-            Hi, I’m Deepak! <span className="hand-wave">👋</span>
+            Hi, I’m Deepak
           </h2>
           <h1 className="framer-hero-headline">
             {PERSONAL_INFO.bioHeadline}

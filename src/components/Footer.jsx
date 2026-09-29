@@ -9,7 +9,7 @@ export default function Footer({ onShowToast }) {
     navigator.clipboard.writeText(PERSONAL_INFO.email);
     setCopied(true);
     playSuccess();
-    onShowToast("Email copied to clipboard! 📋");
+    onShowToast("Email copied to clipboard");
     setTimeout(() => setCopied(false), 2500);
   };
 
@@ -40,9 +40,14 @@ export default function Footer({ onShowToast }) {
             className="footer-email-btn"
             onClick={handleCopyEmail}
           >
-            <span className="email-icon">✉</span>
+            <span className="email-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+            </span>
             <span className="email-address">{PERSONAL_INFO.email}</span>
-            <span className="copy-badge">{copied ? "Copied! ✓" : "Copy"}</span>
+            <span className="copy-badge">{copied ? "Copied" : "Copy"}</span>
           </button>
 
           <a

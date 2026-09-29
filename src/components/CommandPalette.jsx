@@ -121,7 +121,7 @@ export default function CommandPalette({
       action: () => {
         navigator.clipboard.writeText(PERSONAL_INFO.email);
         playSuccess();
-        onShowToast("Email copied to clipboard! 📋");
+        onShowToast("Email copied to clipboard");
         onClose();
       },
     },

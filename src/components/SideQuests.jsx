@@ -23,25 +23,25 @@ export default function SideQuests({ onShowToast }) {
 
   const petResponses = {
     poke: [
-      "Hey! Don't click me, click 'npm run build'!",
-      "I'm compiling your code... wait for it!",
-      "Sub-50ms latency is my cardio. ⚡",
-      "Did somebody say unit testing? 🧪",
-      "Deploying directly to production? You daredevil!",
+      "Running 'npm run build'...",
+      "Compiling TypeScript types in memory...",
+      "Sub-50ms latency is optimal.",
+      "Unit testing complete: 100% pass rate.",
+      "Deploying updates to edge nodes.",
     ],
     coffee: [
-      "Ahhh! Caffeine level: 100%. Ready for 500 more lines of TypeScript.",
-      "Coffee consumed. Bugs fear me now.",
-      "Syntax errors eliminated with dark roast power. ☕",
+      "Caffeine level at maximum. Ready for 500 lines of clean code.",
+      "Buffer refreshed. Systems running at peak performance.",
+      "Async operations scheduled and optimized.",
     ],
     sleep: [
-      "Zzz... dreaming of clean relational schemas... 😴",
-      "Entering low-power standby mode. Ping me if production breaks.",
+      "Entering low-power standby mode. Monitoring health checks.",
+      "Standby mode active. Ping me if latency spikes.",
     ],
     code: [
       "Writing a high-throughput WebSocket microservice...",
-      "Refactoring O(n²) loop into an O(1) hash map lookup. 🧠",
-      "Git commit: 'feat: solved world peace and fixed CSS alignment'",
+      "Refactoring loop into an O(1) hash map lookup.",
+      "Git commit: 'feat: optimized database index pipelines'",
     ],
   };
 
@@ -82,7 +82,7 @@ export default function SideQuests({ onShowToast }) {
       ]);
       setPingStatus("done");
       playSuccess();
-      onShowToast("Network ping test completed! ⚡");
+      onShowToast("Network ping test completed");
     }, 1200);
   };
 
@@ -90,7 +90,7 @@ export default function SideQuests({ onShowToast }) {
     const css = `background: rgba(255, 255, 255, 0.${opacityVal});\nbackdrop-filter: blur(${blurVal}px);\n-webkit-backdrop-filter: blur(${blurVal}px);\nborder: 1px solid rgba(255, 255, 255, 0.15);\nborder-radius: 16px;`;
     navigator.clipboard.writeText(css);
     playSuccess();
-    onShowToast("Glassmorphism CSS copied! 📋");
+    onShowToast("Glassmorphism CSS copied");
   };
 
   return (
@@ -143,19 +143,24 @@ export default function SideQuests({ onShowToast }) {
                     {petMood === "sleeping" ? (
                       <span className="eye-closed">- -</span>
                     ) : petMood === "hyper" ? (
-                      <span className="eye-hyper">★ ★</span>
+                      <span className="eye-hyper">^ ^</span>
                     ) : (
                       <span className="eye-normal">● ●</span>
                     )}
                   </div>
                   <div className="pet-mouth">
-                    {petMood === "coding" ? "💻" : petMood === "happy" ? "‿" : "—"}
+                    {petMood === "coding" ? "</>" : petMood === "happy" ? "_" : "—"}
                   </div>
                 </div>
               </div>
 
               <div className="pet-stats-row">
-                <span className="pet-stat">⚡ Energy: {petEnergy}%</span>
+                <span className="pet-stat">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                  </svg>
+                  Energy: {petEnergy}%
+                </span>
                 <span className="pet-stat">Clicks: {petClicks}</span>
                 <span className="pet-stat">Mood: {petMood.toUpperCase()}</span>
               </div>
@@ -168,7 +173,11 @@ export default function SideQuests({ onShowToast }) {
                   onClick={() => handlePetAction("coffee")}
                   title="Feed coffee"
                 >
-                  ☕ Coffee
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+                  </svg>
+                  <span>Coffee</span>
                 </button>
                 <button
                   type="button"
@@ -176,7 +185,11 @@ export default function SideQuests({ onShowToast }) {
                   onClick={() => handlePetAction("code")}
                   title="Command to code"
                 >
-                  ⌨️ Code
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="16 18 22 12 16 6" />
+                    <polyline points="8 6 2 12 8 18" />
+                  </svg>
+                  <span>Code</span>
                 </button>
                 <button
                   type="button"
@@ -184,7 +197,10 @@ export default function SideQuests({ onShowToast }) {
                   onClick={() => handlePetAction("sleep")}
                   title="Let pet rest"
                 >
-                  😴 Rest
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                  </svg>
+                  <span>Rest</span>
                 </button>
                 <button
                   type="button"
@@ -192,7 +208,13 @@ export default function SideQuests({ onShowToast }) {
                   onClick={() => handlePetAction("poke")}
                   title="Poke"
                 >
-                  👉 Poke
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0" />
+                    <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v6" />
+                    <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8" />
+                    <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+                  </svg>
+                  <span>Poke</span>
                 </button>
               </div>
             </div>
@@ -223,7 +245,10 @@ export default function SideQuests({ onShowToast }) {
                   onClick={runLivePingTest}
                   disabled={pingStatus === "running"}
                 >
-                  {pingStatus === "running" ? "Pinging..." : "Test Latency ⚡"}
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                  </svg>
+                  <span>{pingStatus === "running" ? "Pinging..." : "Test Latency"}</span>
                 </button>
               </div>
 

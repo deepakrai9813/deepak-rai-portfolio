@@ -146,7 +146,7 @@ export const PROJECTS = [
     impact: [
       { metric: "<200ms", label: "Cold Sandbox Start" },
       { metric: "12+", label: "Languages Supported" },
-      { metric: "4.9★", label: "Developer Rating" },
+      { metric: "4.9 / 5", label: "Developer Rating" },
     ],
     liveUrl: "https://github.com/deepakrai9813",
     githubUrl: "https://github.com/deepakrai9813",

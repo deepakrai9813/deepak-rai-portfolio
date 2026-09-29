@@ -34,7 +34,11 @@ export default function Experience() {
                 <ul className="exp-highlights-list">
                   {item.highlights.map((h, i) => (
                     <li key={i} className="exp-highlight-item">
-                      <span className="highlight-bullet">▹</span>
+                      <span className="highlight-bullet">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                      </span>
                       <span>{h}</span>
                     </li>
                   ))}
