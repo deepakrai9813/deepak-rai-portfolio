@@ -1,43 +1,43 @@
 import { useTheme } from "./hooks/useTheme";
-import SpatialNavbar from "./components/SpatialNavbar";
-import SpatialHero from "./components/SpatialHero";
-import QuantumLattice3D from "./components/QuantumLattice3D";
-import ArchitecturalSystems from "./components/ArchitecturalSystems";
-import InteractiveBenchmark from "./components/InteractiveBenchmark";
-import EngineeringPhilosophy from "./components/EngineeringPhilosophy";
-import SpatialContact from "./components/SpatialContact";
-import SpatialFooter from "./components/SpatialFooter";
+import AwwwardsNavbar from "./components/AwwwardsNavbar";
+import AwwwardsHero from "./components/AwwwardsHero";
+import AwwwardsNeuralCore3D from "./components/AwwwardsNeuralCore3D";
+import AwwwardsBentoGrid from "./components/AwwwardsBentoGrid";
+import AwwwardsConcurrencyLab from "./components/AwwwardsConcurrencyLab";
+import AwwwardsManifesto from "./components/AwwwardsManifesto";
+import AwwwardsContact from "./components/AwwwardsContact";
+import AwwwardsFooter from "./components/AwwwardsFooter";
 
 export default function App() {
   const { theme, toggle: toggleTheme } = useTheme();
 
   return (
-    <div className="spatial-portfolio-root">
-      {/* Floating Spatial Horizon Capsule Dock */}
-      <SpatialNavbar theme={theme} toggleTheme={toggleTheme} />
+    <div className="awwwards-portfolio-root">
+      {/* Uiverse Floating Island Capsule Dock */}
+      <AwwwardsNavbar theme={theme} toggleTheme={toggleTheme} />
 
       <main>
-        {/* Kinetic Dimensional Prism & Monolithic Introduction */}
-        <SpatialHero />
+        {/* Cinematic Awwwards Hero & Holographic Bento Monolith (Deepak's 2D Photo) */}
+        <AwwwardsHero />
 
-        {/* 3D Volumetric Distributed Consensus Lattice (Three.js WebGL) */}
-        <QuantumLattice3D />
+        {/* 3D Volumetric Distributed Neural Core (Three.js WebGL) */}
+        <AwwwardsNeuralCore3D />
 
-        {/* Flagship Architectural Systems Exhibition */}
-        <ArchitecturalSystems />
+        {/* The Bento Architectural Systems Exhibition */}
+        <AwwwardsBentoGrid />
 
-        {/* Interactive Go Concurrency & Zero-Alloc Memory Benchmark */}
-        <InteractiveBenchmark />
+        {/* Uiverse Concurrency & Zero-Alloc Memory Lab */}
+        <AwwwardsConcurrencyLab />
 
-        {/* Core Engineering Philosophy & Architectural Doctrine */}
-        <EngineeringPhilosophy />
+        {/* Core Architectural Manifesto */}
+        <AwwwardsManifesto />
 
-        {/* Direct Uplink & Collaboration Station */}
-        <SpatialContact />
+        {/* Direct Dispatch & Collaboration Station */}
+        <AwwwardsContact />
       </main>
 
-      {/* Swiss Editorial Architectural Footer */}
-      <SpatialFooter />
+      {/* Monumental Cinematic Signoff Footer */}
+      <AwwwardsFooter />
     </div>
   );
 }
