@@ -14,12 +14,15 @@ export default function CommandPalette({
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 50);
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    setTimeout(() => inputRef.current?.focus(), 50);
+
+    return () => {
+      document.body.style.overflow = originalOverflow || "";
+    };
   }, [isOpen]);
 
   useEffect(() => {

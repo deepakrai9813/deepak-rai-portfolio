@@ -3,16 +3,22 @@ import { playClick, playPop } from "../utils/soundFx";
 
 export default function CaseStudyModal({ project, onClose }) {
   useEffect(() => {
+    if (!project) return;
+
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handleKeyDown);
+
+    // Save previous overflow style and restore on unmount
+    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = originalOverflow || "";
     };
-  }, [onClose]);
+  }, [project, onClose]);
 
   if (!project) return null;
   const cs = project.caseStudy || {};

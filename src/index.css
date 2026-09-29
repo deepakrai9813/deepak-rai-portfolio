@@ -58,7 +58,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   2. Reset & Global Base
+   2. Reset & Global Base (Strict Smooth Scrolling)
    -------------------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -70,6 +70,10 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+  min-height: 100%;
 }
 
 body {
@@ -79,6 +83,9 @@ body {
   font-size: 15px;
   line-height: 1.65;
   overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100vh;
+  position: relative;
   transition: background-color var(--transition-slow), color var(--transition-slow);
 }
 

@@ -84,20 +84,24 @@ export default function App() {
         <Footer onShowToast={showToast} />
       </main>
 
-      {/* Modals & Overlays */}
-      <CaseStudyModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
+      {/* Modals & Overlays (only rendered when active) */}
+      {selectedProject && (
+        <CaseStudyModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
 
-      <CommandPalette
-        isOpen={isCmdOpen}
-        onClose={() => setIsCmdOpen(false)}
-        onNavigate={handleNavigate}
-        toggleTheme={toggleTheme}
-        toggleSound={toggleSound}
-        onShowToast={showToast}
-      />
+      {isCmdOpen && (
+        <CommandPalette
+          isOpen={isCmdOpen}
+          onClose={() => setIsCmdOpen(false)}
+          onNavigate={handleNavigate}
+          toggleTheme={toggleTheme}
+          toggleSound={toggleSound}
+          onShowToast={showToast}
+        />
+      )}
 
       <Toast message={toastMessage} />
     </div>
