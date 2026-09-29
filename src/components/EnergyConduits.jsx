@@ -11,7 +11,6 @@ export default function EnergyConduits({ isOvercharged }) {
 
     let conduits = [];
 
-    // Measure and recalculate conduit landmark coordinates
     const calculateConduits = () => {
       const fullHeight = Math.max(
         document.documentElement.scrollHeight,
@@ -40,12 +39,12 @@ export default function EnergyConduits({ isOvercharged }) {
       const couplers = document.querySelectorAll(".card-conduit-coupler");
 
       if (junctions.length > 0) {
-        junctions.forEach((junc, idx) => {
+        junctions.forEach((junc) => {
           const rect = junc.getBoundingClientRect();
           const targetY = rect.top + window.scrollY + rect.height / 2;
           const targetX = rect.left + rect.width / 2;
 
-          const branchStartY = Math.max(180, targetY - 40);
+          const branchStartY = Math.max(180, targetY - 36);
           list.push({
             pts: [
               { x: w * 0.5, y: branchStartY },
@@ -57,14 +56,12 @@ export default function EnergyConduits({ isOvercharged }) {
         });
       }
 
-      // Add branches to individual project cards if present
       if (couplers.length > 0) {
         couplers.forEach((c) => {
           const rect = c.getBoundingClientRect();
           const targetY = rect.top + window.scrollY + rect.height / 2;
           const targetX = rect.left + rect.width / 2;
-          const side = targetX < w * 0.5 ? -1 : 1;
-          const branchY = targetY - 24;
+          const branchY = targetY - 20;
 
           list.push({
             pts: [
@@ -77,7 +74,6 @@ export default function EnergyConduits({ isOvercharged }) {
         });
       }
 
-      // If no DOM elements ready yet, generate geometric Stark conduits
       if (list.length === 1) {
         const defaultBranches = [
           [
@@ -102,7 +98,6 @@ export default function EnergyConduits({ isOvercharged }) {
         });
       }
 
-      // Precompute lengths for each conduit
       list.forEach((c) => {
         let total = 0;
         const segLens = [];
@@ -124,23 +119,21 @@ export default function EnergyConduits({ isOvercharged }) {
     window.addEventListener("resize", calculateConduits);
     window.addEventListener("scroll", calculateConduits, { once: true });
 
-    // Periodically re-align conduits once all lazy fonts & layout settle
     const alignTimer = setTimeout(calculateConduits, 800);
 
-    // Data packets initialization
-    const PACKET_COUNT = 48;
+    // Controlled, elegant data packets (no rainbow clutter)
+    const PACKET_COUNT = 28;
     const packets = [];
     for (let i = 0; i < PACKET_COUNT; i++) {
       packets.push({
         conduitIdx: Math.floor(Math.random() * (conduits.length || 1)),
         progress: Math.random(),
-        speed: 0.0018 + Math.random() * 0.0032,
-        color: Math.random() > 0.35 ? "#00f0ff" : "#ffc107", // Arc Cyan or Armor Gold
-        size: 3 + Math.random() * 2,
+        speed: 0.0016 + Math.random() * 0.0028,
+        color: Math.random() > 0.3 ? "#38bdf8" : "#c5a059", // Arc Ice Blue & Titanium Gold
+        size: 2.5 + Math.random() * 1.5,
       });
     }
 
-    // Helper: interpolate point along multi-point polyline
     const getPointAtProgress = (conduit, t) => {
       const targetDist = t * conduit.totalLength;
       let accum = 0;
@@ -164,41 +157,41 @@ export default function EnergyConduits({ isOvercharged }) {
 
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const speedMultiplier = isOvercharged ? 3.8 : 1.0;
+      const speedMultiplier = isOvercharged ? 3.0 : 1.0;
 
-      // 1. Draw Physical Conduit Tracks
+      // 1. Draw Sleek Dark Titanium Conduit Tracks
       conduits.forEach((c) => {
         if (!c.pts || c.pts.length < 2) return;
 
-        // Outer Metallic Conduit Rail
+        // Dark Armor Conduit Base
         ctx.beginPath();
         ctx.moveTo(c.pts[0].x, c.pts[0].y);
         for (let i = 1; i < c.pts.length; i++) {
           ctx.lineTo(c.pts[i].x, c.pts[i].y);
         }
-        ctx.strokeStyle = "rgba(230, 36, 41, 0.16)"; // Stark Crimson subtle conduit
-        ctx.lineWidth = c.type === "spine" ? 6 : 3.5;
+        ctx.strokeStyle = "rgba(185, 28, 28, 0.12)"; // Subtle Stark Crimson under-rail
+        ctx.lineWidth = c.type === "spine" ? 5 : 3;
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
         ctx.stroke();
 
-        // Inner Glowing Glass Tube
+        // Inner Power Line
         ctx.beginPath();
         ctx.moveTo(c.pts[0].x, c.pts[0].y);
         for (let i = 1; i < c.pts.length; i++) {
           ctx.lineTo(c.pts[i].x, c.pts[i].y);
         }
         ctx.strokeStyle = isOvercharged
-          ? "rgba(0, 240, 255, 0.7)"
-          : "rgba(0, 240, 255, 0.22)";
-        ctx.lineWidth = c.type === "spine" ? 2.5 : 1.6;
+          ? "rgba(56, 189, 248, 0.65)"
+          : "rgba(56, 189, 248, 0.16)";
+        ctx.lineWidth = c.type === "spine" ? 2 : 1.2;
         ctx.stroke();
 
-        // Terminal Coupler Nodes
+        // Terminal Coupler
         const endPt = c.pts[c.pts.length - 1];
-        ctx.fillStyle = isOvercharged ? "#00f0ff" : "#ffc107";
+        ctx.fillStyle = isOvercharged ? "#38bdf8" : "#c5a059";
         ctx.beginPath();
-        ctx.arc(endPt.x, endPt.y, c.type === "spine" ? 4.5 : 3.5, 0, Math.PI * 2);
+        ctx.arc(endPt.x, endPt.y, c.type === "spine" ? 3.5 : 2.5, 0, Math.PI * 2);
         ctx.fill();
       });
 
@@ -216,17 +209,16 @@ export default function EnergyConduits({ isOvercharged }) {
 
           const pt = getPointAtProgress(c, p.progress);
 
-          // Glowing Packet Core
           ctx.fillStyle = p.color;
           ctx.shadowColor = p.color;
-          ctx.shadowBlur = isOvercharged ? 16 : 8;
+          ctx.shadowBlur = isOvercharged ? 12 : 6;
 
           ctx.beginPath();
           ctx.arc(pt.x, pt.y, p.size, 0, Math.PI * 2);
           ctx.fill();
 
-          // Particle Trail
-          const trailLen = (isOvercharged ? 20 : 12) * speedMultiplier;
+          // Refined tail
+          const trailLen = (isOvercharged ? 16 : 10) * speedMultiplier;
           ctx.beginPath();
           ctx.moveTo(pt.x, pt.y);
           ctx.lineTo(
@@ -234,12 +226,12 @@ export default function EnergyConduits({ isOvercharged }) {
             pt.y - Math.sin(pt.angle) * trailLen
           );
           ctx.strokeStyle = p.color;
-          ctx.lineWidth = p.size * 0.7;
+          ctx.lineWidth = p.size * 0.6;
           ctx.stroke();
         });
       }
 
-      ctx.shadowBlur = 0; // Reset shadow for performance
+      ctx.shadowBlur = 0;
       animId = requestAnimationFrame(render);
     };
 

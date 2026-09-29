@@ -67,7 +67,7 @@ export default function StarkUplinkCabin() {
           {/* Dispatch Form */}
           <form onSubmit={handleSubmit} className="stark-dispatch-form">
             <div className="form-legend-header">
-              <span className="legend-dot green" />
+              <span className="legend-dot crimson" />
               <span>TRANSMISSION TERMINAL // DIRECT INBOX DISPATCH</span>
             </div>
 

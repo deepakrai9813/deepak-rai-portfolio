@@ -66,7 +66,7 @@ export default function StarkConcurrencyCabin() {
                   className={`btn-strategy ${strategy === "pool" ? "active" : ""}`}
                   onClick={() => setStrategy("pool")}
                 >
-                  <span className="status-dot green" />
+                  <span className="status-dot cyan" />
                   <span>01 // DEEPAK&apos;S ZERO-ALLOC sync.Pool</span>
                 </button>
                 <button
@@ -74,7 +74,7 @@ export default function StarkConcurrencyCabin() {
                   className={`btn-strategy ${strategy === "heap" ? "active" : ""}`}
                   onClick={() => setStrategy("heap")}
                 >
-                  <span className="status-dot red" />
+                  <span className="status-dot crimson" />
                   <span>02 // CONVENTIONAL HEAP ALLOCATIONS</span>
                 </button>
               </div>
@@ -125,7 +125,7 @@ export default function StarkConcurrencyCabin() {
             <div className="telemetry-pod-card">
               <div className="pod-header">
                 <span className="pod-label">HEAP MEMORY FOOTPRINT</span>
-                <span className={`pod-badge ${strategy === "pool" ? "green" : "warn"}`}>
+                <span className={`pod-badge ${strategy === "pool" ? "arc-cyan" : "crimson"}`}>
                   {strategy === "pool" ? `-${memorySavedPct}% REDUCTION` : "HEAP EXPLOSION"}
                 </span>
               </div>
@@ -149,7 +149,7 @@ export default function StarkConcurrencyCabin() {
             <div className="telemetry-pod-card">
               <div className="pod-header">
                 <span className="pod-label">GC PAUSE DURATION (P99)</span>
-                <span className={`pod-badge ${strategy === "pool" ? "green" : "warn"}`}>
+                <span className={`pod-badge ${strategy === "pool" ? "arc-cyan" : "crimson"}`}>
                   {strategy === "pool" ? "ZERO GC PRESSURE" : "STOP-THE-WORLD SPIKE"}
                 </span>
               </div>
@@ -173,7 +173,7 @@ export default function StarkConcurrencyCabin() {
             <div className="telemetry-pod-card">
               <div className="pod-header">
                 <span className="pod-label">THROUGHPUT CAPACITY</span>
-                <span className={`pod-badge ${strategy === "pool" ? "green" : "warn"}`}>
+                <span className={`pod-badge ${strategy === "pool" ? "arc-cyan" : "crimson"}`}>
                   {strategy === "pool" ? "4.6X EFFICIENCY" : "GC BOTTLENECKED"}
                 </span>
               </div>

@@ -36,13 +36,12 @@ export default function StarkHero({ onOvercharge, isOvercharged }) {
           <div className="stark-identity-column">
             <div className="stark-hud-tag">
               <span className="tag-dot red" />
-              <span>STARK INDUSTRIES // MARK-85 PROTOCOL</span>
+              <span>STARK INDUSTRIES · MARK-85 // SPIDER-TECH PROTOCOL</span>
             </div>
 
             <h1 className="stark-main-title">
               DEEPAK RAI <br />
-              <span className="title-gold">FULL-STACK</span> &amp; <br />
-              <span className="title-arc-cyan">SYSTEMS ARCHITECT</span>
+              <span className="title-metallic">FULL-STACK &amp; SYSTEMS ARCHITECT</span>
             </h1>
 
             <p className="stark-core-summary">

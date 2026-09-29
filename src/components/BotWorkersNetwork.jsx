@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 
 const INITIAL_BOTS = [
-  // Pair 1: Cabin 01 (Armory)
+  // Pair 1: Cabin 01 (Armory) - Iron Man & Spider-Man Synergy
   {
     id: "bot-1a",
     name: "FRIDAY-LITE",
-    role: "DATA COURIER",
-    color: "#00f0ff", // Arc Cyan
+    role: "STARK AI SCOUT",
+    opticColor: "#38bdf8", // Arc Ice Blue
+    armorTrim: "#b91c1c", // Stark Crimson
     x: 15,
     startY: 28,
     direction: 1,
@@ -16,23 +17,25 @@ const INITIAL_BOTS = [
   },
   {
     id: "bot-1b",
-    name: "PROXY-SENTINEL (MK-V)",
-    role: "CIRCUIT MONITOR",
-    color: "#ffc107", // Armor Gold
+    name: "SPIDER-BOT (MK-II)",
+    role: "NANO-WEB SENTRY",
+    opticColor: "#c5a059", // Iron Spider Gold
+    armorTrim: "#b91c1c", // Spider Crimson
     x: 75,
     startY: 28,
     direction: -1,
     speed: 0.08,
-    status: "Verifying upstream health check intervals (500ms)...",
+    status: "Inspecting nano-web mesh for circuit fault isolation...",
     pairId: "bot-1a",
   },
 
-  // Pair 2: Cabin 02 (Propulsion Bench)
+  // Pair 2: Cabin 02 (Propulsion Bench) - Stark Engineering Units
   {
     id: "bot-2a",
     name: "GO-RUNNER (MK-IV)",
     role: "CONCURRENCY TESTER",
-    color: "#ffc107", // Armor Gold
+    opticColor: "#c5a059", // Titanium Gold
+    armorTrim: "#b91c1c", // Stark Crimson
     x: 20,
     startY: 56,
     direction: 1,
@@ -42,9 +45,10 @@ const INITIAL_BOTS = [
   },
   {
     id: "bot-2b",
-    name: "BENCH-SCOUT",
-    role: "GC ANALYZER",
-    color: "#00ff9d", // Emerald Matrix
+    name: "DUM-E JUNIOR",
+    role: "BUFFER MONITOR",
+    opticColor: "#38bdf8", // Arc Blue
+    armorTrim: "#c5a059", // Gold
     x: 80,
     startY: 56,
     direction: -1,
@@ -53,24 +57,26 @@ const INITIAL_BOTS = [
     pairId: "bot-2a",
   },
 
-  // Pair 3: Cabin 03 (Secure Uplink)
+  // Pair 3: Cabin 03 (Secure Uplink) - Dispatch Network
   {
     id: "bot-3a",
     name: "COMM-RELAY (MK-III)",
     role: "TRANSMISSION DISPATCH",
-    color: "#00f0ff", // Arc Cyan
+    opticColor: "#38bdf8", // Arc Blue
+    armorTrim: "#b91c1c", // Crimson
     x: 18,
     startY: 82,
     direction: 1,
     speed: 0.06,
-    status: "Monitoring encrypted comm frequency to Deepak's inbox...",
+    status: "Monitoring encrypted comm frequency to Deepak's terminal...",
     pairId: "bot-3b",
   },
   {
     id: "bot-3b",
     name: "STARK-PLANNER",
     role: "SYSTEMS ARCHITECT",
-    color: "#e62429", // Stark Crimson
+    opticColor: "#c5a059", // Gold
+    armorTrim: "#b91c1c", // Crimson
     x: 78,
     startY: 82,
     direction: -1,
@@ -94,7 +100,6 @@ export default function BotWorkersNetwork() {
   useEffect(() => {
     const interval = setInterval(() => {
       setBots((prevBots) => {
-        // Find pairs within close proximity (< 8% distance) on same startY
         const nextBots = [...prevBots];
         const meetingPairs = new Set();
 
@@ -104,14 +109,12 @@ export default function BotWorkersNetwork() {
           const b2 = nextBots.find((b) => b.id === b1.pairId);
 
           if (b2 && Math.abs(b1.x - b2.x) < 7.5 && !b1.reactionText && !b2.reactionText) {
-            // Meeting condition satisfied
             meetingPairs.add(b1.id);
             meetingPairs.add(b2.id);
           }
         }
 
         return nextBots.map((bot) => {
-          // If clicked and reacting, or in meeting, don't move
           const isMeeting = meetingPairs.has(bot.id);
           let dialogue = bot.meetingDialogue;
 
@@ -120,17 +123,17 @@ export default function BotWorkersNetwork() {
               dialogue =
                 bot.direction > 0
                   ? "MEETING: Syncing circuit breaker state with Sentinel!"
-                  : "MEETING: Acknowledged! 0.00% packet loss maintained.";
+                  : "SPIDER-BOT: Acknowledged! 0.00% packet loss maintained.";
             } else if (bot.id.startsWith("bot-2")) {
               dialogue =
                 bot.direction > 0
                   ? "MEETING: Benchmarking 50K goroutines with sync.Pool!"
-                  : "MEETING: GC pause nominal at 0.08ms. Allocation zero!";
+                  : "DUM-E JR: GC pause nominal at 0.08ms. Zero allocation!";
             } else {
               dialogue =
                 bot.direction > 0
-                  ? "MEETING: Checking dispatch uplink queue!"
-                  : "MEETING: Frequency clear to deepakkumar740@gmail.com!";
+                  ? "MEETING: Transmission uplink ready for dispatch!"
+                  : "STARK-PLANNER: Comm frequency clear to deepakkumar740@gmail.com!";
             }
           }
 
@@ -142,7 +145,6 @@ export default function BotWorkersNetwork() {
             };
           }
 
-          // If exiting meeting or normal walk
           let nextX = bot.x + bot.direction * bot.speed;
           let nextDir = bot.direction;
 
@@ -170,11 +172,11 @@ export default function BotWorkersNetwork() {
 
   const handleBotClick = (botId) => {
     const cheers = [
-      "Stark OS verified! Power at 100%!",
+      "Stark OS verified! Power bus nominal.",
       "Zero packet loss maintained on Go proxy!",
       "Deepak's systems engineering is locked and loaded!",
-      "Conduits operating at peak efficiency!",
-      "Reporting to JARVIS: Systems fully operational!",
+      "Arc conduits operating at peak efficiency!",
+      "Reporting to J.A.R.V.I.S.: Systems operational.",
     ];
     const cheer = cheers[Math.floor(Math.random() * cheers.length)];
 
@@ -218,20 +220,29 @@ export default function BotWorkersNetwork() {
               bot.reactionText ? "celebrating" : ""
             }`}
           >
-            {/* Bot Head with Glowing Optic */}
+            {/* Bot Head with Optic Sensor */}
             <div className="walker-head">
               <span
                 className="walker-optic-eye"
-                style={{ backgroundColor: bot.color, boxShadow: `0 0 8px ${bot.color}` }}
+                style={{
+                  backgroundColor: bot.opticColor,
+                  boxShadow: `0 0 6px ${bot.opticColor}`,
+                }}
               />
               <span className="walker-antenna" />
             </div>
 
-            {/* Bot Torso with Power Core */}
-            <div className="walker-torso">
+            {/* Bot Torso with Armor Trim */}
+            <div
+              className="walker-torso"
+              style={{ borderColor: bot.armorTrim }}
+            >
               <span
                 className="walker-micro-arc"
-                style={{ backgroundColor: bot.color, boxShadow: `0 0 6px ${bot.color}` }}
+                style={{
+                  backgroundColor: bot.opticColor,
+                  boxShadow: `0 0 4px ${bot.opticColor}`,
+                }}
               />
               <span className="walker-tool-arm left" />
               <span className="walker-tool-arm right" />
@@ -244,7 +255,7 @@ export default function BotWorkersNetwork() {
             </div>
           </div>
 
-          {/* Rail Track below bot */}
+          {/* Track Rail */}
           <div className="bot-conduit-track" />
         </div>
       ))}

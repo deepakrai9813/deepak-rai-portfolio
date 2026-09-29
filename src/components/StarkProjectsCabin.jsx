@@ -24,7 +24,7 @@ const STARK_SYSTEMS = [
   {
     id: "san-brothers",
     code: "CABIN-01B",
-    botSupervisor: "BOT: SEO-CRAWLER (MK-II)",
+    botSupervisor: "BOT: SPIDER-CRAWLER (MK-II)",
     title: "SAN BROTHERS PLATFORM",
     subtitle: "Enterprise Legal Compliance Platform in Production",
     status: "PRODUCTION LIVE · RANK #1",
@@ -91,7 +91,7 @@ export default function StarkProjectsCabin() {
         {/* Section Header */}
         <div className="stark-cabin-header">
           <div className="header-kicker">
-            <span className="kicker-tag crimson">CABIN 01 // STARK ARMORY</span>
+            <span className="kicker-tag crimson">CABIN 01 // STARK ARMORY &amp; SPIDER-TECH</span>
             <span>FULL-STACK PRODUCTION &amp; HIGH-SCALE SYSTEMS</span>
           </div>
           <h2 className="cabin-title">
