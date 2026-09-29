@@ -1,43 +1,65 @@
+import { useState } from "react";
 import { useTheme } from "./hooks/useTheme";
-import AwwwardsNavbar from "./components/AwwwardsNavbar";
-import AwwwardsHero from "./components/AwwwardsHero";
-import AwwwardsNeuralCore3D from "./components/AwwwardsNeuralCore3D";
-import AwwwardsBentoGrid from "./components/AwwwardsBentoGrid";
-import AwwwardsConcurrencyLab from "./components/AwwwardsConcurrencyLab";
-import AwwwardsManifesto from "./components/AwwwardsManifesto";
-import AwwwardsContact from "./components/AwwwardsContact";
-import AwwwardsFooter from "./components/AwwwardsFooter";
+import StarkNavbar from "./components/StarkNavbar";
+import StarkHero from "./components/StarkHero";
+import EnergyConduits from "./components/EnergyConduits";
+import BotWorkersNetwork from "./components/BotWorkersNetwork";
+import JarvisAssistant from "./components/JarvisAssistant";
+import SpiderWebCorner from "./components/SpiderWebCorner";
+import StarkProjectsCabin from "./components/StarkProjectsCabin";
+import StarkConcurrencyCabin from "./components/StarkConcurrencyCabin";
+import StarkUplinkCabin from "./components/StarkUplinkCabin";
+import StarkFooter from "./components/StarkFooter";
 
 export default function App() {
   const { theme, toggle: toggleTheme } = useTheme();
+  const [isOvercharged, setIsOvercharged] = useState(false);
+
+  const handleOvercharge = () => {
+    setIsOvercharged(true);
+    setTimeout(() => setIsOvercharged(false), 2600);
+  };
 
   return (
-    <div className="awwwards-portfolio-root">
-      {/* Uiverse Floating Island Capsule Dock */}
-      <AwwwardsNavbar theme={theme} toggleTheme={toggleTheme} />
+    <div className="stark-portfolio-root">
+      {/* 5% Spider-Man Realistic Corner Webs */}
+      <SpiderWebCorner />
+
+      {/* Visible Active Energy & Data Pipelines Connected to the Central Arc Reactor */}
+      <EnergyConduits isOvercharged={isOvercharged} />
+
+      {/* Autonomous Bot Workers Patrolling and Interacting across the Page */}
+      <BotWorkersNetwork />
+
+      {/* J.A.R.V.I.S. Interactive AI Assistant with Animated Eye & Voice Synthesis */}
+      <JarvisAssistant />
+
+      {/* Stark Industries Armor Console Navigation Bar */}
+      <StarkNavbar
+        theme={theme}
+        toggleTheme={toggleTheme}
+        isOvercharged={isOvercharged}
+      />
 
       <main>
-        {/* Cinematic Awwwards Hero & Holographic Bento Monolith (Deepak's 2D Photo) */}
-        <AwwwardsHero />
+        {/* Hero Section featuring the Central Arc Reactor ("Iron Heart") & Deepak's 2D Portrait */}
+        <StarkHero
+          onOvercharge={handleOvercharge}
+          isOvercharged={isOvercharged}
+        />
 
-        {/* 3D Volumetric Distributed Neural Core (Three.js WebGL) */}
-        <AwwwardsNeuralCore3D />
+        {/* Cabin 01: Full-Stack Stark Armory & Systems */}
+        <StarkProjectsCabin />
 
-        {/* The Bento Architectural Systems Exhibition */}
-        <AwwwardsBentoGrid />
+        {/* Cabin 02: Go Concurrency & Propulsion Bench */}
+        <StarkConcurrencyCabin />
 
-        {/* Uiverse Concurrency & Zero-Alloc Memory Lab */}
-        <AwwwardsConcurrencyLab />
-
-        {/* Core Architectural Manifesto */}
-        <AwwwardsManifesto />
-
-        {/* Direct Dispatch & Collaboration Station */}
-        <AwwwardsContact />
+        {/* Cabin 03: Direct Transmission Uplink */}
+        <StarkUplinkCabin />
       </main>
 
-      {/* Monumental Cinematic Signoff Footer */}
-      <AwwwardsFooter />
+      {/* Stark Industries Specifications Footer */}
+      <StarkFooter />
     </div>
   );
 }
