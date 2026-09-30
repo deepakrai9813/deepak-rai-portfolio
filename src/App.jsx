@@ -2,17 +2,21 @@ import { useState, useEffect } from "react";
 import CustomCursor from "./components/CustomCursor";
 import ParticleCanvas from "./components/ParticleCanvas";
 import ThemePaletteSwitcher from "./components/ThemePaletteSwitcher";
+import SoundFXWidget from "./components/SoundFXWidget";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import BentoAbout from "./components/BentoAbout";
 import Projects from "./components/Projects";
 import ArchitectureComparison from "./components/ArchitectureComparison";
+import ArchitectureDecisionRecords from "./components/ArchitectureDecisionRecords";
 import Experience from "./components/Experience";
 import GitHubActivityHeatmap from "./components/GitHubActivityHeatmap";
 import ProjectCalculator from "./components/ProjectCalculator";
 import ChaosSimulator from "./components/ChaosSimulator";
+import SystemStatusDashboard from "./components/SystemStatusDashboard";
 import InteractiveTerminal from "./components/InteractiveTerminal";
 import TechPlayground from "./components/TechPlayground";
+import QueryOptimizerVisualizer from "./components/QueryOptimizerVisualizer";
 import Skills from "./components/Skills";
 import CertificationsDeck from "./components/CertificationsDeck";
 import Testimonials from "./components/Testimonials";
@@ -23,10 +27,12 @@ import Footer from "./components/Footer";
 import CommandPalette from "./components/CommandPalette";
 import CaseStudyModal from "./components/CaseStudyModal";
 import ScheduleMeetingModal from "./components/ScheduleMeetingModal";
+import PressKitModal from "./components/PressKitModal";
 
 export default function App() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
+  const [isPressKitOpen, setIsPressKitOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
   // Global Keyboard Shortcut: ⌘K or Ctrl+K
@@ -56,8 +62,11 @@ export default function App() {
       </div>
       <ParticleCanvas />
 
-      {/* 3. Floating Candy Theme Accent Switcher */}
-      <ThemePaletteSwitcher />
+      {/* 3. Floating Docks: Audio & Theme Switchers */}
+      <div className="bottom-floating-controls-dock" aria-label="Quick Settings Dock">
+        <SoundFXWidget />
+        <ThemePaletteSwitcher />
+      </div>
 
       {/* 4. Floating Island Pill Navbar */}
       <Navbar
@@ -81,6 +90,11 @@ export default function App() {
           <ArchitectureComparison />
         </section>
 
+        {/* Architecture Decision Records (ADRs) Catalog */}
+        <section id="adrs" className="section-container-block" style={{ paddingBottom: "20px" }}>
+          <ArchitectureDecisionRecords />
+        </section>
+
         <Experience />
 
         {/* GitHub Code Velocity & Heatmap Section */}
@@ -96,6 +110,11 @@ export default function App() {
         {/* Distributed Systems Chaos & Traffic Spike Simulator */}
         <section id="chaos-simulator" className="section-container-block" style={{ paddingBottom: "20px" }}>
           <ChaosSimulator />
+        </section>
+
+        {/* System Health Observability & Incident Post-Mortems */}
+        <section id="system-status" className="section-container-block" style={{ paddingBottom: "20px" }}>
+          <SystemStatusDashboard />
         </section>
 
         {/* Live Interactive Developer Terminal Console */}
@@ -121,6 +140,11 @@ export default function App() {
           <TechPlayground />
         </section>
 
+        {/* Database Query Optimizer & EXPLAIN Plan Visualizer */}
+        <section id="query-optimizer" className="section-container-block" style={{ paddingBottom: "20px" }}>
+          <QueryOptimizerVisualizer />
+        </section>
+
         <Skills />
 
         {/* Verified Credentials, Certifications & Engineering Badges */}
@@ -139,13 +163,14 @@ export default function App() {
       <VibeWidget />
 
       {/* 7. Luminous Minimalist Footer */}
-      <Footer />
+      <Footer onOpenPressKit={() => setIsPressKitOpen(true)} />
 
       {/* 8. Command Palette (⌘K) Dialog */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
         onOpenSchedule={() => setIsScheduleModalOpen(true)}
+        onOpenPressKit={() => setIsPressKitOpen(true)}
       />
 
       {/* 9. Technical Case Study Modal */}
@@ -160,6 +185,12 @@ export default function App() {
       <ScheduleMeetingModal
         isOpen={isScheduleModalOpen}
         onClose={() => setIsScheduleModalOpen(false)}
+      />
+
+      {/* 11. Engineering Press Kit & Media Briefing Modal */}
+      <PressKitModal
+        isOpen={isPressKitOpen}
+        onClose={() => setIsPressKitOpen(false)}
       />
     </div>
   );

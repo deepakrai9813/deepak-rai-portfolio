@@ -1,6 +1,6 @@
 import { PERSONAL_INFO } from "../utils/data";
 
-export default function Footer() {
+export default function Footer({ onOpenPressKit }) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -12,12 +12,22 @@ export default function Footer() {
         <div>
           <span>&copy; {currentYear} {PERSONAL_INFO.name}. All rights reserved.</span>
           <span style={{ display: "block", fontSize: "12px", color: "var(--text-faint)" }}>
-            Obsidian Dark Architecture &bull; Built with React &amp; Tailwind CSS
+            Luminous Modernist Architecture &bull; Built with React 19, TypeScript &amp; Vite
           </span>
         </div>
       </div>
 
       <div className="footer-social-links">
+        {onOpenPressKit && (
+          <button
+            type="button"
+            className="footer-link-btn"
+            onClick={onOpenPressKit}
+            title="Open Executive Bio & Press Kit"
+          >
+            Press Kit / Bio
+          </button>
+        )}
         <a
           href={PERSONAL_INFO.github}
           target="_blank"
