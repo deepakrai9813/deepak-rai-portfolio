@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
-export default function Navbar({ onOpenCommandPalette }) {
+export default function Navbar({ onOpenCommandPalette, onOpenSchedule }) {
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["hero", "about", "projects", "experience", "skills", "contact"];
+      const sections = ["hero", "about", "projects", "architecture-comparison", "experience", "skills", "contact"];
       const scrollPosition = window.scrollY + 200;
 
       for (const sectionId of sections) {
@@ -94,6 +94,20 @@ export default function Navbar({ onOpenCommandPalette }) {
             </svg>
             <span>Search</span>
             <kbd className="kbd-badge">⌘K</kbd>
+          </button>
+
+          <button
+            type="button"
+            className="btn-nav-schedule"
+            onClick={onOpenSchedule}
+            title="Schedule a 15-30m technical chat"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+            </svg>
+            <span>Book Chat</span>
           </button>
 
           <a

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { PERSONAL_INFO } from "../utils/data";
 
-export default function CommandPalette({ isOpen, onClose }) {
+export default function CommandPalette({ isOpen, onClose, onOpenSchedule }) {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
@@ -62,6 +62,17 @@ export default function CommandPalette({ isOpen, onClose }) {
       ),
     },
     {
+      id: "sec-arch-comparison",
+      title: "Architecture Modernization (Before vs. After)",
+      tag: "Case Study",
+      action: () => scrollTo("architecture-comparison"),
+      icon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+      ),
+    },
+    {
       id: "sec-experience",
       title: "Career Timeline & History",
       tag: "Navigation",
@@ -70,18 +81,6 @@ export default function CommandPalette({ isOpen, onClose }) {
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
           <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-        </svg>
-      ),
-    },
-    {
-      id: "sec-skills",
-      title: "Technical Stack & Competencies",
-      tag: "Navigation",
-      action: () => scrollTo("skills"),
-      icon: (
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <polyline points="16 18 22 12 16 6" />
-          <polyline points="8 6 2 12 8 18" />
         </svg>
       ),
     },
@@ -116,6 +115,17 @@ export default function CommandPalette({ isOpen, onClose }) {
       ),
     },
     {
+      id: "sec-chaos",
+      title: "Cluster Chaos & Spike Simulator",
+      tag: "Interactive Tool",
+      action: () => scrollTo("chaos-simulator"),
+      icon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+      ),
+    },
+    {
       id: "sec-terminal",
       title: "Interactive Developer Terminal Console",
       tag: "Feature",
@@ -124,6 +134,41 @@ export default function CommandPalette({ isOpen, onClose }) {
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <polyline points="4 17 10 11 4 5" />
           <line x1="12" y1="19" x2="20" y2="19" />
+        </svg>
+      ),
+    },
+    {
+      id: "sec-playground",
+      title: "Live Architecture & Code Inspector",
+      tag: "Feature",
+      action: () => scrollTo("tech-playground"),
+      icon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+      ),
+    },
+    {
+      id: "sec-skills",
+      title: "Technical Stack & Competencies",
+      tag: "Navigation",
+      action: () => scrollTo("skills"),
+      icon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+      ),
+    },
+    {
+      id: "sec-certifications",
+      title: "Certifications & Verified Badges",
+      tag: "Credentials",
+      action: () => scrollTo("certifications"),
+      icon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 15l-2 5l9-11h-7l2-5l-9 11h7z" />
         </svg>
       ),
     },
@@ -148,6 +193,23 @@ export default function CommandPalette({ isOpen, onClose }) {
           <circle cx="12" cy="12" r="10" />
           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
           <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+      ),
+    },
+    {
+      id: "act-schedule",
+      title: "Schedule a 15-30m Technical Conversation",
+      tag: "Action",
+      action: () => {
+        onClose();
+        if (onOpenSchedule) onOpenSchedule();
+      },
+      icon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
         </svg>
       ),
     },
@@ -226,9 +288,10 @@ export default function CommandPalette({ isOpen, onClose }) {
     },
   ];
 
-  const filtered = commands.filter((c) =>
-    c.title.toLowerCase().includes(query.toLowerCase()) ||
-    c.tag.toLowerCase().includes(query.toLowerCase())
+  const filtered = commands.filter(
+    (c) =>
+      c.title.toLowerCase().includes(query.toLowerCase()) ||
+      c.tag.toLowerCase().includes(query.toLowerCase())
   );
 
   const handleKeyDown = (e) => {

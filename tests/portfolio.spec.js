@@ -12,6 +12,7 @@ test.describe("Senior Developer Portfolio (Bright & Fun Modernist)", () => {
     await expect(page.locator(".brand-text-name")).toHaveText("Deepak Kumar");
     await expect(page.locator(".btn-cmd-shortcut")).toBeVisible();
     await expect(page.locator(".btn-nav-resume")).toBeVisible();
+    await expect(page.locator(".btn-nav-schedule")).toBeVisible();
 
     // 2. Hero Section Verification
     const hero = page.locator("#hero");
@@ -20,6 +21,7 @@ test.describe("Senior Developer Portfolio (Bright & Fun Modernist)", () => {
     await expect(page.locator(".hero-main-title")).toBeVisible();
     await expect(page.locator(".hero-cli-badge")).toBeVisible();
     await expect(page.locator(".hero-stats-ribbon .hero-stat-card")).toHaveCount(4);
+    await expect(page.locator(".btn-schedule-action")).toBeVisible();
 
     // 3. Bento About & Architecture Topology Verification
     const about = page.locator("#about");
@@ -44,25 +46,44 @@ test.describe("Senior Developer Portfolio (Bright & Fun Modernist)", () => {
     await page.locator(".btn-close-modal").click();
     await expect(modal).not.toBeVisible();
 
-    // 6. Experience Timeline Verification
+    // 6. Architecture Modernization (Before vs After) Verification
+    const archComp = page.locator("#architecture-comparison");
+    await expect(archComp).toBeVisible();
+    await expect(page.locator(".arch-side-card")).toHaveCount(2);
+    await expect(page.locator(".arch-metric-card")).toHaveCount(4);
+    await page.locator(".arch-view-btn.modern").click();
+    await expect(page.locator(".arch-side-card.legacy-card")).toHaveClass(/dimmed/);
+    await page.locator(".solution-tab-btn").nth(1).click();
+    await expect(page.locator(".solution-tab-btn").nth(1)).toHaveClass(/active/);
+
+    // 7. Experience Timeline Verification
     const exp = page.locator("#experience");
     await expect(exp).toBeVisible();
     await expect(page.locator(".timeline-role-item")).toHaveCount(3);
 
-    // 7. GitHub Activity Heatmap Verification
+    // 8. GitHub Activity Heatmap Verification
     const heatmap = page.locator("#heatmap");
     await expect(heatmap).toBeVisible();
     await expect(page.locator(".activity-heatmap-card")).toBeVisible();
     await expect(page.locator(".heatmap-cell").first()).toBeVisible();
 
-    // 8. Project Scope Calculator Verification
+    // 9. Project Scope Calculator Verification
     const calc = page.locator("#calculator");
     await expect(calc).toBeVisible();
     await expect(page.locator(".project-calculator-card")).toBeVisible();
     await page.locator(".calc-type-btn").nth(1).click();
     await expect(page.locator(".calc-type-btn").nth(1)).toHaveClass(/active/);
 
-    // 9. Interactive Developer Terminal Verification
+    // 10. Distributed Systems Chaos Simulator Verification
+    const chaos = page.locator("#chaos-simulator");
+    await expect(chaos).toBeVisible();
+    await expect(page.locator(".chaos-dashboard-card")).toBeVisible();
+    await page.locator(".chaos-btn.spike").click();
+    await expect(page.locator(".chaos-btn.spike")).toHaveClass(/active/);
+    await expect(page.locator(".log-row-item").last()).toBeVisible();
+    await page.locator(".chaos-btn.reset").click();
+
+    // 11. Interactive Developer Terminal Verification
     const terminal = page.locator("#terminal");
     await expect(terminal).toBeVisible();
     await expect(page.locator(".terminal-widget-container")).toBeVisible();
@@ -70,33 +91,73 @@ test.describe("Senior Developer Portfolio (Bright & Fun Modernist)", () => {
     await metricsChip.click();
     await expect(page.locator(".terminal-log-row.output").last()).toContainText("cluster_uptime");
 
-    // 10. Skills Matrix Verification
+    // 12. Tech Playground & Code Inspector Verification
+    const playground = page.locator("#tech-playground");
+    await expect(playground).toBeVisible();
+    await expect(page.locator(".playground-cat-btn")).toHaveCount(4);
+    await page.locator(".playground-cat-btn").nth(1).click(); // Frontend
+    await expect(page.locator(".pattern-select-btn").first()).toBeVisible();
+    await expect(page.locator(".syntax-pre-block")).toBeVisible();
+    await page.locator(".btn-copy-code").click();
+    await expect(page.locator(".copied-text")).toBeVisible();
+
+    // 13. Skills Matrix Verification
     const skills = page.locator("#skills");
     await expect(skills).toBeVisible();
     await expect(page.locator(".skills-category-card")).toHaveCount(4);
 
-    // 11. Testimonials Verification
+    // 14. Certifications & Verified Badges Verification
+    const certs = page.locator("#certifications");
+    await expect(certs).toBeVisible();
+    await expect(page.locator(".cert-card-item")).toHaveCount(4);
+    await page.locator(".btn-cert-details").first().click();
+    const certModal = page.locator(".cert-modal-dialog");
+    await expect(certModal).toBeVisible();
+    await expect(certModal.locator(".cert-dialog-title")).toContainText("AWS");
+    await page.locator(".btn-close-cert-modal").click();
+    await expect(certModal).not.toBeVisible();
+
+    // 15. Testimonials Verification
     const testimonials = page.locator("#testimonials");
     await expect(testimonials).toBeVisible();
     await expect(page.locator(".testimonial-card")).toHaveCount(3);
 
-    // 12. FAQ Accordion Verification
+    // 16. FAQ Accordion Verification
     const faq = page.locator("#faq");
     await expect(faq).toBeVisible();
     await expect(page.locator(".faq-accordion-item")).toHaveCount(4);
     await page.locator(".faq-question-btn").nth(1).click();
     await expect(page.locator(".faq-answer-panel")).toBeVisible();
 
-    // 13. Contact Section Verification
+    // 17. Contact Section Verification
     const contact = page.locator("#contact");
     await expect(contact).toBeVisible();
     await expect(page.locator(".contact-method-card")).toHaveCount(4);
+    await expect(page.locator(".contact-schedule-trigger-card")).toBeVisible();
     await expect(page.locator(".contact-form-card")).toBeVisible();
 
-    // 14. Vibe Floating Widget
+    // 18. Theme Palette Switcher Verification
+    const paletteSwitcher = page.locator(".theme-palette-switcher");
+    await expect(paletteSwitcher).toBeVisible();
+    await page.locator(".palette-color-dot").nth(1).click(); // Coral
+    await expect(page.locator("html")).toHaveAttribute("data-accent", "coral");
+    await page.locator(".palette-color-dot").first().click(); // Indigo
+    await expect(page.locator("html")).toHaveAttribute("data-accent", "indigo");
+
+    // 19. Schedule Meeting Modal Verification
+    await page.locator(".btn-schedule-action").click();
+    const schedModal = page.locator(".schedule-modal-dialog");
+    await expect(schedModal).toBeVisible();
+    await page.locator(".format-tile-btn").first().click();
+    await expect(page.locator(".format-tile-btn").first()).toHaveClass(/active/);
+    await page.locator(".btn-copy-agenda").click();
+    await page.locator(".btn-close-schedule-modal").click();
+    await expect(schedModal).not.toBeVisible();
+
+    // 20. Vibe Floating Widget
     await expect(page.locator(".vibe-floating-widget")).toBeVisible();
 
-    // 15. Command Palette (⌘K) Modal Verification
+    // 21. Command Palette (⌘K) Modal Verification
     await page.locator(".btn-cmd-shortcut").click();
     const cmdPalette = page.locator(".cmd-palette-dialog");
     await expect(cmdPalette).toBeVisible();
@@ -105,12 +166,14 @@ test.describe("Senior Developer Portfolio (Bright & Fun Modernist)", () => {
     await page.keyboard.press("Escape");
     await expect(cmdPalette).not.toBeVisible();
 
-    // 16. Footer Verification
+    // 22. Footer Verification
     const footer = page.locator(".portfolio-footer-bar");
     await expect(footer).toBeVisible();
     await expect(footer).toContainText("Deepak Kumar");
 
-    // Take Desktop Full Page Screenshot
+    // Scroll to top and take Desktop Full Page Screenshot
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(300);
     await page.screenshot({ path: "test-results/portfolio-desktop.png", fullPage: true });
   });
 
@@ -124,16 +187,23 @@ test.describe("Senior Developer Portfolio (Bright & Fun Modernist)", () => {
     await expect(page.locator("#about")).toBeVisible();
     await expect(page.locator(".architecture-topology-card")).toBeVisible();
     await expect(page.locator("#projects")).toBeVisible();
+    await expect(page.locator("#architecture-comparison")).toBeVisible();
     await expect(page.locator("#experience")).toBeVisible();
     await expect(page.locator("#heatmap")).toBeVisible();
     await expect(page.locator("#calculator")).toBeVisible();
+    await expect(page.locator("#chaos-simulator")).toBeVisible();
     await expect(page.locator("#terminal")).toBeVisible();
+    await expect(page.locator("#tech-playground")).toBeVisible();
     await expect(page.locator("#skills")).toBeVisible();
+    await expect(page.locator("#certifications")).toBeVisible();
     await expect(page.locator("#testimonials")).toBeVisible();
     await expect(page.locator("#faq")).toBeVisible();
     await expect(page.locator("#contact")).toBeVisible();
+    await expect(page.locator(".theme-palette-switcher")).toBeVisible();
 
-    // Take Mobile Screenshot
+    // Scroll to top and take Mobile Screenshot
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(300);
     await page.screenshot({ path: "test-results/portfolio-mobile.png", fullPage: true });
   });
 });

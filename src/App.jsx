@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react";
 import CustomCursor from "./components/CustomCursor";
 import ParticleCanvas from "./components/ParticleCanvas";
+import ThemePaletteSwitcher from "./components/ThemePaletteSwitcher";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import BentoAbout from "./components/BentoAbout";
 import Projects from "./components/Projects";
+import ArchitectureComparison from "./components/ArchitectureComparison";
 import Experience from "./components/Experience";
 import GitHubActivityHeatmap from "./components/GitHubActivityHeatmap";
 import ProjectCalculator from "./components/ProjectCalculator";
+import ChaosSimulator from "./components/ChaosSimulator";
 import InteractiveTerminal from "./components/InteractiveTerminal";
+import TechPlayground from "./components/TechPlayground";
 import Skills from "./components/Skills";
+import CertificationsDeck from "./components/CertificationsDeck";
 import Testimonials from "./components/Testimonials";
 import FunFAQ from "./components/FunFAQ";
 import Contact from "./components/Contact";
@@ -17,9 +22,11 @@ import VibeWidget from "./components/VibeWidget";
 import Footer from "./components/Footer";
 import CommandPalette from "./components/CommandPalette";
 import CaseStudyModal from "./components/CaseStudyModal";
+import ScheduleMeetingModal from "./components/ScheduleMeetingModal";
 
 export default function App() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
   // Global Keyboard Shortcut: ⌘K or Ctrl+K
@@ -49,14 +56,31 @@ export default function App() {
       </div>
       <ParticleCanvas />
 
-      {/* 3. Floating Island Pill Navbar */}
-      <Navbar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
+      {/* 3. Floating Candy Theme Accent Switcher */}
+      <ThemePaletteSwitcher />
 
-      {/* 4. Main Content Sections */}
+      {/* 4. Floating Island Pill Navbar */}
+      <Navbar
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        onOpenSchedule={() => setIsScheduleModalOpen(true)}
+      />
+
+      {/* 5. Main Content Sections */}
       <main id="main-content">
-        <Hero onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
+        <Hero
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          onOpenSchedule={() => setIsScheduleModalOpen(true)}
+        />
+
         <BentoAbout />
+
         <Projects onSelectProject={(project) => setSelectedProject(project)} />
+
+        {/* Architectural Transformation: Before vs. After Case Study */}
+        <section id="architecture-comparison" className="section-container-block" style={{ paddingBottom: "20px" }}>
+          <ArchitectureComparison />
+        </section>
+
         <Experience />
 
         {/* GitHub Code Velocity & Heatmap Section */}
@@ -67,6 +91,11 @@ export default function App() {
         {/* Interactive Scope & Velocity Estimator */}
         <section id="calculator" className="section-container-block" style={{ paddingBottom: "20px" }}>
           <ProjectCalculator />
+        </section>
+
+        {/* Distributed Systems Chaos & Traffic Spike Simulator */}
+        <section id="chaos-simulator" className="section-container-block" style={{ paddingBottom: "20px" }}>
+          <ChaosSimulator />
         </section>
 
         {/* Live Interactive Developer Terminal Console */}
@@ -87,31 +116,51 @@ export default function App() {
           <InteractiveTerminal />
         </section>
 
+        {/* Interactive Code & Production Pattern Inspector */}
+        <section id="tech-playground" className="section-container-block" style={{ paddingBottom: "20px" }}>
+          <TechPlayground />
+        </section>
+
         <Skills />
+
+        {/* Verified Credentials, Certifications & Engineering Badges */}
+        <section id="certifications" className="section-container-block" style={{ paddingBottom: "20px" }}>
+          <CertificationsDeck />
+        </section>
+
         <Testimonials />
+
         <FunFAQ />
-        <Contact />
+
+        <Contact onOpenSchedule={() => setIsScheduleModalOpen(true)} />
       </main>
 
-      {/* 5. Floating Vibe Music Dock Widget */}
+      {/* 6. Floating Vibe Music Dock Widget */}
       <VibeWidget />
 
-      {/* 6. Luminous Minimalist Footer */}
+      {/* 7. Luminous Minimalist Footer */}
       <Footer />
 
-      {/* 7. Command Palette (⌘K) Dialog */}
+      {/* 8. Command Palette (⌘K) Dialog */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
+        onOpenSchedule={() => setIsScheduleModalOpen(true)}
       />
 
-      {/* 8. Technical Case Study Modal */}
+      {/* 9. Technical Case Study Modal */}
       {selectedProject && (
         <CaseStudyModal
           project={selectedProject}
           onClose={() => setSelectedProject(null)}
         />
       )}
+
+      {/* 10. Direct Technical Conversation & Meeting Scheduler Modal */}
+      <ScheduleMeetingModal
+        isOpen={isScheduleModalOpen}
+        onClose={() => setIsScheduleModalOpen(false)}
+      />
     </div>
   );
 }

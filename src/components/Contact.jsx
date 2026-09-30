@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PERSONAL_INFO } from "../utils/data";
 
-export default function Contact() {
+export default function Contact({ onOpenSchedule }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -170,6 +170,29 @@ export default function Contact() {
               <span className="contact-val-txt">github.com/deepakrai9813</span>
             </div>
           </a>
+
+          {/* Quick Schedule Trigger Card */}
+          <div
+            className="contact-schedule-trigger-card"
+            onClick={onOpenSchedule}
+            title="Book a 15-30 min conversation"
+          >
+            <div className="sched-trigger-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+            </div>
+            <div className="sched-trigger-content">
+              <span className="sched-trigger-title">Prefer a Live Chat?</span>
+              <span className="sched-trigger-sub">Schedule 15m Coffee Chat or 30m Tech Review</span>
+            </div>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </div>
         </div>
 
         {/* Right Column: Contact Message Form */}

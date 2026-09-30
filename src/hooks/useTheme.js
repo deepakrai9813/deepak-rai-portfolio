@@ -1,38 +1,21 @@
 import { useEffect, useState, useCallback } from "react";
 
 export const ACCENTS = [
-  { id: "lime", name: "Electric Lime", color: "#c8f04a" },
-  { id: "cyan", name: "Cyber Cyan", color: "#00f2fe" },
-  { id: "violet", name: "Radiant Violet", color: "#a855f7" },
-  { id: "coral", name: "Sunset Coral", color: "#ff6550" },
-  { id: "emerald", name: "Emerald Mint", color: "#10b981" },
+  { id: "indigo", name: "Electric Indigo", color: "#4f46e5", light: "#ede9fe", hover: "#6366f1" },
+  { id: "coral", name: "Sunset Coral", color: "#ea580c", light: "#ffedd5", hover: "#f97316" },
+  { id: "emerald", name: "Mint Emerald", color: "#059669", light: "#dcfce7", hover: "#10b981" },
+  { id: "cyan", name: "Cyber Cyan", color: "#0284c7", light: "#e0f2fe", hover: "#06b6d4" },
+  { id: "magenta", name: "Vibrant Magenta", color: "#db2777", light: "#fce7f3", hover: "#f43f5e" },
 ];
 
 export function useTheme() {
-  const [theme, setTheme] = useState(() => {
-    try {
-      return localStorage.getItem("dr-theme") || "dark";
-    } catch {
-      return "dark";
-    }
-  });
-
   const [accent, setAccent] = useState(() => {
     try {
-      return localStorage.getItem("dr-accent") || "lime";
+      return localStorage.getItem("dr-accent") || "indigo";
     } catch {
-      return "lime";
+      return "indigo";
     }
   });
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    try {
-      localStorage.setItem("dr-theme", theme);
-    } catch {
-      /* ignore */
-    }
-  }, [theme]);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-accent", accent);
@@ -43,13 +26,9 @@ export function useTheme() {
     }
   }, [accent]);
 
-  const toggle = useCallback(() => {
-    setTheme((t) => (t === "dark" ? "light" : "dark"));
-  }, []);
-
   const changeAccent = useCallback((newAccent) => {
     setAccent(newAccent);
   }, []);
 
-  return { theme, toggle, accent, changeAccent, accents: ACCENTS };
+  return { accent, changeAccent, accents: ACCENTS };
 }
