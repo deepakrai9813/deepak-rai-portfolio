@@ -3,32 +3,19 @@ import { useMachineStore } from "./store/useMachineStore";
 import { playHeartbeat } from "./utils/audioSystem";
 
 import AtmosphereBackground from "./components/AtmosphereBackground";
-import PipelinesCanvas from "./components/PipelinesCanvas";
-import SpiderWebCanvas from "./components/SpiderWebCanvas";
-import HeaderNav from "./components/HeaderNav";
-import HeroCabin from "./components/HeroCabin";
-import BotWorkers from "./components/BotWorkers";
-import SkillsCabins from "./components/SkillsCabins";
-import ProjectsCabin from "./components/ProjectsCabin";
-import ExperienceCabin from "./components/ExperienceCabin";
-import ContactCabin from "./components/ContactCabin";
-import WorkshopFooter from "./components/WorkshopFooter";
+import CommandCenterView from "./components/CommandCenterView";
+import CaseStudyModal from "./components/CaseStudyModal";
+import ContactModal from "./components/ContactModal";
 import JarvisConsole from "./components/JarvisConsole";
 import BootSequence from "./components/BootSequence";
+import WorkshopFooter from "./components/WorkshopFooter";
+import contentData from "./data/content.json";
 
 export default function App() {
-  const { isBooted, soundEnabled, triggerHeartbeat } = useMachineStore();
+  const { soundEnabled, triggerHeartbeat } = useMachineStore();
   const [bootCompleted, setBootCompleted] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
-
-  // Handle smooth scroll navigation
-  const handleNavigate = (sectionId) => {
-    setActiveSection(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   // Double-Pulse Heartbeat Cycle (1.4s loop: Lub at 0s, Dub at 0.22s)
   useEffect(() => {
@@ -42,22 +29,18 @@ export default function App() {
     return () => clearInterval(heartbeatInterval);
   }, [soundEnabled, triggerHeartbeat]);
 
-  // Scroll spy to highlight active section in HeaderNav
-  useEffect(() => {
-    const sections = ["hero", "skills", "projects", "experience", "contact"];
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 250;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(sections[i]);
-          break;
-        }
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const handleOpenProjects = () => {
+    // Open the primary showcase project
+    setSelectedProject(contentData.projects[0]);
+  };
+
+  const handleOpenContact = () => {
+    setIsContactModalOpen(true);
+  };
+
+  const handleSelectProject = (project) => {
+    setSelectedProject(project);
+  };
 
   return (
     <div className="living-machine-root">
@@ -69,41 +52,41 @@ export default function App() {
       {/* 2. Atmosphere Canvas & Blueprint Grid Backdrop */}
       <AtmosphereBackground />
 
-      {/* 3. Three Conduits (Cyan Data, Gold Power, Red Telemetry) with Packets */}
-      <PipelinesCanvas />
-
-      {/* 4. Top-Right Spider-Man Recon Web (5% Accent with Verlet Physics) */}
-      <SpiderWebCanvas />
-
-      {/* 5. Top Command Header Bar */}
-      <HeaderNav activeSection={activeSection} onNavigate={handleNavigate} />
-
-      {/* 6. Living Machine Main Content Stream */}
-      <main className="workshop-main-stream">
-        {/* Sector 01: Core Command Deck (Arc Reactor Heart) */}
-        <HeroCabin onNavigate={handleNavigate} />
-
-        {/* 8 Bots on Patrol & Holographic Mission Control Kanban Table */}
-        <BotWorkers activeSection={activeSection} />
-
-        {/* Sector 02: Reactor Core Lab (Skills & Engineering Subsystems) */}
-        <SkillsCabins />
-
-        {/* Sector 03: Deployment Bay (Projects & Performance Metrics) */}
-        <ProjectsCabin />
-
-        {/* Sector 04: Flight Logs (Career Milestones & Audits) */}
-        <ExperienceCabin />
-
-        {/* Sector 05: Quantum Transmitter (Comms & Direct Hire) */}
-        <ContactCabin />
+      {/* 3. The Panoramic Workshop Command Center (Matching media_1790677833683.jpg) */}
+      <main className="panoramic-workshop-stage">
+        <CommandCenterView
+          onOpenProjects={handleOpenProjects}
+          onOpenContact={handleOpenContact}
+          onSelectProject={handleSelectProject}
+        />
       </main>
 
-      {/* 7. Grid Termination Footer with Uptime & Fan Disclaimer */}
-      <WorkshopFooter onNavigate={handleNavigate} />
+      {/* 4. Grid Termination Footer with Uptime & Fan Disclaimer */}
+      <WorkshopFooter onNavigate={(sec) => {
+        const el = document.getElementById(sec);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }} />
 
-      {/* 8. J.A.R.V.I.S. Floating Holographic AI Interface */}
-      <JarvisConsole onNavigate={handleNavigate} />
+      {/* 5. J.A.R.V.I.S. Floating Holographic AI Interface */}
+      <JarvisConsole onNavigate={(sec) => {
+        if (sec === "contact") setIsContactModalOpen(true);
+        if (sec === "projects") setSelectedProject(contentData.projects[0]);
+      }} />
+
+      {/* 6. High-Tech Modals */}
+      {selectedProject && (
+        <CaseStudyModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
+
+      {isContactModalOpen && (
+        <ContactModal
+          isOpen={isContactModalOpen}
+          onClose={() => setIsContactModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

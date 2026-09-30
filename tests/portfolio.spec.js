@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Iron Man Living Machine Portfolio Tests", () => {
-  test("Desktop Viewport (1440x900) - Full Page Verification", async ({ page }) => {
+test.describe("Iron Man Living Machine Workshop Command Center Tests", () => {
+  test("Desktop Viewport (1440x900) - Exact Reference Layout Verification", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("http://localhost:5173/");
 
@@ -11,55 +11,71 @@ test.describe("Iron Man Living Machine Portfolio Tests", () => {
       await skipBtn.click();
     }
 
-    // Verify header navigation and status
-    await expect(page.locator(".brand-title")).toHaveText("DEEPAK KUMAR");
-    await expect(page.locator(".system-status-pill")).toBeVisible();
+    // 1. Verify Top Navigation
+    await expect(page.locator(".brand-name")).toHaveText("Deepak Kumar");
+    await expect(page.locator(".audio-status-pill")).toBeVisible();
 
-    // Verify Sector 01: Core Command Deck & 3D Arc Reactor
-    await expect(page.locator("#hero")).toBeVisible();
-    await expect(page.locator(".arc-reactor-canvas-mount")).toBeVisible();
-    await expect(page.locator(".developer-name")).toContainText("Deepak Kumar");
-    await expect(page.locator(".btn-overcharge")).toBeVisible();
+    // 2. Verify Profile HUD (Top-Left)
+    await expect(page.locator(".profile-hud")).toBeVisible();
+    await expect(page.locator(".hud-name")).toHaveText("Deepak Kumar");
 
-    // Verify Spider-Man Recon Web in top-right corner
-    await expect(page.locator(".spider-web-corner")).toBeVisible();
-    await expect(page.locator(".spider-web-canvas")).toBeVisible();
+    // 3. Verify Center IRON HEART Superstructure
+    await expect(page.locator(".iron-heart-housing")).toBeVisible();
+    await expect(page.locator(".maintenance-bay-hud")).toBeVisible();
+    await expect(page.locator(".planning-catwalk-gantry")).toBeVisible();
 
-    // Verify SPARK is stationed on the gantry catwalk
-    await expect(page.locator(".bot-spark-gantry")).toBeVisible();
+    // 4. Verify Skills Console (Mid-Left)
+    await expect(page.locator(".skills-hud")).toBeVisible();
+    await expect(page.locator(".skill-rack-btn")).toHaveCount(8);
 
-    // Take Desktop Hero Screenshot
-    await page.screenshot({ path: "test-results/desktop-hero-1440.png" });
+    // 5. Verify Experience Terminal (Bottom-Left)
+    await expect(page.locator(".experience-hud")).toBeVisible();
 
-    // Click SPARK to verify speech bubble
-    await page.locator(".bot-spark-gantry").click();
-    await expect(page.locator(".spark-bubble")).toBeVisible();
+    // 6. Verify J.A.R.V.I.S. AI Terminal (Upper-Right)
+    await expect(page.locator(".jarvis-hud-terminal")).toBeVisible();
+    await expect(page.locator(".btn-talk-jarvis")).toBeVisible();
 
-    // Scroll to Mission Control & Skills
-    await page.locator("#skills").scrollIntoViewIfNeeded();
-    await expect(page.locator(".mission-control-table-section")).toBeVisible();
-    await expect(page.locator(".sub-cabin-card")).toHaveCount(4);
-    await page.screenshot({ path: "test-results/desktop-skills-1440.png" });
+    // 7. Verify Projects Bay (Top-Right)
+    await expect(page.locator(".projects-hud")).toBeVisible();
+    await expect(page.locator(".project-row-item")).toHaveCount(3);
 
-    // Scroll to Projects
-    await page.locator("#projects").scrollIntoViewIfNeeded();
-    await expect(page.locator(".project-bay-module")).toHaveCount(4);
-    await page.screenshot({ path: "test-results/desktop-projects-1440.png" });
+    // 8. Verify Contact Terminal (Mid-Right)
+    await expect(page.locator(".contact-hud")).toBeVisible();
 
-    // Scroll to Contact
-    await page.locator("#contact").scrollIntoViewIfNeeded();
-    await expect(page.locator(".stark-comms-form")).toBeVisible();
-    await page.screenshot({ path: "test-results/desktop-contact-1440.png" });
+    // 9. Verify Code Base Terminal (Bottom-Right)
+    await expect(page.locator(".codebase-hud")).toBeVisible();
 
-    // Open J.A.R.V.I.S. AI Interface
-    const jarvisOrb = page.locator(".jarvis-floating-orb");
-    await expect(jarvisOrb).toBeVisible();
-    await jarvisOrb.click();
-    await expect(page.locator(".jarvis-console-window")).toBeVisible();
-    await page.screenshot({ path: "test-results/desktop-jarvis-1440.png" });
+    // 10. Verify Data Flow & Resume (Bottom-Center)
+    await expect(page.locator(".dataflow-resume-terminal")).toBeVisible();
+    await expect(page.locator(".btn-download-resume")).toBeVisible();
+
+    // 11. Verify Spider-Man 5% Accents
+    await expect(page.locator(".corner-spider-web.top-right")).toBeVisible();
+    await expect(page.locator(".corner-spider-web.bottom-right")).toBeVisible();
+
+    // Test Iron Heart Overcharge click
+    await page.locator(".iron-heart-housing").click();
+    await expect(page.locator(".iron-heart-housing")).toHaveClass(/overcharged/);
+
+    // Capture Full Desktop Command Center Screenshot
+    await page.screenshot({ path: "test-results/command-center-desktop.png" });
+
+    // Test Project Click opens Case Study Modal
+    await page.locator(".project-row-item").first().click();
+    await expect(page.locator(".stark-modal-card")).toBeVisible();
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: "test-results/modal-project-view.png" });
+    await page.locator(".modal-close-btn").click();
+
+    // Test Contact Me opens Contact Modal
+    await page.locator(".btn-hud.secondary").click();
+    await expect(page.locator(".contact-modal-card")).toBeVisible();
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: "test-results/modal-contact-view.png" });
+    await page.locator(".modal-close-btn").click();
   });
 
-  test("Mobile Viewport (390x844) - Responsive Layout Verification", async ({ page }) => {
+  test("Mobile Viewport (390x844) - Responsive Deck Verification", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("http://localhost:5173/");
 
@@ -68,14 +84,12 @@ test.describe("Iron Man Living Machine Portfolio Tests", () => {
       await skipBtn.click();
     }
 
-    // Verify Mobile Layout elements
-    await expect(page.locator(".developer-name")).toBeVisible();
-    await expect(page.locator(".arc-reactor-canvas-mount")).toBeVisible();
-    await expect(page.locator("#skills")).toBeVisible();
-    await expect(page.locator("#projects")).toBeVisible();
-    await expect(page.locator("#contact")).toBeVisible();
+    // Verify key mobile elements
+    await expect(page.locator(".profile-hud")).toBeVisible();
+    await expect(page.locator(".iron-heart-housing")).toBeVisible();
+    await expect(page.locator(".skills-hud")).toBeVisible();
+    await expect(page.locator(".projects-hud")).toBeVisible();
 
-    // Take Mobile Screenshot
-    await page.screenshot({ path: "test-results/mobile-390.png" });
+    await page.screenshot({ path: "test-results/command-center-mobile.png" });
   });
 });
