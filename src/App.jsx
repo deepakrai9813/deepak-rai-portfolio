@@ -1,46 +1,52 @@
 import { useState, useEffect } from "react";
-import { useTheme } from "./hooks/useTheme";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Projects from "./components/Projects";
-import SideQuests from "./components/SideQuests";
-import Visuals from "./components/Visuals";
-import Experience from "./components/Experience";
-import Tools from "./components/Tools";
-import About from "./components/About";
-import Footer from "./components/Footer";
-import CaseStudyModal from "./components/CaseStudyModal";
-import CommandPalette from "./components/CommandPalette";
-import Toast from "./components/Toast";
-import { toggleSound } from "./utils/soundFx";
+import { useMachineStore } from "./store/useMachineStore";
+import { playHeartbeat } from "./utils/audioSystem";
+
+import AtmosphereBackground from "./components/AtmosphereBackground";
+import PipelinesCanvas from "./components/PipelinesCanvas";
+import SpiderWebCanvas from "./components/SpiderWebCanvas";
+import HeaderNav from "./components/HeaderNav";
+import HeroCabin from "./components/HeroCabin";
+import BotWorkers from "./components/BotWorkers";
+import SkillsCabins from "./components/SkillsCabins";
+import ProjectsCabin from "./components/ProjectsCabin";
+import ExperienceCabin from "./components/ExperienceCabin";
+import ContactCabin from "./components/ContactCabin";
+import WorkshopFooter from "./components/WorkshopFooter";
+import JarvisConsole from "./components/JarvisConsole";
+import BootSequence from "./components/BootSequence";
 
 export default function App() {
-  const { theme, toggle: toggleTheme } = useTheme();
-  const [activeSection, setActiveSection] = useState("home");
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [isCmdOpen, setIsCmdOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
+  const { isBooted, soundEnabled, triggerHeartbeat } = useMachineStore();
+  const [bootCompleted, setBootCompleted] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
-  const showToast = (msg) => {
-    setToastMessage(msg);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 2800);
-  };
-
+  // Handle smooth scroll navigation
   const handleNavigate = (sectionId) => {
     setActiveSection(sectionId);
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
-  // Scroll spy to update active nav item
+  // Double-Pulse Heartbeat Cycle (1.4s loop: Lub at 0s, Dub at 0.22s)
   useEffect(() => {
-    const sections = ["home", "projects", "side-quests", "visuals", "experience", "tools", "about", "contact"];
+    const heartbeatInterval = setInterval(() => {
+      triggerHeartbeat();
+      if (soundEnabled) {
+        playHeartbeat(true);
+      }
+    }, 1400);
+
+    return () => clearInterval(heartbeatInterval);
+  }, [soundEnabled, triggerHeartbeat]);
+
+  // Scroll spy to highlight active section in HeaderNav
+  useEffect(() => {
+    const sections = ["hero", "skills", "projects", "experience", "contact"];
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 200;
+      const scrollPos = window.scrollY + 250;
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el && el.offsetTop <= scrollPos) {
@@ -54,56 +60,50 @@ export default function App() {
   }, []);
 
   return (
-    <div className={`framer-portfolio-root theme-${theme}`}>
-      {/* Ambient background glow layers (Signature Neha Yadav soft radial lighting) */}
-      <div className="framer-ambient-canvas" aria-hidden="true">
-        <div className="ambient-radial glow-top" />
-        <div className="ambient-radial glow-center" />
-        <div className="ambient-radial glow-bottom" />
-        <div className="ambient-subtle-grid" />
-      </div>
+    <div className="living-machine-root">
+      {/* 1. Optional Skippable Boot Sequence */}
+      {!bootCompleted && (
+        <BootSequence onComplete={() => setBootCompleted(true)} />
+      )}
 
-      {/* Floating Pill Header */}
-      <Navbar
-        theme={theme}
-        toggleTheme={toggleTheme}
-        activeSection={activeSection}
-        onNavigate={handleNavigate}
-        onOpenCmd={() => setIsCmdOpen(true)}
-      />
+      {/* 2. Atmosphere Canvas & Blueprint Grid Backdrop */}
+      <AtmosphereBackground />
 
-      {/* Main Content Sections */}
-      <main className="framer-main-layout">
-        <Hero onNavigate={handleNavigate} onShowToast={showToast} />
-        <Projects onSelectProject={(p) => setSelectedProject(p)} />
-        <SideQuests onShowToast={showToast} />
-        <Visuals />
-        <Experience />
-        <Tools />
-        <About onNavigate={handleNavigate} />
-        <Footer onShowToast={showToast} />
+      {/* 3. Three Conduits (Cyan Data, Gold Power, Red Telemetry) with Packets */}
+      <PipelinesCanvas />
+
+      {/* 4. Top-Right Spider-Man Recon Web (5% Accent with Verlet Physics) */}
+      <SpiderWebCanvas />
+
+      {/* 5. Top Command Header Bar */}
+      <HeaderNav activeSection={activeSection} onNavigate={handleNavigate} />
+
+      {/* 6. Living Machine Main Content Stream */}
+      <main className="workshop-main-stream">
+        {/* Sector 01: Core Command Deck (Arc Reactor Heart) */}
+        <HeroCabin onNavigate={handleNavigate} />
+
+        {/* 8 Bots on Patrol & Holographic Mission Control Kanban Table */}
+        <BotWorkers activeSection={activeSection} />
+
+        {/* Sector 02: Reactor Core Lab (Skills & Engineering Subsystems) */}
+        <SkillsCabins />
+
+        {/* Sector 03: Deployment Bay (Projects & Performance Metrics) */}
+        <ProjectsCabin />
+
+        {/* Sector 04: Flight Logs (Career Milestones & Audits) */}
+        <ExperienceCabin />
+
+        {/* Sector 05: Quantum Transmitter (Comms & Direct Hire) */}
+        <ContactCabin />
       </main>
 
-      {/* Modals & Overlays (only rendered when active) */}
-      {selectedProject && (
-        <CaseStudyModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
+      {/* 7. Grid Termination Footer with Uptime & Fan Disclaimer */}
+      <WorkshopFooter onNavigate={handleNavigate} />
 
-      {isCmdOpen && (
-        <CommandPalette
-          isOpen={isCmdOpen}
-          onClose={() => setIsCmdOpen(false)}
-          onNavigate={handleNavigate}
-          toggleTheme={toggleTheme}
-          toggleSound={toggleSound}
-          onShowToast={showToast}
-        />
-      )}
-
-      <Toast message={toastMessage} />
+      {/* 8. J.A.R.V.I.S. Floating Holographic AI Interface */}
+      <JarvisConsole onNavigate={handleNavigate} />
     </div>
   );
 }

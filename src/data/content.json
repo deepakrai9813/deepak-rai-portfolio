@@ -1,0 +1,182 @@
+{
+  "profile": {
+    "name": "Deepak Kumar",
+    "callsign": "STARK-DEV-01",
+    "role": "Full Stack Developer",
+    "tagline": "Architecting resilient distributed web systems, high-concurrency cloud engines & intelligent AI pipelines.",
+    "about": "Full stack software engineer with 3+ years of experience engineering high-performance web applications, scalable microservices, and automated AI pipelines. I specialize in the React/Next.js ecosystem, event-driven Node.js backends, and cloud data architectures. Driven by precision engineering and human-centered design to turn complex technical challenges into rock-solid software.",
+    "yearsOfExperience": 3,
+    "location": "Bahadurgarh, Haryana, India",
+    "stats": [
+      { "label": "Production Uptime", "value": "99.98%", "detail": "Zero unbudgeted downtime across cloud clusters" },
+      { "label": "API p95 Latency", "value": "<18ms", "detail": "Edge caching & distributed Redis pub/sub pipelines" },
+      { "label": "Code Commits", "value": "1,450+", "detail": "Continuous automated integration & delivery cycles" }
+    ],
+    "currentMission": {
+      "status": "Available for High-Impact Roles",
+      "bestFit": "Senior / Lead Full-Stack Engineering, Cloud & AI Systems",
+      "workingStyle": "Autonomous, metrics-driven, test-anchored development",
+      "replyTime": "< 6 Hours"
+    }
+  },
+  "reactor": {
+    "title": "IRON HEART // MARK-85",
+    "subtitle": "Quantum Arc Processor powering portfolio grid",
+    "voltage": "3.85 GW",
+    "frequency": "71.4 Hz",
+    "coreTemp": "310 K",
+    "efficiency": "99.94%"
+  },
+  "skills": {
+    "frontend": [
+      { "name": "React 19 / Next.js 15", "level": 96, "desc": "Server Components, App Router, Hooks & Concurrent Mode" },
+      { "name": "TypeScript", "level": 92, "desc": "Strict typing, Generics, AST parsing & Type Safety" },
+      { "name": "Tailwind CSS & CSS Shaders", "level": 95, "desc": "Design tokens, hardware-accelerated micro-interactions" },
+      { "name": "State Machines & WebGL", "level": 88, "desc": "Zustand, Three.js, Canvas PBR rendering" }
+    ],
+    "backend": [
+      { "name": "Node.js & Express", "level": 94, "desc": "Event-driven runtime, streams, cluster workers" },
+      { "name": "Python & FastAPI", "level": 86, "desc": "Asynchronous APIs, background workers, LangChain" },
+      { "name": "WebSockets & gRPC", "level": 90, "desc": "Sub-50ms bidirectional real-time state synchronization" },
+      { "name": "REST & GraphQL", "level": 92, "desc": "Strict schema contracts, rate limiting & auth pipelines" }
+    ],
+    "data": [
+      { "name": "MongoDB Sharding", "level": 94, "desc": "Aggregation pipelines, replica sets, index optimization" },
+      { "name": "PostgreSQL & pgvector", "level": 89, "desc": "ACID compliance, relational joins, semantic search" },
+      { "name": "Redis Pub/Sub & Caching", "level": 93, "desc": "In-memory message brokers, distributed lock managers" },
+      { "name": "Firebase / Firestore", "level": 86, "desc": "Real-time document stores, security rules" }
+    ],
+    "cloud": [
+      { "name": "Docker & Containerization", "level": 92, "desc": "Multi-stage builds, alpine images, resource sandboxing" },
+      { "name": "Git & CI/CD Actions", "level": 95, "desc": "Automated linting, testing, canary deployments" },
+      { "name": "AWS (S3, EC2, CloudFront)", "level": 88, "desc": "Edge CDN distribution, resilient compute orchestration" },
+      { "name": "Linux & Bash Automation", "level": 90, "desc": "Kernel tuning, SSH security, process supervisors" }
+    ]
+  },
+  "projects": [
+    {
+      "id": "san-brothers",
+      "name": "San Brothers Corporate Solutions",
+      "summary": "Enterprise corporate automation platform unifying customer KYC, invoicing, and transactional workflows.",
+      "problem": "Manual spreadsheets and fragmented email communications caused severe reconciliation delays and 7-day onboarding backlogs.",
+      "stack": ["React", "Node.js", "Express", "MongoDB", "Redis", "Tailwind CSS"],
+      "resultMetric": "4.5x Faster Onboarding",
+      "secondaryMetric": "60% Latency Cut",
+      "liveUrl": "https://sanbrothers.in/",
+      "repoUrl": "https://github.com/deepakrai9813/deepak-rai-portfolio",
+      "assignedBot": "ROOT",
+      "packetType": "JSON",
+      "status": "Production Live"
+    },
+    {
+      "id": "leadfinder-ai",
+      "name": "LeadFinder AI™",
+      "summary": "Autonomous B2B prospect discovery and qualification engine powered by LLM agent reasoning.",
+      "problem": "Sales teams spent over 60% of work hours manually scouring prospect databases with low qualification accuracy.",
+      "stack": ["Next.js", "FastAPI", "LangChain", "OpenAI API", "PostgreSQL", "Docker"],
+      "resultMetric": "10x Pipeline Velocity",
+      "secondaryMetric": "85% Lead Accuracy",
+      "liveUrl": "https://github.com/deepakrai9813",
+      "repoUrl": "https://github.com/deepakrai9813",
+      "assignedBot": "QUERY",
+      "packetType": "SQL",
+      "status": "Deployed"
+    },
+    {
+      "id": "nexus-cloud",
+      "name": "Nexus Cloud Real-Time Engine",
+      "summary": "Distributed WebSocket cluster supporting 50k+ concurrent connections with sub-50ms state replication.",
+      "problem": "Single-node monolithic socket servers suffered memory leaks and crashed under spike load above 4,000 users.",
+      "stack": ["Node.js", "WebSockets", "Redis Pub/Sub", "Go Gateway", "Docker"],
+      "resultMetric": "sub-50ms Broadcast Latency",
+      "secondaryMetric": "50k+ Concurrent Users",
+      "liveUrl": "https://github.com/deepakrai9813",
+      "repoUrl": "https://github.com/deepakrai9813",
+      "assignedBot": "KUBO",
+      "packetType": "POST",
+      "status": "Architecture Verified"
+    },
+    {
+      "id": "codecraft-studio",
+      "name": "CodeCraft Cloud Studio",
+      "summary": "Lightweight in-browser code execution sandbox with real-time compilation and AI pair programming.",
+      "problem": "Traditional cloud IDEs require heavy 5-second remote container initialization per script execution.",
+      "stack": ["React", "Monaco Editor", "WebAssembly", "Node.js", "Tailwind CSS"],
+      "resultMetric": "<200ms Cold Execution",
+      "secondaryMetric": "12+ Language Runtimes",
+      "liveUrl": "https://github.com/deepakrai9813",
+      "repoUrl": "https://github.com/deepakrai9813",
+      "assignedBot": "PIXEL",
+      "packetType": "CI",
+      "status": "Open Source"
+    }
+  ],
+  "experience": [
+    {
+      "period": "2023 — Present",
+      "role": "Full Stack Developer",
+      "company": "San Brothers Corporate Solutions",
+      "location": "India",
+      "bullets": [
+        "Architected core corporate customer onboarding portal and automated invoicing engine processing daily financial operations.",
+        "Refactored database aggregation queries and introduced distributed Redis caching, reducing p95 API response times by 60%."
+      ],
+      "assignedBot": "SPARK",
+      "cabin": "Mission Control"
+    },
+    {
+      "period": "2022 — 2023",
+      "role": "Independent Full Stack Consultant",
+      "company": "Global Startups & SaaS Clients",
+      "location": "Remote",
+      "bullets": [
+        "Engineered end-to-end web applications, payment gateways (Stripe/Razorpay), and real-time dashboards for early-stage founders.",
+        "Delivered 6+ production web applications with 100% on-time milestone delivery and automated CI/CD pipelines."
+      ],
+      "assignedBot": "AEGIS",
+      "cabin": "Security Bay"
+    },
+    {
+      "period": "2021 — 2022",
+      "role": "Open Source Contributor & AI Research",
+      "company": "Developer Community",
+      "location": "Remote",
+      "bullets": [
+        "Contributed to modern JavaScript tooling, authored reusable developer hooks, and benchmarked LLM agent execution patterns.",
+        "Implemented WebAssembly runtimes and studied distributed database sharding and fault-tolerant network topologies."
+      ],
+      "assignedBot": "BUGSY",
+      "cabin": "QA Lab"
+    }
+  ],
+  "bots": [
+    { "id": "PIXEL", "name": "PIXEL", "role": "Frontend Engineer", "color": "#3ee8ff", "cabin": "Frontend Lab", "tool": "Holo-Keyboard & Component Blocks", "job": "Compiling React 19 UI components" },
+    { "id": "ROOT", "name": "ROOT", "role": "Backend Engineer", "color": "#f6b93b", "cabin": "API Gateway", "tool": "Server Patch Cables & Gateway Router", "job": "Routing high-throughput WebSocket streams" },
+    { "id": "QUERY", "name": "QUERY", "role": "Database Architect", "color": "#a6f4ff", "cabin": "Database Vault", "tool": "Data Crystal Sorter", "job": "Re-indexing sharded MongoDB clusters" },
+    { "id": "KUBO", "name": "KUBO", "role": "DevOps Specialist", "color": "#d98a2b", "cabin": "DevOps Deck", "tool": "Welding Torch & Pressure Gauges", "job": "Calibrating Docker container pipelines" },
+    { "id": "AEGIS", "name": "AEGIS", "role": "Security Officer", "color": "#ff5a52", "cabin": "Security Bay", "tool": "Holographic Shield Scanner", "job": "Scanning JWT tokens & perimeter firewalls" },
+    { "id": "BUGSY", "name": "BUGSY", "role": "QA & Test Lead", "color": "#e6f2ff", "cabin": "QA Lab", "tool": "Quantum Magnifier & Bug Trapping Jar", "job": "Running automated end-to-end test suites" },
+    { "id": "NOVA", "name": "NOVA", "role": "UI/UX Designer", "color": "#ffd166", "cabin": "Design Studio", "tool": "Stylus & Floating Color Palette", "job": "Synthesizing Stark design tokens" },
+    { "id": "SPARK", "name": "SPARK", "role": "Reactor Technician", "color": "#fff1c2", "cabin": "Reactor Control", "tool": "Calibration Wand & Multimeter", "job": "Monitoring Arc Reactor thermal flux" }
+  ],
+  "contact": {
+    "email": "deepakkumar740@gmail.com",
+    "github": "https://github.com/deepakrai9813",
+    "linkedin": "https://linkedin.com/in/deepakrai9813",
+    "resumeUrl": "/Deepak-Kumar-Resume.pdf",
+    "endpoint": "https://api.web3forms.com/submit"
+  },
+  "jarvis": {
+    "name": "J.A.R.V.I.S.",
+    "designation": "Just A Rather Very Intelligent System",
+    "persona": "Dry, courteous, impeccably British technical assistant. Always concise, witty, strictly grounded in Deepak Kumar's verified engineering portfolio.",
+    "suggestedPrompts": [
+      "Tell me about Deepak's experience",
+      "Which projects highlight backend scalability?",
+      "Overcharge the Arc Reactor",
+      "Show me his tech stack",
+      "Draft an email to Deepak"
+    ]
+  },
+  "disclaimer": "Fan-inspired theme. Not affiliated with or endorsed by Marvel. J.A.R.V.I.S. and Iron Man are trademarks of their respective copyright holders."
+}
