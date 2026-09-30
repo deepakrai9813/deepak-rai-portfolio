@@ -1,60 +1,56 @@
 import { EXPERIENCE_TIMELINE } from "../utils/data";
-import { playClick } from "../utils/soundFx";
 
 export default function Experience() {
   return (
-    <section id="experience" className="framer-section framer-experience-section">
-      <div className="framer-container">
-        {/* Section Header */}
-        <div className="framer-section-header">
-          <span className="section-eyebrow">CAREER TIMELINE</span>
-          <h2 className="section-title">Experience</h2>
-          <p className="section-subtitle">
-            Track record of shipping mission-critical systems and full-stack platforms.
-          </p>
+    <section id="experience" className="section-container-block">
+      {/* Section Header */}
+      <div className="section-header-lockup">
+        <div className="section-tag-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+          </svg>
+          <span>CAREER TIMELINE</span>
         </div>
+        <h2 className="section-heading-title">Engineering Journey</h2>
+        <p className="section-subtitle-text">
+          Proven history of building mission-critical software, enterprise portals, and high-concurrency systems.
+        </p>
+      </div>
 
-        {/* Experience Timeline Rows */}
-        <div className="experience-timeline">
-          {EXPERIENCE_TIMELINE.map((item) => (
-            <div key={item.id} className="experience-row">
-              <div className="exp-period-col">
-                <span className="exp-period">{item.period}</span>
-                <span className="exp-type-badge">{item.type}</span>
-              </div>
-
-              <div className="exp-content-col">
-                <div className="exp-role-header">
-                  <h3 className="exp-role">{item.role}</h3>
-                  <span className="exp-company">{item.company}</span>
-                </div>
-
-                <p className="exp-desc">{item.description}</p>
-
-                <ul className="exp-highlights-list">
-                  {item.highlights.map((h, i) => (
-                    <li key={i} className="exp-highlight-item">
-                      <span className="highlight-bullet">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                          <polyline points="9 18 15 12 9 6" />
-                        </svg>
-                      </span>
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="exp-skills-row">
-                  {item.skills.map((s) => (
-                    <span key={s} className="exp-skill-tag" onClick={playClick}>
-                      {s}
-                    </span>
-                  ))}
+      {/* Timeline Stream */}
+      <div className="timeline-card-stream">
+        {EXPERIENCE_TIMELINE.map((item) => (
+          <div key={item.id} className="timeline-role-item">
+            <div className="timeline-item-header">
+              <div className="role-title-box">
+                <h3>{item.role}</h3>
+                <div className="role-company-line">
+                  {item.company} &bull; {item.location} ({item.type})
                 </div>
               </div>
+              <div className="role-period-badge">{item.period}</div>
             </div>
-          ))}
-        </div>
+
+            <p style={{ fontSize: "14.5px", color: "var(--text-secondary)", marginBottom: "16px", lineHeight: "1.6" }}>
+              {item.description}
+            </p>
+
+            <ul className="role-bullet-points">
+              {item.highlights.map((bullet, idx) => (
+                <li key={idx}>{bullet}</li>
+              ))}
+            </ul>
+
+            <div className="tech-pills-wrap" style={{ marginTop: "20px" }}>
+              {item.skills.map((s) => (
+                <span key={s} className="tech-tag-pill" style={{ fontSize: "11.5px" }}>
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

@@ -1,90 +1,69 @@
 import { useState, useEffect } from "react";
-import { useMachineStore } from "./store/useMachineStore";
-import { playHeartbeat } from "./utils/audioSystem";
-
-import AtmosphereBackground from "./components/AtmosphereBackground";
-import CommandCenterView from "./components/CommandCenterView";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import BentoAbout from "./components/BentoAbout";
+import Projects from "./components/Projects";
+import Experience from "./components/Experience";
+import Skills from "./components/Skills";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import CommandPalette from "./components/CommandPalette";
 import CaseStudyModal from "./components/CaseStudyModal";
-import ContactModal from "./components/ContactModal";
-import JarvisConsole from "./components/JarvisConsole";
-import BootSequence from "./components/BootSequence";
-import WorkshopFooter from "./components/WorkshopFooter";
-import contentData from "./data/content.json";
 
 export default function App() {
-  const { soundEnabled, triggerHeartbeat } = useMachineStore();
-  const [bootCompleted, setBootCompleted] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
-  // Double-Pulse Heartbeat Cycle (1.4s loop: Lub at 0s, Dub at 0.22s)
+  // Global Keyboard Shortcut: ⌘K or Ctrl+K
   useEffect(() => {
-    const heartbeatInterval = setInterval(() => {
-      triggerHeartbeat();
-      if (soundEnabled) {
-        playHeartbeat(true);
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
       }
-    }, 1400);
+    };
 
-    return () => clearInterval(heartbeatInterval);
-  }, [soundEnabled, triggerHeartbeat]);
-
-  const handleOpenProjects = () => {
-    // Open the primary showcase project
-    setSelectedProject(contentData.projects[0]);
-  };
-
-  const handleOpenContact = () => {
-    setIsContactModalOpen(true);
-  };
-
-  const handleSelectProject = (project) => {
-    setSelectedProject(project);
-  };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
-    <div className="living-machine-root">
-      {/* 1. Optional Skippable Boot Sequence */}
-      {!bootCompleted && (
-        <BootSequence onComplete={() => setBootCompleted(true)} />
-      )}
+    <div className="portfolio-app-root">
+      {/* 1. Ambient Lighting & Mesh Backdrop */}
+      <div className="ambient-mesh-canvas" aria-hidden="true">
+        <div className="mesh-glow-orb orb-1" />
+        <div className="mesh-glow-orb orb-2" />
+        <div className="mesh-glow-orb orb-3" />
+        <div className="mesh-noise-overlay" />
+      </div>
 
-      {/* 2. Atmosphere Canvas & Blueprint Grid Backdrop */}
-      <AtmosphereBackground />
+      {/* 2. Floating Island Pill Navbar */}
+      <Navbar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
 
-      {/* 3. The Panoramic Workshop Command Center (Matching media_1790677833683.jpg) */}
-      <main className="panoramic-workshop-stage">
-        <CommandCenterView
-          onOpenProjects={handleOpenProjects}
-          onOpenContact={handleOpenContact}
-          onSelectProject={handleSelectProject}
-        />
+      {/* 3. Main Content Sections */}
+      <main id="main-content">
+        <Hero onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
+        <BentoAbout />
+        <Projects onSelectProject={(project) => setSelectedProject(project)} />
+        <Experience />
+        <Skills />
+        <Contact />
       </main>
 
-      {/* 4. Grid Termination Footer with Uptime & Fan Disclaimer */}
-      <WorkshopFooter onNavigate={(sec) => {
-        const el = document.getElementById(sec);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }} />
+      {/* 4. Luxury Minimalist Footer */}
+      <Footer />
 
-      {/* 5. J.A.R.V.I.S. Floating Holographic AI Interface */}
-      <JarvisConsole onNavigate={(sec) => {
-        if (sec === "contact") setIsContactModalOpen(true);
-        if (sec === "projects") setSelectedProject(contentData.projects[0]);
-      }} />
+      {/* 5. Command Palette (⌘K) Dialog */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+      />
 
-      {/* 6. High-Tech Modals */}
+      {/* 6. Technical Case Study Modal */}
       {selectedProject && (
         <CaseStudyModal
           project={selectedProject}
           onClose={() => setSelectedProject(null)}
-        />
-      )}
-
-      {isContactModalOpen && (
-        <ContactModal
-          isOpen={isContactModalOpen}
-          onClose={() => setIsContactModalOpen(false)}
         />
       )}
     </div>

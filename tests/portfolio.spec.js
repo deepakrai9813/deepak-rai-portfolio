@@ -1,95 +1,95 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Iron Man Living Machine Workshop Command Center Tests", () => {
-  test("Desktop Viewport (1440x900) - Exact Reference Layout Verification", async ({ page }) => {
+test.describe("Senior Developer Portfolio (Obsidian Dark Luxury Bento)", () => {
+  test("Desktop Viewport (1440x900) - Complete Structure & Interaction Verification", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("http://localhost:5173/");
 
-    // Wait for boot sequence and bypass it
-    const skipBtn = page.locator(".boot-skip-btn");
-    if (await skipBtn.isVisible({ timeout: 2000 })) {
-      await skipBtn.click();
-    }
+    // 1. Floating Island Navbar Verification
+    const nav = page.locator(".floating-navbar-pill");
+    await expect(nav).toBeVisible();
+    await expect(nav.locator(".brand-symbol-badge")).toHaveText("DK");
+    await expect(page.locator(".brand-text-name")).toHaveText("Deepak Kumar");
+    await expect(page.locator(".btn-cmd-shortcut")).toBeVisible();
+    await expect(page.locator(".btn-nav-resume")).toBeVisible();
 
-    // 1. Verify Top Navigation
-    await expect(page.locator(".brand-name")).toHaveText("Deepak Kumar");
-    await expect(page.locator(".audio-status-pill")).toBeVisible();
+    // 2. Hero Section Verification
+    const hero = page.locator("#hero");
+    await expect(hero).toBeVisible();
+    await expect(page.locator(".hero-status-pill")).toContainText("Available for Senior / Full-Stack Roles");
+    await expect(page.locator(".hero-main-title")).toBeVisible();
+    await expect(page.locator(".hero-stats-ribbon .hero-stat-card")).toHaveCount(4);
 
-    // 2. Verify Profile HUD (Top-Left)
-    await expect(page.locator(".profile-hud")).toBeVisible();
-    await expect(page.locator(".hud-name")).toHaveText("Deepak Kumar");
+    // 3. Bento About Section Verification
+    const about = page.locator("#about");
+    await expect(about).toBeVisible();
+    await expect(page.locator(".bento-tile")).toHaveCount(4);
+    await expect(page.locator(".tech-tag-pill")).not.toHaveCount(0);
 
-    // 3. Verify Center IRON HEART Superstructure
-    await expect(page.locator(".iron-heart-housing")).toBeVisible();
-    await expect(page.locator(".maintenance-bay-hud")).toBeVisible();
-    await expect(page.locator(".planning-catwalk-gantry")).toBeVisible();
+    // 4. Projects Showcase Verification
+    const projects = page.locator("#projects");
+    await expect(projects).toBeVisible();
+    await expect(page.locator(".project-showcase-card")).toHaveCount(4);
 
-    // 4. Verify Skills Console (Mid-Left)
-    await expect(page.locator(".skills-hud")).toBeVisible();
-    await expect(page.locator(".skill-rack-btn")).toHaveCount(8);
+    // 5. Test Case Study Modal
+    const firstCaseStudyBtn = page.locator(".btn-case-study").first();
+    await firstCaseStudyBtn.click();
+    const modal = page.locator(".case-study-dialog");
+    await expect(modal).toBeVisible();
+    await expect(modal.locator("h2")).toContainText("San Brothers");
+    // Close modal via close button
+    await page.locator(".btn-close-modal").click();
+    await expect(modal).not.toBeVisible();
 
-    // 5. Verify Experience Terminal (Bottom-Left)
-    await expect(page.locator(".experience-hud")).toBeVisible();
+    // 6. Experience Timeline Verification
+    const exp = page.locator("#experience");
+    await expect(exp).toBeVisible();
+    await expect(page.locator(".timeline-role-item")).toHaveCount(3);
 
-    // 6. Verify J.A.R.V.I.S. AI Terminal (Upper-Right)
-    await expect(page.locator(".jarvis-hud-terminal")).toBeVisible();
-    await expect(page.locator(".btn-talk-jarvis")).toBeVisible();
+    // 7. Skills Matrix Verification
+    const skills = page.locator("#skills");
+    await expect(skills).toBeVisible();
+    await expect(page.locator(".skills-category-card")).toHaveCount(4);
 
-    // 7. Verify Projects Bay (Top-Right)
-    await expect(page.locator(".projects-hud")).toBeVisible();
-    await expect(page.locator(".project-row-item")).toHaveCount(3);
+    // 8. Contact Section Verification
+    const contact = page.locator("#contact");
+    await expect(contact).toBeVisible();
+    await expect(page.locator(".contact-method-card")).toHaveCount(4);
+    await expect(page.locator(".contact-form-card")).toBeVisible();
 
-    // 8. Verify Contact Terminal (Mid-Right)
-    await expect(page.locator(".contact-hud")).toBeVisible();
+    // 9. Command Palette (⌘K) Modal Verification
+    await page.locator(".btn-cmd-shortcut").click();
+    const cmdPalette = page.locator(".cmd-palette-dialog");
+    await expect(cmdPalette).toBeVisible();
+    await page.locator(".cmd-search-input").fill("Projects");
+    await expect(page.locator(".cmd-item-row").first()).toBeVisible();
+    // Press Escape to dismiss
+    await page.keyboard.press("Escape");
+    await expect(cmdPalette).not.toBeVisible();
 
-    // 9. Verify Code Base Terminal (Bottom-Right)
-    await expect(page.locator(".codebase-hud")).toBeVisible();
+    // 10. Footer Verification
+    const footer = page.locator(".portfolio-footer-bar");
+    await expect(footer).toBeVisible();
+    await expect(footer).toContainText("Deepak Kumar");
 
-    // 10. Verify Data Flow & Resume (Bottom-Center)
-    await expect(page.locator(".dataflow-resume-terminal")).toBeVisible();
-    await expect(page.locator(".btn-download-resume")).toBeVisible();
-
-    // 11. Verify Spider-Man 5% Accents
-    await expect(page.locator(".corner-spider-web.top-right")).toBeVisible();
-    await expect(page.locator(".corner-spider-web.bottom-right")).toBeVisible();
-
-    // Test Iron Heart Overcharge click
-    await page.locator(".iron-heart-housing").click();
-    await expect(page.locator(".iron-heart-housing")).toHaveClass(/overcharged/);
-
-    // Capture Full Desktop Command Center Screenshot
-    await page.screenshot({ path: "test-results/command-center-desktop.png" });
-
-    // Test Project Click opens Case Study Modal
-    await page.locator(".project-row-item").first().click();
-    await expect(page.locator(".stark-modal-card")).toBeVisible();
-    await page.waitForTimeout(400);
-    await page.screenshot({ path: "test-results/modal-project-view.png" });
-    await page.locator(".modal-close-btn").click();
-
-    // Test Contact Me opens Contact Modal
-    await page.locator(".btn-hud.secondary").click();
-    await expect(page.locator(".contact-modal-card")).toBeVisible();
-    await page.waitForTimeout(400);
-    await page.screenshot({ path: "test-results/modal-contact-view.png" });
-    await page.locator(".modal-close-btn").click();
+    // Take Desktop Full Page Screenshot
+    await page.screenshot({ path: "test-results/portfolio-desktop.png", fullPage: true });
   });
 
-  test("Mobile Viewport (390x844) - Responsive Deck Verification", async ({ page }) => {
+  test("Mobile Viewport (390x844) - Responsive Flow Verification", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("http://localhost:5173/");
 
-    const skipBtn = page.locator(".boot-skip-btn");
-    if (await skipBtn.isVisible({ timeout: 2000 })) {
-      await skipBtn.click();
-    }
+    // Verify key elements load cleanly on mobile
+    await expect(page.locator(".floating-navbar-pill")).toBeVisible();
+    await expect(page.locator("#hero")).toBeVisible();
+    await expect(page.locator("#about")).toBeVisible();
+    await expect(page.locator("#projects")).toBeVisible();
+    await expect(page.locator("#experience")).toBeVisible();
+    await expect(page.locator("#skills")).toBeVisible();
+    await expect(page.locator("#contact")).toBeVisible();
 
-    // Verify key mobile elements
-    await expect(page.locator(".profile-hud")).toBeVisible();
-    await expect(page.locator(".iron-heart-housing")).toBeVisible();
-    await expect(page.locator(".skills-hud")).toBeVisible();
-    await expect(page.locator(".projects-hud")).toBeVisible();
-
-    await page.screenshot({ path: "test-results/command-center-mobile.png" });
+    // Take Mobile Screenshot
+    await page.screenshot({ path: "test-results/portfolio-mobile.png", fullPage: true });
   });
 });
