@@ -6,7 +6,7 @@ export const PERSONAL_INFO = {
   role: "Full Stack Developer",
   location: "Bahadurgarh, Haryana, India",
   email: "deepakkumar740@gmail.com",
-  linkedin: "https://linkedin.com/in/deepakrai9813",
+  linkedin: "https://www.linkedin.com/in/deepak-rai-990502236/",
   github: "https://github.com/deepakrai9813",
   resumeUrl: "/Deepak-Kumar-Resume.pdf",
   bioHeadline: "Crafting scalable full-stack web applications, distributed cloud backends & intelligent AI systems.",

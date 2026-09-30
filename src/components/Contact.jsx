@@ -149,7 +149,7 @@ export default function Contact() {
             </div>
             <div className="contact-method-meta">
               <span className="contact-lbl-txt">Professional Network</span>
-              <span className="contact-val-txt">linkedin.com/in/deepakrai9813</span>
+              <span className="contact-val-txt">linkedin.com/in/deepak-rai-990502236</span>
             </div>
           </a>
 
