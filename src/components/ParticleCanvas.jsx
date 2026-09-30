@@ -43,7 +43,7 @@ export default function ParticleCanvas() {
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(56, 189, 248, ${this.alpha})`;
+        ctx.fillStyle = `rgba(79, 70, 229, ${this.alpha * 0.7})`;
         ctx.fill();
       }
     }

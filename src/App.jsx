@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
+import CustomCursor from "./components/CustomCursor";
 import ParticleCanvas from "./components/ParticleCanvas";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import BentoAbout from "./components/BentoAbout";
 import Projects from "./components/Projects";
 import Experience from "./components/Experience";
+import GitHubActivityHeatmap from "./components/GitHubActivityHeatmap";
+import ProjectCalculator from "./components/ProjectCalculator";
 import InteractiveTerminal from "./components/InteractiveTerminal";
 import Skills from "./components/Skills";
 import Testimonials from "./components/Testimonials";
+import FunFAQ from "./components/FunFAQ";
 import Contact from "./components/Contact";
+import VibeWidget from "./components/VibeWidget";
 import Footer from "./components/Footer";
 import CommandPalette from "./components/CommandPalette";
 import CaseStudyModal from "./components/CaseStudyModal";
@@ -32,7 +37,10 @@ export default function App() {
 
   return (
     <div className="portfolio-app-root">
-      {/* 1. Ambient Lighting & Mesh Backdrop + Particle Constellation Canvas */}
+      {/* 1. Fluid Custom Cursor Layer */}
+      <CustomCursor />
+
+      {/* 2. Luminous Ambient Mesh & Particle Aura */}
       <div className="ambient-mesh-canvas" aria-hidden="true">
         <div className="mesh-glow-orb orb-1" />
         <div className="mesh-glow-orb orb-2" />
@@ -41,17 +49,27 @@ export default function App() {
       </div>
       <ParticleCanvas />
 
-      {/* 2. Floating Island Pill Navbar */}
+      {/* 3. Floating Island Pill Navbar */}
       <Navbar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
 
-      {/* 3. Main Content Sections */}
+      {/* 4. Main Content Sections */}
       <main id="main-content">
         <Hero onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
         <BentoAbout />
         <Projects onSelectProject={(project) => setSelectedProject(project)} />
         <Experience />
 
-        {/* Interactive Developer Terminal Console */}
+        {/* GitHub Code Velocity & Heatmap Section */}
+        <section id="heatmap" className="section-container-block" style={{ paddingBottom: "20px" }}>
+          <GitHubActivityHeatmap />
+        </section>
+
+        {/* Interactive Scope & Velocity Estimator */}
+        <section id="calculator" className="section-container-block" style={{ paddingBottom: "20px" }}>
+          <ProjectCalculator />
+        </section>
+
+        {/* Live Interactive Developer Terminal Console */}
         <section id="terminal" className="section-container-block" style={{ paddingBottom: "20px" }}>
           <div className="section-header-lockup">
             <div className="section-tag-badge">
@@ -71,19 +89,23 @@ export default function App() {
 
         <Skills />
         <Testimonials />
+        <FunFAQ />
         <Contact />
       </main>
 
-      {/* 4. Luxury Minimalist Footer */}
+      {/* 5. Floating Vibe Music Dock Widget */}
+      <VibeWidget />
+
+      {/* 6. Luminous Minimalist Footer */}
       <Footer />
 
-      {/* 5. Command Palette (⌘K) Dialog */}
+      {/* 7. Command Palette (⌘K) Dialog */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
       />
 
-      {/* 6. Technical Case Study Modal */}
+      {/* 8. Technical Case Study Modal */}
       {selectedProject && (
         <CaseStudyModal
           project={selectedProject}

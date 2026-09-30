@@ -86,6 +86,36 @@ export default function CommandPalette({ isOpen, onClose }) {
       ),
     },
     {
+      id: "sec-heatmap",
+      title: "GitHub Velocity & Contribution Heatmap",
+      tag: "Metrics",
+      action: () => scrollTo("heatmap"),
+      icon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+      ),
+    },
+    {
+      id: "sec-calculator",
+      title: "Project Scope & Velocity Estimator",
+      tag: "Interactive Tool",
+      action: () => scrollTo("calculator"),
+      icon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="4" y="2" width="16" height="20" rx="2" />
+          <line x1="8" y1="6" x2="16" y2="6" />
+          <line x1="16" y1="14" x2="16" y2="18" />
+          <line x1="8" y1="10" x2="8" y2="10" />
+          <line x1="12" y1="10" x2="12" y2="10" />
+          <line x1="16" y1="10" x2="16" y2="10" />
+        </svg>
+      ),
+    },
+    {
       id: "sec-terminal",
       title: "Interactive Developer Terminal Console",
       tag: "Feature",
@@ -105,6 +135,19 @@ export default function CommandPalette({ isOpen, onClose }) {
       icon: (
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+      ),
+    },
+    {
+      id: "sec-faq",
+      title: "Frequently Asked Questions (FAQ)",
+      tag: "Information",
+      action: () => scrollTo("faq"),
+      icon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
         </svg>
       ),
     },
