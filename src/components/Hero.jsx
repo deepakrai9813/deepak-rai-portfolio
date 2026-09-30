@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { PERSONAL_INFO } from "../utils/data";
+import { useCardSpotlight } from "../hooks/useCardSpotlight";
 
 export default function Hero({ onOpenCommandPalette }) {
-  const [copied, setCopied] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedCmd, setCopiedCmd] = useState(false);
+  const { onMouseMove } = useCardSpotlight();
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PERSONAL_INFO.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
+  const handleCopyCommand = () => {
+    navigator.clipboard.writeText("npx deepak-kumar");
+    setCopiedCmd(true);
+    setTimeout(() => setCopiedCmd(false), 2500);
   };
 
   const scrollTo = (id) => {
@@ -35,13 +44,13 @@ export default function Hero({ onOpenCommandPalette }) {
         <h1 className="hero-main-title">
           Building resilient distributed systems,{" "}
           <span className="gradient-text-shimmer">
-            scalable microservices & high-performance web experiences.
+            scalable microservices &amp; high-performance web experiences.
           </span>
         </h1>
 
         {/* Subtitle / Bio */}
         <p className="hero-subtitle-description">
-          I am <strong>Deepak Kumar</strong>, a full stack software engineer with 3+ years of experience engineering enterprise web platforms, event-driven Node.js & React/Next.js architectures, and cloud data pipelines.
+          I am <strong>Deepak Kumar</strong>, a full stack software engineer with 3+ years of experience engineering enterprise web platforms, event-driven Node.js &amp; React/Next.js architectures, and cloud data pipelines.
         </p>
 
         {/* Hero CTAs */}
@@ -80,14 +89,47 @@ export default function Hero({ onOpenCommandPalette }) {
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
             </svg>
-            <span>{copied ? "Email Copied!" : "Copy Email"}</span>
+            <span>{copiedEmail ? "Email Copied!" : "Copy Email"}</span>
           </button>
+        </div>
+
+        {/* Interactive CLI Badge */}
+        <div className="hero-cli-container">
+          <div
+            className="hero-cli-badge"
+            onClick={handleCopyCommand}
+            title="Click to copy CLI command"
+          >
+            <span className="cli-terminal-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="4 17 10 11 4 5" />
+                <line x1="12" y1="19" x2="20" y2="19" />
+              </svg>
+            </span>
+            <span className="cli-command-txt">npx deepak-kumar</span>
+            <span className="cli-copy-indicator">
+              {copiedCmd ? (
+                <span className="copied-tag">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Copied
+                </span>
+              ) : (
+                <span className="copy-label">Copy</span>
+              )}
+            </span>
+          </div>
         </div>
 
         {/* Quantified Stats Ribbon */}
         <div className="hero-stats-ribbon">
           {stats.map((s, idx) => (
-            <div key={idx} className="hero-stat-card">
+            <div
+              key={idx}
+              className="hero-stat-card spotlight-card"
+              onMouseMove={onMouseMove}
+            >
               <span className={`stat-numeric-value ${s.color}`}>{s.value}</span>
               <span className="stat-title-label">{s.label}</span>
             </div>

@@ -1,6 +1,30 @@
+import { useState, useEffect } from "react";
 import { PERSONAL_INFO } from "../utils/data";
+import { useCardSpotlight } from "../hooks/useCardSpotlight";
+import ArchitectureTopology from "./ArchitectureTopology";
 
 export default function BentoAbout() {
+  const { onMouseMove } = useCardSpotlight();
+  const [currentTime, setCurrentTime] = useState("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options = {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      };
+      setCurrentTime(new Intl.DateTimeFormat("en-US", options).format(now));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const techPills = [
     "React 19",
     "Next.js 15",
@@ -25,18 +49,21 @@ export default function BentoAbout() {
             <polyline points="16 18 22 12 16 6" />
             <polyline points="8 6 2 12 8 18" />
           </svg>
-          <span>BACKGROUND & ARCHITECTURE</span>
+          <span>BACKGROUND &amp; ARCHITECTURE</span>
         </div>
-        <h2 className="section-heading-title">Engineering with Precision & Scale</h2>
+        <h2 className="section-heading-title">Engineering with Precision &amp; Scale</h2>
         <p className="section-subtitle-text">
           Turning complex business workflows into fast, dependable, and maintainable distributed software systems.
         </p>
       </div>
 
       {/* Bento Grid */}
-      <div className="bento-overview-grid">
+      <div className="bento-overview-grid" style={{ marginBottom: "32px" }}>
         {/* Tile 1: Architecture Philosophy (Span 8) */}
-        <div className="bento-tile col-span-8">
+        <div
+          className="bento-tile col-span-8 spotlight-card"
+          onMouseMove={onMouseMove}
+        >
           <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" strokeWidth="2">
               <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
@@ -48,7 +75,7 @@ export default function BentoAbout() {
               Core Philosophy
             </span>
           </div>
-          <h3 className="bento-card-title">Distributed, Resilient & Type-Safe Architecture</h3>
+          <h3 className="bento-card-title">Distributed, Resilient &amp; Type-Safe Architecture</h3>
           <p className="bento-card-body">
             I architect end-to-end web platforms designed for high concurrency from day one. By uniting modern React/Next.js frontends with event-driven Node.js microservices and distributed Redis pub/sub pipelines, I ensure systems maintain sub-50ms interaction latencies, strict schema contracts, and bulletproof uptime under real-world traffic spikes.
           </p>
@@ -62,18 +89,30 @@ export default function BentoAbout() {
           </div>
         </div>
 
-        {/* Tile 2: Location & Work Readiness (Span 4) */}
-        <div className="bento-tile col-span-4">
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-            </svg>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--accent-emerald)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-              Location & Availability
-            </span>
+        {/* Tile 2: Location & Work Readiness with Live Clock (Span 4) */}
+        <div
+          className="bento-tile col-span-4 spotlight-card"
+          onMouseMove={onMouseMove}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-emerald)" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--accent-emerald)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                Location &amp; Availability
+              </span>
+            </div>
+
+            {/* Live Ticking Clock Badge */}
+            <div className="live-clock-badge">
+              <span className="status-pulse-dot" style={{ width: "5px", height: "5px" }} />
+              <span>{currentTime || "IST"}</span>
+            </div>
           </div>
+
           <h3 className="bento-card-title">Global Remote Readiness</h3>
           <p className="bento-card-body" style={{ marginBottom: "16px" }}>
             Based in {PERSONAL_INFO.location} (IST / UTC+5:30). Experienced in collaborating with distributed engineering teams across North American, European, and APAC time zones.
@@ -95,7 +134,10 @@ export default function BentoAbout() {
         </div>
 
         {/* Tile 3: Measurable Production Impact (Span 6) */}
-        <div className="bento-tile col-span-6">
+        <div
+          className="bento-tile col-span-6 spotlight-card"
+          onMouseMove={onMouseMove}
+        >
           <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-indigo)" strokeWidth="2">
               <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
@@ -125,13 +167,16 @@ export default function BentoAbout() {
         </div>
 
         {/* Tile 4: Code Quality & Engineering Values (Span 6) */}
-        <div className="bento-tile col-span-6">
+        <div
+          className="bento-tile col-span-6 spotlight-card"
+          onMouseMove={onMouseMove}
+        >
           <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" strokeWidth="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
             <span style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--accent-cyan)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-              Quality & Standards
+              Quality &amp; Standards
             </span>
           </div>
           <h3 className="bento-card-title">Zero-Regression Engineering</h3>
@@ -166,6 +211,9 @@ export default function BentoAbout() {
           </div>
         </div>
       </div>
+
+      {/* Interactive System Architecture Topology */}
+      <ArchitectureTopology />
     </section>
   );
 }

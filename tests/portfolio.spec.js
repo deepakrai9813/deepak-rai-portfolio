@@ -18,18 +18,22 @@ test.describe("Senior Developer Portfolio (Obsidian Dark Luxury Bento)", () => {
     await expect(hero).toBeVisible();
     await expect(page.locator(".hero-status-pill")).toContainText("Available for Senior / Full-Stack Roles");
     await expect(page.locator(".hero-main-title")).toBeVisible();
+    await expect(page.locator(".hero-cli-badge")).toBeVisible();
     await expect(page.locator(".hero-stats-ribbon .hero-stat-card")).toHaveCount(4);
 
-    // 3. Bento About Section Verification
+    // 3. Bento About & Architecture Topology Verification
     const about = page.locator("#about");
     await expect(about).toBeVisible();
     await expect(page.locator(".bento-tile")).toHaveCount(4);
-    await expect(page.locator(".tech-tag-pill")).not.toHaveCount(0);
+    await expect(page.locator(".live-clock-badge")).toBeVisible();
+    await expect(page.locator(".architecture-topology-card")).toBeVisible();
+    await expect(page.locator(".topology-node-btn")).toHaveCount(5);
 
     // 4. Projects Showcase Verification
     const projects = page.locator("#projects");
     await expect(projects).toBeVisible();
     await expect(page.locator(".project-showcase-card")).toHaveCount(4);
+    await expect(page.locator(".project-browser-bar")).toHaveCount(4);
 
     // 5. Test Case Study Modal
     const firstCaseStudyBtn = page.locator(".btn-case-study").first();
@@ -37,7 +41,6 @@ test.describe("Senior Developer Portfolio (Obsidian Dark Luxury Bento)", () => {
     const modal = page.locator(".case-study-dialog");
     await expect(modal).toBeVisible();
     await expect(modal.locator("h2")).toContainText("San Brothers");
-    // Close modal via close button
     await page.locator(".btn-close-modal").click();
     await expect(modal).not.toBeVisible();
 
@@ -46,28 +49,41 @@ test.describe("Senior Developer Portfolio (Obsidian Dark Luxury Bento)", () => {
     await expect(exp).toBeVisible();
     await expect(page.locator(".timeline-role-item")).toHaveCount(3);
 
-    // 7. Skills Matrix Verification
+    // 7. Interactive Developer Terminal Verification
+    const terminal = page.locator("#terminal");
+    await expect(terminal).toBeVisible();
+    await expect(page.locator(".terminal-widget-container")).toBeVisible();
+    // Test clicking a terminal chip
+    const metricsChip = page.locator(".terminal-chip-btn", { hasText: "curl /metrics" });
+    await metricsChip.click();
+    await expect(page.locator(".terminal-log-row.output").last()).toContainText("cluster_uptime");
+
+    // 8. Skills Matrix Verification
     const skills = page.locator("#skills");
     await expect(skills).toBeVisible();
     await expect(page.locator(".skills-category-card")).toHaveCount(4);
 
-    // 8. Contact Section Verification
+    // 9. Testimonials Verification
+    const testimonials = page.locator("#testimonials");
+    await expect(testimonials).toBeVisible();
+    await expect(page.locator(".testimonial-card")).toHaveCount(3);
+
+    // 10. Contact Section Verification
     const contact = page.locator("#contact");
     await expect(contact).toBeVisible();
     await expect(page.locator(".contact-method-card")).toHaveCount(4);
     await expect(page.locator(".contact-form-card")).toBeVisible();
 
-    // 9. Command Palette (⌘K) Modal Verification
+    // 11. Command Palette (⌘K) Modal Verification
     await page.locator(".btn-cmd-shortcut").click();
     const cmdPalette = page.locator(".cmd-palette-dialog");
     await expect(cmdPalette).toBeVisible();
     await page.locator(".cmd-search-input").fill("Projects");
     await expect(page.locator(".cmd-item-row").first()).toBeVisible();
-    // Press Escape to dismiss
     await page.keyboard.press("Escape");
     await expect(cmdPalette).not.toBeVisible();
 
-    // 10. Footer Verification
+    // 12. Footer Verification
     const footer = page.locator(".portfolio-footer-bar");
     await expect(footer).toBeVisible();
     await expect(footer).toContainText("Deepak Kumar");
@@ -84,9 +100,12 @@ test.describe("Senior Developer Portfolio (Obsidian Dark Luxury Bento)", () => {
     await expect(page.locator(".floating-navbar-pill")).toBeVisible();
     await expect(page.locator("#hero")).toBeVisible();
     await expect(page.locator("#about")).toBeVisible();
+    await expect(page.locator(".architecture-topology-card")).toBeVisible();
     await expect(page.locator("#projects")).toBeVisible();
     await expect(page.locator("#experience")).toBeVisible();
+    await expect(page.locator("#terminal")).toBeVisible();
     await expect(page.locator("#skills")).toBeVisible();
+    await expect(page.locator("#testimonials")).toBeVisible();
     await expect(page.locator("#contact")).toBeVisible();
 
     // Take Mobile Screenshot

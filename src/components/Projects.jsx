@@ -1,6 +1,9 @@
 import { PROJECTS } from "../utils/data";
+import { useCardSpotlight } from "../hooks/useCardSpotlight";
 
 export default function Projects({ onSelectProject }) {
+  const { onMouseMove } = useCardSpotlight();
+
   return (
     <section id="projects" className="section-container-block">
       {/* Section Header */}
@@ -26,8 +29,28 @@ export default function Projects({ onSelectProject }) {
           const isAI = proj.id === "leadfinder-ai";
 
           return (
-            <article key={proj.id} className="project-showcase-card">
+            <article
+              key={proj.id}
+              className="project-showcase-card spotlight-card"
+              onMouseMove={onMouseMove}
+            >
               <div>
+                {/* Browser-style Mini Chrome Bar */}
+                <div className="project-browser-bar">
+                  <div className="browser-dots">
+                    <span className="b-dot red" />
+                    <span className="b-dot yellow" />
+                    <span className="b-dot green" />
+                  </div>
+                  <div className="browser-url-pill">
+                    <span>https://{proj.id}.internal.cloud</span>
+                  </div>
+                  <div className="browser-latency-tag">
+                    <span className="latency-dot" />
+                    <span>&lt; 18ms</span>
+                  </div>
+                </div>
+
                 {/* Top Meta Row */}
                 <div className="project-top-meta">
                   <div className="project-status-badge live">
